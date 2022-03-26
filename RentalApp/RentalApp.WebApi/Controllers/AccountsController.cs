@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using RentalApp.Application.Interfaces;
+using RentalApp.WebApi.Filters;
 
 namespace RentalApp.WebApi.Controllers
 {
     [ApiController]
+    [GlobalExceptionFilter]
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
