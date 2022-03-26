@@ -1,6 +1,6 @@
 # Backend of Leaser Application
 
-The server provides an appropriate web api, which allows renting items. Backend of application is based on clean architecture. You can browse the api through Swagger UI.
+The server provides an appropriate web api, which allows renting items. You can browse the api through Swagger UI.
 
 Build with:
 
