@@ -16,6 +16,7 @@ using RentalApp.Application.Services;
 using RentalApp.Domain.Interfaces;
 using RentalApp.Infrastructure.Repositories;
 using RentalApp.Application.Mappings;
+using RentalApp.WebApi.Filters;
 
 namespace RentalApp.WebApi
 {
@@ -34,10 +35,13 @@ namespace RentalApp.WebApi
             services.AddTransient<IUsersRepository, UsersRepository>();
 
             services.AddSingleton(AutoMapperConfig.Initialize());
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new GlobalExceptionFilter());
+            });
 
             services.AddCors();
             services.AddControllers();
-
 
             services.AddSwaggerGen(c =>
             {
