@@ -1,12 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using RentalApp.Domain.Entities;
 
 namespace RentalApp.Infrastructure.Data
 {
-    class RentalAppContext
+    public class RentalAppContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
+        public RentalAppContext(DbContextOptions<RentalAppContext> options) : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }
