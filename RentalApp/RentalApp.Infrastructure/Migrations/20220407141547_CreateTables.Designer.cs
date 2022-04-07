@@ -10,7 +10,7 @@ using RentalApp.Infrastructure.Data;
 namespace RentalApp.Infrastructure.Migrations
 {
     [DbContext(typeof(RentalAppContext))]
-    [Migration("20220406235730_CreateTables")]
+    [Migration("20220407141547_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,11 +157,11 @@ namespace RentalApp.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ApartmentNo")
-                        .HasColumnType("int");
+                    b.Property<string>("ApartmentNo")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BuildingNo")
-                        .HasColumnType("int");
+                    b.Property<string>("BuildingNo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -292,14 +292,14 @@ namespace RentalApp.Infrastructure.Migrations
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("PricePerMonth")
-                        .HasColumnType("int");
+                    b.Property<double?>("PricePerMonth")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("PricePerWeek")
-                        .HasColumnType("int");
+                    b.Property<double?>("PricePerWeek")
+                        .HasColumnType("float");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");

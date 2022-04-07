@@ -35,11 +35,11 @@ namespace RentalApp.Domain.Entities
         [ForeignKey("DepositId")]
         public virtual Deposit Deposit { get; set; }
 
-        public int Price { get; set; }
+        public double Price { get; set; }
 
-        public int? PricePerWeek { get; set; }
+        public double? PricePerWeek { get; set; }
 
-        public int? PricePerMonth { get; set; }
+        public double? PricePerMonth { get; set; }
 
         public DateTime AvailableFrom { get; set; }
 

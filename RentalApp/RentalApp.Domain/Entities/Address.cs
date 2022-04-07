@@ -14,9 +14,9 @@ namespace RentalApp.Domain.Entities
 
         public string Street { get; set; }
 
-        public int BuildingNo { get; set; }
+        public string BuildingNo { get; set; }
 
-        public int? ApartmentNo { get; set; }
+        public string ApartmentNo { get; set; }
 
         public string PostalCode { get; set; }
 
