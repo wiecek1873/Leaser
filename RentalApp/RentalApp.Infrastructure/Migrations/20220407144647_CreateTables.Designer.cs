@@ -10,7 +10,7 @@ using RentalApp.Infrastructure.Data;
 namespace RentalApp.Infrastructure.Migrations
 {
     [DbContext(typeof(RentalAppContext))]
-    [Migration("20220407141547_CreateTables")]
+    [Migration("20220407144647_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
