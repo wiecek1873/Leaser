@@ -23,5 +23,7 @@ namespace RentalApp.Domain.Entities
         public virtual ICollection<Payment> Payments { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
+
+        public virtual ICollection<UserRate> UserRates { get; set; }
     }
 }
