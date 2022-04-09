@@ -29,11 +29,9 @@ namespace RentalApp.WebApi.Controllers
         [SwaggerOperation(Summary = "Registering an account in the app")]
         public async Task<IActionResult> Register([FromBody] CreateUserDto newUserDto)
         {
-            //var newUser = await _usersService.CreateUser(newUserDto);
+            var newUser = await _usersService.CreateUser(newUserDto);
 
-            //return Created($"api/users/{newUser.Id}", newUser);
-
-            return Created($"api/users", newUserDto);
+            return Created($"api/users/{newUser.Id}", newUser);
         }
     }
 }
