@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
-using Microsoft.AspNetCore.Authorization;
 using RentalApp.Application.Dto.Users;
+using RentalApp.WebApi.Extensions;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -25,6 +24,16 @@ namespace RentalApp.WebApi.Controllers
             _tokenService = tokenService;
         }
 
+        [HttpGet]
+        [Route("User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetUser()
+        {
+            var user = await _usersService.GetUser(User.GetId());
+
+            return Ok(user);
+        }
+
         [HttpPost]
         [Route("Register")]
         [AllowAnonymous]
@@ -39,7 +48,7 @@ namespace RentalApp.WebApi.Controllers
         [HttpPost]
         [Route("Authenticate")]
         [AllowAnonymous]
-        [SwaggerOperation(Summary = "Registering an account in the app")]
+        [SwaggerOperation(Summary = "Log in to the app")]
         public async Task<IActionResult> GetToken(LoginUserDto loginUserDto)
         {
             var token = await _tokenService.GetToken(loginUserDto);

@@ -5,6 +5,7 @@ namespace RentalApp.Domain.Interfaces
 {
     public interface IUsersRepository
     {
+        Task<User> GetUser(string userId);
         Task<User> AddUser(User newUser);
     }
 }

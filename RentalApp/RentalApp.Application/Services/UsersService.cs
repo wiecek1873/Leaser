@@ -23,6 +23,16 @@ namespace RentalApp.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<UserDto> GetUser(string userId)
+        {
+            var user = await _usersRepository.GetUser(userId);
+
+            if (user == null)
+                throw new NotFoundException("User does not exist.");
+
+            return _mapper.Map<UserDto>(user);
+        }
+
         public async Task<UserDto> CreateUser(CreateUserDto newUserDto)
         {
             var user = await _userManager.FindByEmailAsync(newUserDto.Email);
