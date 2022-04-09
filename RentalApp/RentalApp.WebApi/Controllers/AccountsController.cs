@@ -17,10 +17,12 @@ namespace RentalApp.WebApi.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IUsersService _usersService;
+        private readonly ITokenService _tokenService;
 
-        public AccountsController(IUsersService usersService)
+        public AccountsController(IUsersService usersService, ITokenService tokenService)
         {
             _usersService = usersService;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
@@ -32,6 +34,20 @@ namespace RentalApp.WebApi.Controllers
             var newUser = await _usersService.CreateUser(newUserDto);
 
             return Created($"api/users/{newUser.Id}", newUser);
+        }
+
+        [HttpPost]
+        [Route("Authenticate")]
+        [AllowAnonymous]
+        [SwaggerOperation(Summary = "Registering an account in the app")]
+        public async Task<IActionResult> GetToken(LoginUserDto loginUserDto)
+        {
+            var token = await _tokenService.GetToken(loginUserDto);
+
+            if (token == null)
+                return BadRequest();
+
+            return Ok(token);
         }
     }
 }
