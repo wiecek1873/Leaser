@@ -27,6 +27,7 @@ namespace RentalApp.WebApi.Controllers
         [HttpGet]
         [Route("User")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [SwaggerOperation(Summary = "Get a user")]
         public async Task<IActionResult> GetUser()
         {
             var user = await _usersService.GetUser(User.GetId());
@@ -37,7 +38,7 @@ namespace RentalApp.WebApi.Controllers
         [HttpPost]
         [Route("Register")]
         [AllowAnonymous]
-        [SwaggerOperation(Summary = "Registering an account in the app")]
+        [SwaggerOperation(Summary = "Register an account in the app")]
         public async Task<IActionResult> Register([FromBody] CreateUserDto newUserDto)
         {
             var newUser = await _usersService.CreateUser(newUserDto);
