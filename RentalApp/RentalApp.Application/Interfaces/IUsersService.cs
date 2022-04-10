@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using RentalApp.Application.Dto;
-using System.Collections.Generic;
+using RentalApp.Application.Dto.Users;
 
 namespace RentalApp.Application.Interfaces
 {
     public interface IUsersService
     {
-        Task<IEnumerable<UserDto>> GetUsers();
+        Task<UserDto> GetUser(string userId);
+        Task<UserDto> CreateUser(CreateUserDto newUserDto);
     }
 }
