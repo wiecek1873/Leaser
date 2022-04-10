@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
+using RentalApp.Application.Dto.Users;
+using RentalApp.WebApi.Extensions;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -15,19 +16,48 @@ namespace RentalApp.WebApi.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IUsersService _usersService;
+        private readonly ITokenService _tokenService;
 
-        public AccountsController(IUsersService usersService)
+        public AccountsController(IUsersService usersService, ITokenService tokenService)
         {
             _usersService = usersService;
+            _tokenService = tokenService;
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Return all users")]
-        public async Task<IActionResult> GetUsers()
+        [Route("User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [SwaggerOperation(Summary = "Get a user")]
+        public async Task<IActionResult> GetUser()
         {
-            var users = await _usersService.GetUsers();
+            var user = await _usersService.GetUser(User.GetId());
 
-            return Ok(users);
+            return Ok(user);
+        }
+
+        [HttpPost]
+        [Route("Register")]
+        [AllowAnonymous]
+        [SwaggerOperation(Summary = "Register an account in the app")]
+        public async Task<IActionResult> Register([FromBody] CreateUserDto newUserDto)
+        {
+            var newUser = await _usersService.CreateUser(newUserDto);
+
+            return Created($"api/users/{newUser.Id}", newUser);
+        }
+
+        [HttpPost]
+        [Route("Authenticate")]
+        [AllowAnonymous]
+        [SwaggerOperation(Summary = "Log in to the app")]
+        public async Task<IActionResult> GetToken(LoginUserDto loginUserDto)
+        {
+            var token = await _tokenService.GetToken(loginUserDto);
+
+            if (token == null)
+                return BadRequest();
+
+            return Ok(token);
         }
     }
 }
