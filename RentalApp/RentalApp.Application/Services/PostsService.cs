@@ -7,6 +7,7 @@ using RentalApp.Domain.Interfaces;
 using RentalApp.Domain.Entities;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.Application.Exceptions;
+using System.IO;
 
 namespace RentalApp.Application.Services
 {
@@ -31,8 +32,18 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
-		public async Task<PostDto> CreatePost(CreatePostDto newPostDto)
+		public async Task<PostDto> CreatePost(CreatePostDto newPostDto, PostImageDto newPostImageDto)
 		{
+			byte[] postImage;
+
+			if (newPostImageDto.PostImage == null || newPostImageDto.PostImage.Length == 0)
+				throw new BadRequestException("You do not upload photo.");
+
+			if (newPostImageDto.PostImage.ContentType.ToLower() != "image/jpeg" &&
+				newPostImageDto.PostImage.ContentType.ToLower() != "image/jpg" &&
+				newPostImageDto.PostImage.ContentType.ToLower() != "image/png")
+				throw new BadRequestException("You do not upload photo.");
+
 			var post = await _postsRepository.GetPost(newPostDto.Id);
 
 			if (post != null)
@@ -41,9 +52,15 @@ namespace RentalApp.Application.Services
 			var newPost = _mapper.Map<Post>(newPostDto);
 
 			if (newPost == null)
-				throw new ConflictException("Post creation failed! Please check user details and try again.");
+				throw new ConflictException("Post creation failed! Please check post details and try again.");
 
-			await _postsRepository.AddPost(newPost);
+			using (var memoryStream = new MemoryStream())
+			{
+				await newPostImageDto.PostImage.CopyToAsync(memoryStream);
+				postImage = memoryStream.ToArray();
+			}
+
+			await _postsRepository.AddPost(newPost, postImage);
 
 			return _mapper.Map<PostDto>(newPost);
 		}

@@ -23,8 +23,10 @@ namespace RentalApp.Infrastructure.Repositories
 			return post;
 		}
 
-		public async Task<Post> AddPost(Post newPost)
+		public async Task<Post> AddPost(Post newPost, byte[] postImage)
 		{
+			newPost.Image = postImage;
+
 			await _rentalAppContext.Posts.AddAsync(newPost);
 			await _rentalAppContext.SaveChangesAsync();
 

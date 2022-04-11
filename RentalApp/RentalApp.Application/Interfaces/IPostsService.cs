@@ -6,6 +6,6 @@ namespace RentalApp.Application.Interfaces
 	public interface IPostsService
 	{
 		Task<PostDto> GetPost(int postId);
-		Task<PostDto> CreatePost(CreatePostDto newPostDto);
+		Task<PostDto> CreatePost(CreatePostDto newPostDto, PostImageDto newPostImageDto);
 	}
 }
