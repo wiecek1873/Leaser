@@ -5,7 +5,7 @@ using RentalApp.Infrastructure.Data;
 
 namespace RentalApp.Infrastructure.Repositories
 {
-	class PostsRepository : IPostsRepository
+	public class PostsRepository : IPostsRepository
 	{
 		private readonly RentalAppContext _rentalAppContext;
 

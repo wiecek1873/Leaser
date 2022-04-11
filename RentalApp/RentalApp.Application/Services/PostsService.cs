@@ -10,7 +10,7 @@ using RentalApp.Application.Exceptions;
 
 namespace RentalApp.Application.Services
 {
-	class PostsService : IPostsService
+	public class PostsService : IPostsService
 	{
 		private readonly IPostsRepository _postsRepository;
 		private readonly IMapper _mapper;
