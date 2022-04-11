@@ -4,6 +4,6 @@ namespace RentalApp.Application.Dto.Posts
 {
 	public class PostDto
 	{
-		public Guid Id { get; set; }
+		public int Id { get; set; }
 	}
 }

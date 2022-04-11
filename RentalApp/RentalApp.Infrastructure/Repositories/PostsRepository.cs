@@ -14,7 +14,7 @@ namespace RentalApp.Infrastructure.Repositories
 			_rentalAppContext = rentalAppContext;
 		}
 
-		public async Task<Post> GetPost(string postId)
+		public async Task<Post> GetPost(int postId)
 		{
 			var post = await _rentalAppContext.FindAsync<Post>(postId);
 
@@ -24,10 +24,7 @@ namespace RentalApp.Infrastructure.Repositories
 		public async Task<Post> AddPost(Post newPost)
 		{
 			await _rentalAppContext.AddAsync(newPost);
-			var result = await _rentalAppContext.SaveChangesAsync();
-
-			if (result == 0)
-				return null;
+			await _rentalAppContext.SaveChangesAsync();
 
 			return newPost;
 		}

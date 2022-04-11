@@ -5,7 +5,7 @@ namespace RentalApp.Domain.Interfaces
 {
 	public interface IPostsRepository
 	{
-		Task<Post> GetPost(string postId);
+		Task<Post> GetPost(int postId);
 		Task<Post> AddPost(Post newPost);
 	}
 }

@@ -21,7 +21,7 @@ namespace RentalApp.Application.Services
 			_mapper = mapper;
 		}
 
-		public async Task<PostDto> GetPost(string postId)
+		public async Task<PostDto> GetPost(int postId)
 		{
 			var post = await _postsRepository.GetPost(postId);
 
