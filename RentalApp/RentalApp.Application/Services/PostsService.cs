@@ -33,10 +33,10 @@ namespace RentalApp.Application.Services
 
 		public async Task<PostDto> CreatePost(CreatePostDto newPostDto)
 		{
-			//var post = await _post.FindByEmailAsync(newPostDto.Email);
+			var post = await _postsRepository.GetPost(newPostDto.Id);
 
-			//if (post != null)
-			//    throw new ConflictException("User with the same email already exists!");
+			if (post != null)
+				throw new ConflictException("Post with the same id already exist!");
 
 			var newPost = _mapper.Map<Post>(newPostDto);
 

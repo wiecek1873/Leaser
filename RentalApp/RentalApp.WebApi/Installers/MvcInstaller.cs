@@ -16,7 +16,6 @@ namespace RentalApp.WebApi.Installers
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<ITokenService, TokenService>();
-
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IPostsRepository, PostsRepository>();
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RentalApp.Application.Dto.Users;
+using RentalApp.Application.Dto.Posts;
 using RentalApp.Domain.Entities;
 
 namespace RentalApp.Application.Mappings
@@ -16,6 +17,10 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<CreateUserDto, User>()
                     .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                     .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+
+                cfg.CreateMap<Post, PostDto>();
+                cfg.CreateMap<PostDto, Post>();
+                cfg.CreateMap<CreatePostDto, Post>();
             })
             .CreateMapper();
     }
