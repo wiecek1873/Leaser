@@ -26,9 +26,9 @@ namespace RentalApp.WebApi.Controllers
 		[Route("Post")]
 		[AllowAnonymous]
 		[SwaggerOperation(Summary = "Get a post")]
-		public async Task<IActionResult> GetPost()
+		public async Task<IActionResult> GetPost(string postId)
 		{
-			var post = await _postsService.GetPost(post);
+			var post = await _postsService.GetPost(postId);
 
 			return Ok(post);
 		}

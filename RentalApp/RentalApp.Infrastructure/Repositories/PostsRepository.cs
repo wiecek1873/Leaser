@@ -1,34 +1,35 @@
 ﻿using RentalApp.Domain.Interfaces;
 using RentalApp.Domain.Entities;
 using System.Threading.Tasks;
+using RentalApp.Infrastructure.Data;
 
 namespace RentalApp.Infrastructure.Repositories
 {
 	class PostsRepository : IPostsRepository
 	{
-        //co zamiast UserManagera?
-        //private readonly UserManager<User> _userManager;
+		private readonly RentalAppContext _rentalAppContext;
 
-        public PostsRepository(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
+		public PostsRepository(RentalAppContext rentalAppContext)
+		{
+			_rentalAppContext = rentalAppContext;
+		}
 
-        public async Task<Post> GetPost(string postId)
-        {
-            var user = await _userManager.FindByIdAsync(postId);
+		public async Task<Post> GetPost(string postId)
+		{
+			var post = await _rentalAppContext.FindAsync<Post>(postId);
 
-            return user;
-        }
+			return post;
+		}
 
-        public async Task<Post> AddPost(Post newPost)
-        {
-            var result = await _userManager.CreateAsync(newUser, newUser.PasswordHash);
+		public async Task<Post> AddPost(Post newPost)
+		{
+			await _rentalAppContext.AddAsync(newPost);
+			var result = await _rentalAppContext.SaveChangesAsync();
 
-            if (!result.Succeeded)
-                return null;
+			if (result == 0)
+				return null;
 
-            return newPost;
-        }
-    }
+			return newPost;
+		}
+	}
 }
