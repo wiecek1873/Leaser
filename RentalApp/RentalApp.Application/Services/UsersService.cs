@@ -45,12 +45,12 @@ namespace RentalApp.Application.Services
             if (newUser == null)
                 throw new ConflictException("User creation failed! Please check user details and try again.");
 
-            var createdUser = await _usersRepository.AddUser(newUser);
+            var result = await _usersRepository.AddUser(newUser);
 
-            if (createdUser == null)
-                throw new ConflictException("Credentials are wrong. Check if the password has eight letters, an upper letter, and a special sign.");
+            if (result == null)
+                throw new ConflictException("Credentials are wrong. Check if password has eight letters, upper letter and special sign.");
 
-            return _mapper.Map<UserDto>(createdUser);
+            return _mapper.Map<UserDto>(newUser);
         }
     }
 }

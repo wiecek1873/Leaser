@@ -18,6 +18,8 @@ namespace RentalApp.WebApi.Installers
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IPostsRepository, PostsRepository>();
+            services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<IAddressesRepository, AddressesRepository>();
 
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddMvc(options =>
