@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RentalApp.WebApi.Filters;
 using RentalApp.WebApi.Extensions;
 using RentalApp.Application.Interfaces;
+using RentalApp.Application.Dto.Addresses;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -35,6 +36,14 @@ namespace RentalApp.WebApi.Controllers
             var userAddress = await _addressesService.GetUserAddress(user.AddressId.Value);
 
             return Ok(userAddress);
+        }
+
+        [HttpPut("{addressId}")]
+        public async Task<IActionResult> UpdatePolicy([FromRoute] int addressId, RequestAddressDto updatedAddressDto)
+        {
+            await _addressesService.UpdateAddress(addressId, User.GetId(), updatedAddressDto);
+
+            return NoContent();
         }
     }
 }

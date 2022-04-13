@@ -29,5 +29,22 @@ namespace RentalApp.Infrastructure.Repositories
 
             return newAddress;
         }
+
+        public async Task UpdateAddress(int addressId, Address updatedAddress)
+        {
+            var addressToUpdate = await _rentalAppContext.Addresses.SingleOrDefaultAsync(a => a.Id == addressId);
+
+            if (addressToUpdate != null)
+            {
+                addressToUpdate.Country = updatedAddress.Country;
+                addressToUpdate.City = updatedAddress.City;
+                addressToUpdate.Street = updatedAddress.Street;
+                addressToUpdate.BuildingNo = updatedAddress.BuildingNo;
+                addressToUpdate.ApartmentNo = string.IsNullOrEmpty(updatedAddress.ApartmentNo) ? updatedAddress.ApartmentNo : null;
+                addressToUpdate.PostalCode = updatedAddress.PostalCode;
+            }
+
+            await _rentalAppContext.SaveChangesAsync();
+        }
     }
 }

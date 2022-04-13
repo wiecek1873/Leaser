@@ -7,5 +7,6 @@ namespace RentalApp.Application.Interfaces
     {
         Task<AddressDto> GetUserAddress(int addressId);
         Task<AddressDto> CreateAddress(RequestAddressDto newAddressDto);
+        public Task UpdateAddress(int addressId, string userId, RequestAddressDto updatedAddressDto);
     }
 }
