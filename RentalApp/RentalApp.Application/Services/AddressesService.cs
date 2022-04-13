@@ -18,6 +18,17 @@ namespace RentalApp.Application.Services
             _addressesRepository = addressesRepository;
             _mapper = mapper;
         }
+
+        public async Task<AddressDto> GetUserAddress(int addressId)
+        {
+            var address = await _addressesRepository.GetUserAddress(addressId);
+
+            if (address == null)
+                throw new NotFoundException("Address with this id does not exist.");
+
+            return _mapper.Map<AddressDto>(address);
+        }
+
         public async Task<AddressDto> CreateAddress(RequestAddressDto newAddressDto)
         {
             if (string.IsNullOrEmpty(newAddressDto.City))
