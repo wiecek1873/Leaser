@@ -39,7 +39,7 @@ namespace RentalApp.WebApi.Controllers
         }
 
         [HttpPut("{addressId}")]
-        public async Task<IActionResult> UpdatePolicy([FromRoute] int addressId, RequestAddressDto updatedAddressDto)
+        public async Task<IActionResult> UpdateAddress([FromRoute] int addressId, RequestAddressDto updatedAddressDto)
         {
             await _addressesService.UpdateAddress(addressId, User.GetId(), updatedAddressDto);
 
