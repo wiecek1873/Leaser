@@ -13,6 +13,7 @@ namespace RentalApp.WebApi.Controllers
 	[ApiController]
 	[GlobalExceptionFilter]
 	[Route("api/[controller]")]
+	//todo Zapytac się Adama czy tu też powinna być autoryzacja użytkownika czy cos?
 	public class DepositsController : ControllerBase
 	{
 		private readonly IDepositsService _depositsService;
