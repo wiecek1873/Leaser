@@ -19,9 +19,10 @@ namespace RentalApp.WebApi.Controllers
 		private readonly IPostsService _postsService;
 		private readonly IDepositsService _depositsService;
 
-		public PostsController(IPostsService postsService)
+		public PostsController(IPostsService postsService, IDepositsService depositsService)
 		{
 			_postsService = postsService;
+			_depositsService = depositsService;
 		}
 
 		[HttpGet("{postId}")]
@@ -40,13 +41,33 @@ namespace RentalApp.WebApi.Controllers
 		//todo zapytać Adama czemu jak jest [FromForm] to działa. A jak jest [FormBody] to nie działa
 		public async Task<IActionResult> AddPost([FromForm] RequestPostDto newPostDto)
 		{
-			if(newPostDto.DepositValue == null)
+			if (newPostDto.CreateDepositDto == null)
 				return NotFound("Deposit can not be null");
+
+			if (newPostDto.CreatePostImageDto == null)
+				return NotFound("Image can not be null");
+
+			var newDeposit = await _depositsService.CreateDeposit(newPostDto.CreateDepositDto);
 
 			//todo Zapytam Adama jak to ogarnac? Nie pobiera? Pobierac?
 			newPostDto.UserId = User.GetId();
 
-			var newPost = await _postsService.CreatePost(newPostDto);
+			CreatePostDto createPostDto = new CreatePostDto
+			{
+				UserId = newPostDto.UserId,
+				CategoryId = newPostDto.CategoryId,
+				Title = newPostDto.Title,
+				Description = newPostDto.Description,
+				DepositId = newDeposit.Id,
+				Price = newPostDto.Price,
+				PricePerWeek = newPostDto.PricePerWeek,
+				PricePerMonth = newPostDto.PricePerMonth,
+				AvailableFrom = newPostDto.AvailableFrom,
+				AvailableTo = newPostDto.AvailableTo,
+				Image = newPostDto.CreatePostImageDto.PostImage
+			};
+
+			var newPost = await _postsService.CreatePost(createPostDto);
 
 			return Created($"api/posts/{newPost.Id}", newPost);
 		}

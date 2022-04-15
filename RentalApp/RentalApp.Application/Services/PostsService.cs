@@ -32,16 +32,16 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
-		public async Task<PostDto> CreatePost(RequestPostDto newPostDto)
+		public async Task<PostDto> CreatePost(CreatePostDto newPostDto)
 		{
 			byte[] postImage;
 
-			if (newPostDto.CreatePostImageDto.PostImage == null || newPostDto.CreatePostImageDto.PostImage.Length == 0)
+			if (newPostDto.Image== null || newPostDto.Image.Length == 0)
 				throw new BadRequestException("You do not upload photo.");
 
-			if (newPostDto.CreatePostImageDto.PostImage.ContentType.ToLower() != "image/jpeg" &&
-				newPostDto.CreatePostImageDto.PostImage.ContentType.ToLower() != "image/jpg" &&
-				newPostDto.CreatePostImageDto.PostImage.ContentType.ToLower() != "image/png")
+			if (newPostDto.Image.ContentType.ToLower() != "image/jpeg" &&
+				newPostDto.Image.ContentType.ToLower() != "image/jpg" &&
+				newPostDto.Image.ContentType.ToLower() != "image/png")
 				throw new BadRequestException("You do not upload photo.");
 
 			//var post = await _postsRepository.GetPost(newPostDto.Id);
@@ -56,7 +56,7 @@ namespace RentalApp.Application.Services
 
 			using (var memoryStream = new MemoryStream())
 			{
-				await newPostDto.CreatePostImageDto.PostImage.CopyToAsync(memoryStream);
+				await newPostDto.Image.CopyToAsync(memoryStream);
 				postImage = memoryStream.ToArray();
 			}
 
