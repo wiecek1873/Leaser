@@ -13,10 +13,11 @@ namespace RentalApp.WebApi.Controllers
 	[ApiController]
 	[GlobalExceptionFilter]
 	[Route("api/[controller]")]
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class PostsController : ControllerBase
 	{
 		private readonly IPostsService _postsService;
+		private readonly IDepositsService _depositsService;
 
 		public PostsController(IPostsService postsService)
 		{
@@ -24,6 +25,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet("{postId}")]
+		[AllowAnonymous]
 		[SwaggerOperation(Summary = "Get a post")]
 		public async Task<IActionResult> GetPost(int postId)
 		{
@@ -33,11 +35,15 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPost]
+		[AllowAnonymous]
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		//todo zapytać Adama czemu jak jest [FromForm] to działa. A jak jest [FormBody] to nie działa
-		public async Task<IActionResult> AddPost([FromForm] CreatePostDto newPostDto)
+		public async Task<IActionResult> AddPost([FromForm] RequestPostDto newPostDto)
 		{
-			//todo handle this in better way
+			if(newPostDto.DepositValue == null)
+				return NotFound("Deposit can not be null");
+
+			//todo Zapytam Adama jak to ogarnac? Nie pobiera? Pobierac?
 			newPostDto.UserId = User.GetId();
 
 			var newPost = await _postsService.CreatePost(newPostDto);
