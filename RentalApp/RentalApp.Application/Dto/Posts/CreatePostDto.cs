@@ -1,4 +1,5 @@
 ﻿using System;
+using RentalApp.Application.Dto.Deposits;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentalApp.Application.Dto.Posts
@@ -9,7 +10,7 @@ namespace RentalApp.Application.Dto.Posts
 		public int CategoryId { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
-		public int DepositValue { get; set; }
+		public CreateDepositDto DepositValue { get; set; }
 		public double Price { get; set; }
 		public double? PricePerWeek { get; set; }
 		public double? PricePerMonth { get; set; }
