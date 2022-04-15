@@ -13,7 +13,7 @@ namespace RentalApp.Application.Services
 		private readonly IDepositsRepository _depositsRepository;
 		private readonly IMapper _mapper;
 
-		public DepositsService(IDepositsRepository depositsRepository, IUsersRepository usersRepository, IMapper mapper)
+		public DepositsService(IDepositsRepository depositsRepository, IMapper mapper)
 		{
 			_depositsRepository = depositsRepository;
 			_mapper = mapper;
