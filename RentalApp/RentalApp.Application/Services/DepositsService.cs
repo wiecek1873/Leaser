@@ -8,7 +8,7 @@ using RentalApp.Domain.Entities;
 
 namespace RentalApp.Application.Services
 {
-	class DepositsService : IDepositsService
+	public class DepositsService : IDepositsService
 	{
 		private readonly IDepositsRepository _depositsRepository;
 		private readonly IMapper _mapper;

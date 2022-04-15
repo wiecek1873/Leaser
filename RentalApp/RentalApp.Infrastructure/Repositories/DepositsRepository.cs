@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RentalApp.Infrastructure.Repositories
 {
-	class DepositsRepository : IDepositsRepository
+	public class DepositsRepository : IDepositsRepository
 	{
 		private readonly RentalAppContext _rentalAppContext;
 
@@ -29,7 +29,6 @@ namespace RentalApp.Infrastructure.Repositories
 
 			return newDeposit;
 		}
-
 
 		public async Task UpdateDeposit(int depositId, Deposit updatedDeposit)
 		{
