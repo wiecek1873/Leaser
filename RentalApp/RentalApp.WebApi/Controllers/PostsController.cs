@@ -35,12 +35,12 @@ namespace RentalApp.WebApi.Controllers
 		[HttpPost]
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		//todo zapytać Adama czemu jak jest [FromForm] to działa. A jak jest [FormBody] to nie działa
-		public async Task<IActionResult> AddPost([FromForm] CreatePostDto newPostDto ,[FromForm] PostImageDto newPostImageDto)
+		public async Task<IActionResult> AddPost([FromForm] CreatePostDto newPostDto)
 		{
 			//todo handle this in better way
 			newPostDto.UserId = User.GetId();
 
-			var newPost = await _postsService.CreatePost(newPostDto,newPostImageDto);
+			var newPost = await _postsService.CreatePost(newPostDto);
 
 			return Created($"api/posts/{newPost.Id}", newPost);
 		}

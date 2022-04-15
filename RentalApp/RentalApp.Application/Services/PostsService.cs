@@ -32,22 +32,22 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
-		public async Task<PostDto> CreatePost(CreatePostDto newPostDto, PostImageDto newPostImageDto)
+		public async Task<PostDto> CreatePost(CreatePostDto newPostDto)
 		{
 			byte[] postImage;
 
-			if (newPostImageDto.PostImage == null || newPostImageDto.PostImage.Length == 0)
+			if (newPostDto.CreatePostImageDto.PostImage == null || newPostDto.CreatePostImageDto.PostImage.Length == 0)
 				throw new BadRequestException("You do not upload photo.");
 
-			if (newPostImageDto.PostImage.ContentType.ToLower() != "image/jpeg" &&
-				newPostImageDto.PostImage.ContentType.ToLower() != "image/jpg" &&
-				newPostImageDto.PostImage.ContentType.ToLower() != "image/png")
+			if (newPostDto.CreatePostImageDto.PostImage.ContentType.ToLower() != "image/jpeg" &&
+				newPostDto.CreatePostImageDto.PostImage.ContentType.ToLower() != "image/jpg" &&
+				newPostDto.CreatePostImageDto.PostImage.ContentType.ToLower() != "image/png")
 				throw new BadRequestException("You do not upload photo.");
 
-			var post = await _postsRepository.GetPost(newPostDto.Id);
+			//var post = await _postsRepository.GetPost(newPostDto.Id);
 
-			if (post != null)
-				throw new ConflictException("Post with the same id already exist!");
+			//if (post != null)
+			//	throw new ConflictException("Post with the same id already exist!");
 
 			var newPost = _mapper.Map<Post>(newPostDto);
 
@@ -56,7 +56,7 @@ namespace RentalApp.Application.Services
 
 			using (var memoryStream = new MemoryStream())
 			{
-				await newPostImageDto.PostImage.CopyToAsync(memoryStream);
+				await newPostDto.CreatePostImageDto.PostImage.CopyToAsync(memoryStream);
 				postImage = memoryStream.ToArray();
 			}
 
