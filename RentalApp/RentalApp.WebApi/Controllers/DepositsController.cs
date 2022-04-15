@@ -30,8 +30,8 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(post);
 		}
 
-		[HttpPut("{addressId}")]
-		public async Task<IActionResult> UpdateAddress([FromRoute] int depositId, CreateDepositDto updatedDepositDto)
+		[HttpPut("{depositId}")]
+		public async Task<IActionResult> UpdateDeposit([FromRoute] int depositId, CreateDepositDto updatedDepositDto)
 		{
 			await _depositsService.UpdateDeposit(depositId, updatedDepositDto);
 
