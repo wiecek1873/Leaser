@@ -21,10 +21,11 @@ namespace RentalApp.WebApi.Controllers
 		private readonly IDepositsService _depositsService;
 		private readonly IDepositStatusesService _depositStatusesService;
 
-		public PostsController(IPostsService postsService, IDepositsService depositsService)
+		public PostsController(IPostsService postsService, IDepositsService depositsService , IDepositStatusesService depositStatusesService)
 		{
 			_postsService = postsService;
 			_depositsService = depositsService;
+			_depositStatusesService = depositStatusesService;
 		}
 
 		[HttpGet("{postId}")]
