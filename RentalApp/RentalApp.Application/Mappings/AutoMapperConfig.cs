@@ -4,6 +4,7 @@ using RentalApp.Application.Dto.Users;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.Application.Dto.Addresses;
 using RentalApp.Application.Dto.Deposits;
+using RentalApp.Application.Dto.DepositStatuses;
 
 namespace RentalApp.Application.Mappings
 {
@@ -31,6 +32,10 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<Deposit, DepositDto>();
                 cfg.CreateMap<DepositDto, Deposit>();
                 cfg.CreateMap<CreateDepositDto, Deposit>();
+
+                cfg.CreateMap<DepositStatus, DepositStatusDto>();
+                cfg.CreateMap<DepositStatusDto, DepositStatus>();
+                cfg.CreateMap<CreatDepositStatusDto, DepositStatus>();
             })
             .CreateMapper();
     }
