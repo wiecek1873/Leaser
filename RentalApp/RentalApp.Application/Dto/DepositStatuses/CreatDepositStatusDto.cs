@@ -2,7 +2,7 @@
 
 namespace RentalApp.Application.Dto.DepositStatuses
 {
-	public class RequestDepositStatusDto
+	public class CreatDepositStatusDto
 	{
 		[Required(ErrorMessage = "Status is required.")]
 		public string Status { get; set; }
