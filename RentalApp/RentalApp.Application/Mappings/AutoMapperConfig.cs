@@ -35,7 +35,7 @@ namespace RentalApp.Application.Mappings
 
                 cfg.CreateMap<DepositStatus, DepositStatusDto>();
                 cfg.CreateMap<DepositStatusDto, DepositStatus>();
-                cfg.CreateMap<CreatDepositStatusDto, DepositStatus>();
+                cfg.CreateMap<CreateDepositStatusDto, DepositStatus>();
             })
             .CreateMapper();
     }

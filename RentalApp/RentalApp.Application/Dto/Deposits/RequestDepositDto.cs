@@ -7,5 +7,6 @@ namespace RentalApp.Application.Dto.Deposits
 	{
 		[Required(ErrorMessage = "Value is required.")]
 		public int Value { get; set; }
+		public CreateDepositStatusDto CreateDepositStatusDto { get; set; }
 	}
 }
