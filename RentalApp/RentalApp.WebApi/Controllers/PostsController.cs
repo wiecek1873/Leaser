@@ -7,6 +7,7 @@ using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.WebApi.Extensions;
+using RentalApp.Application.Dto.Deposits;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -18,6 +19,7 @@ namespace RentalApp.WebApi.Controllers
 	{
 		private readonly IPostsService _postsService;
 		private readonly IDepositsService _depositsService;
+		private readonly IDepositStatusesService _depositStatusesService;
 
 		public PostsController(IPostsService postsService, IDepositsService depositsService)
 		{
@@ -41,13 +43,25 @@ namespace RentalApp.WebApi.Controllers
 		//todo zapytać Adama czemu jak jest [FromForm] to działa. A jak jest [FormBody] to nie działa
 		public async Task<IActionResult> AddPost([FromForm] RequestPostDto newPostDto)
 		{
-			if (newPostDto.CreateDepositDto == null)
+			if (newPostDto.RequestDepositDto == null)
 				return NotFound("Deposit can not be null");
 
 			if (newPostDto.CreatePostImageDto == null)
 				return NotFound("Image can not be null");
 
-			var newDeposit = await _depositsService.CreateDeposit(newPostDto.CreateDepositDto);
+			if(newPostDto.RequestDepositDto.CreateDepositStatusDto == null)
+				return NotFound("Image can not be null");
+
+			//todo zapytac Adama czy tak wgl mozna?
+			var newDepositStatus = await _depositStatusesService.CreateDepositStatus(newPostDto.RequestDepositDto.CreateDepositStatusDto);
+
+			CreateDepositDto createDepositDto = new CreateDepositDto
+			{
+				Value = newPostDto.RequestDepositDto.Value,
+				StatusId = newDepositStatus.Id
+			};
+
+			var newDeposit = await _depositsService.CreateDeposit(createDepositDto);
 
 			//todo Zapytam Adama jak to ogarnac? Nie pobiera? Pobierac?
 			newPostDto.UserId = User.GetId();
