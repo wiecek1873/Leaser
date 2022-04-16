@@ -10,7 +10,7 @@ namespace RentalApp.Application.Dto.Posts
 		public int CategoryId { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
-		public CreateDepositDto CreateDepositDto { get; set; }
+		public RequestDepositDto RequestDepositDto { get; set; }
 		public double Price { get; set; }
 		public double? PricePerWeek { get; set; }
 		public double? PricePerMonth { get; set; }
