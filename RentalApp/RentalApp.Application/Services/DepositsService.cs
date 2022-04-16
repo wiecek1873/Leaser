@@ -43,7 +43,7 @@ namespace RentalApp.Application.Services
 			var depositToUpdate = await _depositsRepository.GetDeposit(depositId);
 
 			if (depositToUpdate == null)
-				throw new NotFoundException("Address with this id does not exist.");
+				throw new NotFoundException("Deposit with this id does not exist.");
 
 			depositToUpdate = _mapper.Map<Deposit>(updatedDepositDto);
 
