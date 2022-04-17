@@ -47,7 +47,7 @@ namespace RentalApp.WebApi.Controllers
 		 * mozna dodac do sciezki categoryId wtedy bedziemy od razu w sciezce wiedziec do jakiej kategorii dodajemy post
 		 * 
 		 */
-		[HttpPost("categoryId")]
+		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		//todo zapytać Adama czemu jak jest [FromForm] to działa. A jak jest [FormBody] to nie działa
 		// tak pobieranie pliku musi mieć [FromFrom] bo to nie bd juz typowy json bo jest tam zdjecie przesyłane
