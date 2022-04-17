@@ -40,7 +40,7 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<DepositDto>(depositToAdd);
 		}
 
-		// jak robisz update nie uzywaj nazwenictwa => create, jesli dto post u put sa takie same mozna uzyc tej samej klasy
+		// jak robisz update nie uzywaj nazwenictwa => create, jesli dto post u put sa takie same mozna uzyc tej samej klasy z nazwa np request
 		public async Task UpdateDeposit(int depositId, RequestDepositDto updatedDepositDto)
 		{
 			var depositToUpdate = await _depositsRepository.GetDeposit(depositId);

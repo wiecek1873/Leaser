@@ -6,7 +6,7 @@ namespace RentalApp.Application.Interfaces
 	public interface IDepositsService
 	{
 		Task<DepositDto> GetDeposit(int depositId);
-		Task<DepositDto> CreateDeposit(CreateDepositDto newDepositDto);
-		public Task UpdateDeposit(int depositId, UpdateDepositDto updatedDepositDto);
+		Task<DepositDto> CreateDeposit(RequestDepositDto newDepositDto);
+		public Task UpdateDeposit(int depositId, RequestDepositDto updatedDepositDto);
 	}
 }
