@@ -8,6 +8,7 @@ using RentalApp.Domain.Entities;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.Application.Exceptions;
 using System.IO;
+using System;
 
 namespace RentalApp.Application.Services
 {
@@ -32,36 +33,44 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
-		public async Task<PostDto> CreatePost(CreatePostDto newPostDto)
+		public async Task<PostDto> CreatePost(string userId, CreatePostDto newPostDto, CreatePostImageDto newPostImageDto)
 		{
 			byte[] postImage;
 
-			if (newPostDto.Image== null || newPostDto.Image.Length == 0)
+			if (newPostImageDto.PostImage == null || newPostImageDto.PostImage.Length == 0)
 				throw new BadRequestException("You do not upload photo.");
 
-			if (newPostDto.Image.ContentType.ToLower() != "image/jpeg" &&
-				newPostDto.Image.ContentType.ToLower() != "image/jpg" &&
-				newPostDto.Image.ContentType.ToLower() != "image/png")
+			if (newPostImageDto.PostImage.ContentType.ToLower() != "image/jpeg" &&
+				newPostImageDto.PostImage.ContentType.ToLower() != "image/jpg" &&
+				newPostImageDto.PostImage.ContentType.ToLower() != "image/png")
 				throw new BadRequestException("You do not upload photo.");
 
-			//var post = await _postsRepository.GetPost(newPostDto.Id);
 
-			//if (post != null)
-			//	throw new ConflictException("Post with the same id already exist!");
+            /// tworzysz nowy post po co sprawdzasz jego id => do wywalenia on nie ma id
+            //var post = await _postsRepository.GetPost(newPostDto.Id);
 
-			var newPost = _mapper.Map<Post>(newPostDto);
+            //if (post != null)
+            //	throw new ConflictException("Post with the same id already exist!");
 
-			if (newPost == null)
-				throw new ConflictException("Post creation failed! Please check post details and try again.");
+            var newPost = _mapper.Map<Post>(newPostDto);
+			// po mapowaniu mozesz juz przypisywac do dto zmienne ktore przesłałem a nie sa w tym dto
+			newPost.UserId = Guid.Parse(userId);
+
+			// Co to ma na celu? jesli chcesz zrobić walidacje lepiej zrobić to na początku wywołania metody i przenieść to co robiłem w kontrolerz tutaj na
+			// poczatek jesli sprawdzisz ze przeslane dto nie jest nullem mozesz spokojnie mapowac //
+			/*if (newPost == null)
+				throw new ConflictException("Post creation failed! Please check post details and try again.");*/
 
 			using (var memoryStream = new MemoryStream())
 			{
-				await newPostDto.Image.CopyToAsync(memoryStream);
+				await newPostImageDto.PostImage.CopyToAsync(memoryStream);
 				postImage = memoryStream.ToArray();
 			}
 
 			await _postsRepository.AddPost(newPost, postImage);
 
+			// mapper nie da rady przemapowac zdjęcia, kóre jest tablicą bajtów na dto, dlatego trzeba napisac osobnego endpointa do pobrania zdjecia na podstawie id
+			// dlatego stowrzyłeś sobie PostImageDto , które bedzie do frontu pobierać zdjecie
 			return _mapper.Map<PostDto>(newPost);
 		}
 	}

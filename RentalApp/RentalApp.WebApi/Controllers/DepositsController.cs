@@ -13,26 +13,29 @@ namespace RentalApp.WebApi.Controllers
 	[ApiController]
 	[GlobalExceptionFilter]
 	[Route("api/[controller]")]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	//todo Zapytac się Adama czy tu też powinna być autoryzacja użytkownika czy cos?
+	// moim zdanie wszystkie kontrolry oprocz rejestracji musza miec autoryzacje
 	public class DepositsController : ControllerBase
 	{
 		private readonly IDepositsService _depositsService;
 
-		public DepositsController(IDepositsService depositService)
+		public DepositsController(IDepositsService depositsService)
 		{
-			_depositsService = depositService;
+			_depositsService = depositsService;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> GetDeposit(int depositId)
 		{
-			var post = await _depositsService.GetDeposit(depositId);
+			// jak metoda ma w nazwie deposit nie nazywaj jej post
+			var deposit = await _depositsService.GetDeposit(depositId);
 
-			return Ok(post);
+			return Ok(deposit);
 		}
 
 		[HttpPut("{depositId}")]
-		public async Task<IActionResult> UpdateDeposit([FromRoute] int depositId, CreateDepositDto updatedDepositDto)
+		public async Task<IActionResult> UpdateDeposit([FromRoute] int depositId, UpdateDepositDto updatedDepositDto)
 		{
 			await _depositsService.UpdateDeposit(depositId, updatedDepositDto);
 

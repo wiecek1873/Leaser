@@ -40,7 +40,8 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<DepositDto>(depositToAdd);
 		}
 
-		public async Task UpdateDeposit(int depositId, CreateDepositDto updatedDepositDto)
+		// jak robisz update nie uzywaj nazwenictwa => create
+		public async Task UpdateDeposit(int depositId, UpdateDepositDto updatedDepositDto)
 		{
 			var depositToUpdate = await _depositsRepository.GetDeposit(depositId);
 
