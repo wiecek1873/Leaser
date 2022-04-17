@@ -33,8 +33,14 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
-		public async Task<PostDto> CreatePost(string userId, CreatePostDto newPostDto, CreatePostImageDto newPostImageDto)
+		public async Task<PostDto> CreatePost(int categoryId, string userId, CreatePostDto newPostDto, CreatePostImageDto newPostImageDto)
 		{
+
+			/*
+			 * 1. trzeba dodac tu walidacje czy id kategorii istnieje w bazie danych => categoryId
+			 * 2. trzeba sprawdzić czy jesli int? ma wartosc w depositId czy taki depositId istnieje
+			 * 
+			 */
 			byte[] postImage;
 
 			if (newPostImageDto.PostImage == null || newPostImageDto.PostImage.Length == 0)
@@ -46,15 +52,16 @@ namespace RentalApp.Application.Services
 				throw new BadRequestException("You do not upload photo.");
 
 
-            /// tworzysz nowy post po co sprawdzasz jego id => do wywalenia on nie ma id
+            /// tworzysz nowy post po co sprawdzasz jego id => do wywalenia on nie ma id => do wywalenia ten fragment
             //var post = await _postsRepository.GetPost(newPostDto.Id);
 
             //if (post != null)
             //	throw new ConflictException("Post with the same id already exist!");
 
             var newPost = _mapper.Map<Post>(newPostDto);
-			// po mapowaniu mozesz juz przypisywac do dto zmienne ktore przesłałem a nie sa w tym dto
+			// po mapowaniu mozesz juz przypisywac do dto zmienne ktore przesłałem a nie sa w tym dto i zrobieniu walidacji
 			newPost.UserId = Guid.Parse(userId);
+			newPost.CategoryId = categoryId;
 
 			// Co to ma na celu? jesli chcesz zrobić walidacje lepiej zrobić to na początku wywołania metody i przenieść to co robiłem w kontrolerz tutaj na
 			// poczatek jesli sprawdzisz ze przeslane dto nie jest nullem mozesz spokojnie mapowac //

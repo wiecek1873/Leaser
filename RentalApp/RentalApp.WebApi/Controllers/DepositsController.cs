@@ -34,6 +34,14 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(deposit);
 		}
 
+		/*
+		 * [HttpPost]
+		 * 
+		 * Trzeba dodac metode tworzącą nowy depozyt
+		 * Tak samo przed tym dodaniem trzeba stworzyć kontroler, kótry bedzie obsługiwał metody z dodaniem statusu depozytu
+		 * 
+		 */
+
 		[HttpPut("{depositId}")]
 		public async Task<IActionResult> UpdateDeposit([FromRoute] int depositId, UpdateDepositDto updatedDepositDto)
 		{

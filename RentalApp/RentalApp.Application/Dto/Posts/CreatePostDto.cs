@@ -5,9 +5,6 @@ namespace RentalApp.Application.Dto.Posts
 {
 	public class CreatePostDto
 	{
-		[Required(ErrorMessage = "Category is required.")]
-		public int CategoryId { get; set; }
-
 		[Required(ErrorMessage = "Title is required.")]
 		public string Title { get; set; }
 
