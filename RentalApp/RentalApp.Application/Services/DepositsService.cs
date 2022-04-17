@@ -31,7 +31,7 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<DepositDto>(deposit);
 		}
 
-		public async Task<DepositDto> CreateDeposit(CreateDepositDto newDepositDto)
+		public async Task<DepositDto> CreateDeposit(RequestDepositDto newDepositDto)
 		{
 			var depositToAdd = _mapper.Map<Deposit>(newDepositDto);
 
@@ -40,8 +40,8 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<DepositDto>(depositToAdd);
 		}
 
-		// jak robisz update nie uzywaj nazwenictwa => create
-		public async Task UpdateDeposit(int depositId, UpdateDepositDto updatedDepositDto)
+		// jak robisz update nie uzywaj nazwenictwa => create, jesli dto post u put sa takie same mozna uzyc tej samej klasy
+		public async Task UpdateDeposit(int depositId, RequestDepositDto updatedDepositDto)
 		{
 			var depositToUpdate = await _depositsRepository.GetDeposit(depositId);
 
