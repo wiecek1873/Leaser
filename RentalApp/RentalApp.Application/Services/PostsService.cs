@@ -19,10 +19,11 @@ namespace RentalApp.Application.Services
 		private readonly IDepositsRepository _depositsRepository;
 		private readonly IMapper _mapper;
 
-		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IMapper mapper)
+		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IDepositsRepository depositsRepository, IMapper mapper)
 		{
 			_postsRepository = postsRepository;
 			_categoriesRepository = categoriesRepository;
+			_depositsRepository = depositsRepository;
 			_mapper = mapper;
 		}
 
