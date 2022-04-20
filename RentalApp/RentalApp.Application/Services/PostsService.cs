@@ -15,11 +15,13 @@ namespace RentalApp.Application.Services
 	public class PostsService : IPostsService
 	{
 		private readonly IPostsRepository _postsRepository;
+		private readonly ICategoriesRepository _categoriesRepository;
 		private readonly IMapper _mapper;
 
-		public PostsService(IPostsRepository postsRepository, IMapper mapper)
+		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IMapper mapper)
 		{
 			_postsRepository = postsRepository;
+			_categoriesRepository = categoriesRepository;
 			_mapper = mapper;
 		}
 
@@ -35,7 +37,7 @@ namespace RentalApp.Application.Services
 
 		public async Task<PostDto> CreatePost(int categoryId, string userId, CreatePostDto newPostDto, CreatePostImageDto newPostImageDto)
 		{
-
+			
 			/*
 			 * 1. trzeba dodac tu walidacje czy id kategorii istnieje w bazie danych => categoryId
 			 * 2. trzeba sprawdzić czy jesli int? ma wartosc w depositId czy taki depositId istnieje
@@ -51,12 +53,9 @@ namespace RentalApp.Application.Services
 				newPostImageDto.PostImage.ContentType.ToLower() != "image/png")
 				throw new BadRequestException("You do not upload photo.");
 
+			if(_categoriesRepository.GetCategory(categoryId) == null)
+				throw new BadRequestException("Category does not exist.")
 
-            /// tworzysz nowy post po co sprawdzasz jego id => do wywalenia on nie ma id => do wywalenia ten fragment
-            //var post = await _postsRepository.GetPost(newPostDto.Id);
-
-            //if (post != null)
-            //	throw new ConflictException("Post with the same id already exist!");
 
             var newPost = _mapper.Map<Post>(newPostDto);
 			// po mapowaniu mozesz juz przypisywac do dto zmienne ktore przesłałem a nie sa w tym dto i zrobieniu walidacji
