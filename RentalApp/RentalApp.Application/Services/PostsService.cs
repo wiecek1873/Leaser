@@ -16,6 +16,7 @@ namespace RentalApp.Application.Services
 	{
 		private readonly IPostsRepository _postsRepository;
 		private readonly ICategoriesRepository _categoriesRepository;
+		private readonly IDepositsRepository _depositsRepository;
 		private readonly IMapper _mapper;
 
 		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IMapper mapper)
@@ -37,11 +38,6 @@ namespace RentalApp.Application.Services
 
 		public async Task<PostDto> CreatePost(int categoryId, string userId, CreatePostDto newPostDto, CreatePostImageDto newPostImageDto)
 		{
-			
-			/*
-			 * 2. trzeba sprawdzić czy jesli int? ma wartosc w depositId czy taki depositId istnieje
-			 * 
-			 */
 			byte[] postImage;
 
 			if (newPostImageDto.PostImage == null || newPostImageDto.PostImage.Length == 0)
@@ -55,8 +51,10 @@ namespace RentalApp.Application.Services
 			if (_categoriesRepository.GetCategory(categoryId) == null)
 				throw new BadRequestException("Category does not exist.");
 
+			if (newPostDto.DepositId.HasValue && _depositsRepository.GetDeposit(newPostDto.DepositId.Value) == null)
+				throw new BadRequestException("Deposit does not exist.");
 
-            var newPost = _mapper.Map<Post>(newPostDto);
+			var newPost = _mapper.Map<Post>(newPostDto);
 			// po mapowaniu mozesz juz przypisywac do dto zmienne ktore przesłałem a nie sa w tym dto i zrobieniu walidacji
 			newPost.UserId = Guid.Parse(userId);
 			newPost.CategoryId = categoryId;
