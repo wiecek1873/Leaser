@@ -14,8 +14,6 @@ namespace RentalApp.WebApi.Controllers
 	[GlobalExceptionFilter]
 	[Route("api/[controller]")]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-	//todo Zapytac się Adama czy tu też powinna być autoryzacja użytkownika czy cos?
-	// moim zdanie wszystkie kontrolry oprocz rejestracji musza miec autoryzacje
 	public class DepositsController : ControllerBase
 	{
 		private readonly IDepositsService _depositsService;
