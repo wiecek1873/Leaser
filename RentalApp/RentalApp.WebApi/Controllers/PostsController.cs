@@ -33,10 +33,6 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(post);
 		}
 
-		/*
-		 * mozna dodac do sciezki categoryId wtedy bedziemy od razu w sciezce wiedziec do jakiej kategorii dodajemy post
-		 * 
-		 */
 		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] CreatePostDto newPostDto, [FromForm] CreatePostImageDto newPostImageDto)
