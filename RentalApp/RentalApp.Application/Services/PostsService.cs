@@ -39,7 +39,6 @@ namespace RentalApp.Application.Services
 		{
 			
 			/*
-			 * 1. trzeba dodac tu walidacje czy id kategorii istnieje w bazie danych => categoryId
 			 * 2. trzeba sprawdzić czy jesli int? ma wartosc w depositId czy taki depositId istnieje
 			 * 
 			 */
@@ -53,8 +52,8 @@ namespace RentalApp.Application.Services
 				newPostImageDto.PostImage.ContentType.ToLower() != "image/png")
 				throw new BadRequestException("You do not upload photo.");
 
-			if(_categoriesRepository.GetCategory(categoryId) == null)
-				throw new BadRequestException("Category does not exist.")
+			if (_categoriesRepository.GetCategory(categoryId) == null)
+				throw new BadRequestException("Category does not exist.");
 
 
             var newPost = _mapper.Map<Post>(newPostDto);
