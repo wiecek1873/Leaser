@@ -37,20 +37,6 @@ namespace RentalApp.WebApi.Controllers
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] CreatePostDto newPostDto, [FromForm] CreatePostImageDto newPostImageDto)
 		{
-			/* NA POZIOMIE kontrtolera nie obłsugujmey logiki aplikacji to powinno byc zaimplementowane w serwisie
-			 * 
-			 * Jezeli jakis atrybut jest nullem lepiej zwracac Bad Request czyli 400, a nie not found
-			 * 404 oznacze ze zasobu nie ma w bazi danych a nie, że jest przesłany w zlej formie
-			 * 
-			if (newPostDto.RequestDepositDto == null)
-				return NotFound("Deposit can not be null");
-
-			if (newPostDto.CreatePostImageDto == null)
-				return NotFound("Image can not be null");
-
-			if(newPostDto.RequestDepositDto.CreateDepositStatusDto == null)
-				return NotFound("Image can not be null");*/
-
 			//todo zapytac Adama czy tak wgl mozna?
 			// var newDepositStatus = await _depositStatusesService.CreateDepositStatus(newPostDto.CreateDepositDto.CreateDepositStatusDto); => raczej do wywalenia
 
