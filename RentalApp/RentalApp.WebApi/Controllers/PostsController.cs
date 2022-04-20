@@ -7,7 +7,6 @@ using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.WebApi.Extensions;
-using RentalApp.Application.Dto.Deposits;
 
 namespace RentalApp.WebApi.Controllers
 {
