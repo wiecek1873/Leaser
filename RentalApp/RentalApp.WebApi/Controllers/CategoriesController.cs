@@ -1,12 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
-using RentalApp.Application.Dto.Posts;
-using RentalApp.WebApi.Extensions;
 using RentalApp.Application.Dto.Categories;
 
 namespace RentalApp.WebApi.Controllers
