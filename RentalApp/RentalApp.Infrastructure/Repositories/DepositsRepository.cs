@@ -34,13 +34,6 @@ namespace RentalApp.Infrastructure.Repositories
 		{
 			var depositToUpdate = await _rentalAppContext.Deposits.SingleOrDefaultAsync(a => a.Id == depositId);
 
-			/*
-			 * aktulizujemy tylko to co jest w bazi danych a nie relacje z baza
-			 * Posts wgl ich nie przekazujesz
-			 * tak samo z deposit status przeciezs jak zrobisz mapowanie z dto, które od masz klienta to tam beda nulle i rozwalisz cała baze
-			 * bo w dto nie pobierasz tych danych
-			 * 
-			 */
 			if (depositToUpdate != null)
 			{
 				depositToUpdate.Value = updatedDeposit.Value;
