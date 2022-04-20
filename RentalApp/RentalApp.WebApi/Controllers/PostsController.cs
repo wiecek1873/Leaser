@@ -37,30 +37,6 @@ namespace RentalApp.WebApi.Controllers
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] CreatePostDto newPostDto, [FromForm] CreatePostImageDto newPostImageDto)
 		{
-			//todo zapytac Adama czy tak wgl mozna?
-			// var newDepositStatus = await _depositStatusesService.CreateDepositStatus(newPostDto.CreateDepositDto.CreateDepositStatusDto); => raczej do wywalenia
-
-
-			//todo Zapytam Adama jak to ogarnac? Nie pobiera? Pobierac?
-			// bez sensu do dto przypisywać rzeczy DTO to dane, kóre dostajemy od klienta w jsonie
-			// newPostDto.UserId = User.GetId(); => do wywalenia
-
-			/*CreatePostDto createPostDto = new CreatePostDto => po co przypisac z jednego dto do drugiego DTO rzeczy do wywalenia dto to tak naprawde dane, ktore
-			 * otrzymujemy od klienta
-			{
-				UserId = newPostDto.UserId,
-				CategoryId = newPostDto.CategoryId,
-				Title = newPostDto.Title,
-				Description = newPostDto.Description,
-				DepositId = newDeposit.Id,
-				Price = newPostDto.Price,
-				PricePerWeek = newPostDto.PricePerWeek,
-				PricePerMonth = newPostDto.PricePerMonth,
-				AvailableFrom = newPostDto.AvailableFrom,
-				AvailableTo = newPostDto.AvailableTo,
-				Image = newPostDto.CreatePostImageDto.PostImage
-			};*/
-
 			var newPost = await _postsService.CreatePost(categoryId, User.GetId(), newPostDto, newPostImageDto);
 
 			return Created($"api/posts/{newPost.Id}", newPost);
