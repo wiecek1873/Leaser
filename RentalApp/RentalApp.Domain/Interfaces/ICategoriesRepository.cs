@@ -3,7 +3,7 @@ using RentalApp.Domain.Entities;
 
 namespace RentalApp.Domain.Interfaces
 {
-	interface ICategoriesRepository
+	public interface ICategoriesRepository
 	{
 		Task<Category> GetCategory(int categoryId);
 		Task<Category> AddCategory(Category newCategory);
