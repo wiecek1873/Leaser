@@ -26,19 +26,18 @@ namespace RentalApp.WebApi.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetDeposit(int depositId)
 		{
-			// jak metoda ma w nazwie deposit nie nazywaj jej post
 			var deposit = await _depositsService.GetDeposit(depositId);
 
 			return Ok(deposit);
 		}
 
-		/*
-		 * [HttpPost]
-		 * 
-		 * Trzeba dodac metode tworzącą nowy depozyt
-		 * Tak samo przed tym dodaniem trzeba stworzyć kontroler, kótry bedzie obsługiwał metody z dodaniem statusu depozytu
-		 * 
-		 */
+		[HttpPost]
+		public async Task<IActionResult> AddDeposit([FromBody] RequestDepositDto requestDepositDto)
+		{
+			var newDepositStatus = await _depositsService.CreateDeposit(requestDepositDto);
+
+			return Created($"api/users/{newDepositStatus.Id}", newDepositStatus);
+		}
 
 		[HttpPut("{depositId}")]
 		public async Task<IActionResult> UpdateDeposit([FromRoute] int depositId, RequestDepositDto updatedDepositDto)
