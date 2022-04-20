@@ -59,11 +59,6 @@ namespace RentalApp.Application.Services
 			newPost.UserId = Guid.Parse(userId);
 			newPost.CategoryId = categoryId;
 
-			// Co to ma na celu? jesli chcesz zrobić walidacje lepiej zrobić to na początku wywołania metody i przenieść to co robiłem w kontrolerz tutaj na
-			// poczatek jesli sprawdzisz ze przeslane dto nie jest nullem mozesz spokojnie mapowac //
-			/*if (newPost == null)
-				throw new ConflictException("Post creation failed! Please check post details and try again.");*/
-
 			using (var memoryStream = new MemoryStream())
 			{
 				await newPostImageDto.PostImage.CopyToAsync(memoryStream);
