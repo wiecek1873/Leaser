@@ -55,7 +55,6 @@ namespace RentalApp.Application.Services
 				throw new BadRequestException("Deposit does not exist.");
 
 			var newPost = _mapper.Map<Post>(newPostDto);
-			// po mapowaniu mozesz juz przypisywac do dto zmienne ktore przesłałem a nie sa w tym dto i zrobieniu walidacji
 			newPost.UserId = Guid.Parse(userId);
 			newPost.CategoryId = categoryId;
 
@@ -67,8 +66,6 @@ namespace RentalApp.Application.Services
 
 			await _postsRepository.AddPost(newPost, postImage);
 
-			// mapper nie da rady przemapowac zdjęcia, kóre jest tablicą bajtów na dto, dlatego trzeba napisac osobnego endpointa do pobrania zdjecia na podstawie id
-			// dlatego stowrzyłeś sobie PostImageDto , które bedzie do frontu pobierać zdjecie
 			return _mapper.Map<PostDto>(newPost);
 		}
 	}
