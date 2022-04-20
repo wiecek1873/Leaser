@@ -39,9 +39,6 @@ namespace RentalApp.WebApi.Controllers
 		 */
 		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
-		//todo zapytać Adama czemu jak jest [FromForm] to działa. A jak jest [FormBody] to nie działa
-		// tak pobieranie pliku musi mieć [FromFrom] bo to nie bd juz typowy json bo jest tam zdjecie przesyłane
-		// dodatkowo trzeba osobno przeslac dane i zdjecie
 		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] CreatePostDto newPostDto, [FromForm] CreatePostImageDto newPostImageDto)
 		{
 			/* NA POZIOMIE kontrtolera nie obłsugujmey logiki aplikacji to powinno byc zaimplementowane w serwisie
