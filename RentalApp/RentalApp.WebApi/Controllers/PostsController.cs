@@ -18,16 +18,6 @@ namespace RentalApp.WebApi.Controllers
 	public class PostsController : ControllerBase
 	{
 		private readonly IPostsService _postsService;
-		//private readonly IDepositsService _depositsService;
-		//private readonly IDepositStatusesService _depositStatusesService; // ja był zaimplemntował to inaczej i stworzył osobny kontroler na depozyt status
-		// front bedzie musiał wykonać kilka requestów wiecej, ale nie bd tak, że bedzie dto w dto w dto bo troche spaghetti code zaraz z tego bedzie
-		// 1. Tworzymy Depozyt
-		// 2. Podczas tworzenia depozytu, bedzie automatycznie dodawana jakaś stały status -> typu utowrzony, trzeba sie z Klaudia zastanowić czy to ma byc jakis enum czy jak
-		// 3. tworzy deposit, gdzie w dto bedzie trzeba przeslac już deposyt status, który front sobie już szybciej utowrzy przed wysłaniem requesty na stworzenie depozytu
-		// 4. front bedzie miał id statusu wiec moze wysłać requesta tworzącego depozyt, gdzie w odpowiedzi otrzyma id utowrzonego depozytu
-		// 5. w dto stworzonego postu dodajemy id depozytu wcześniej utworzonego lub wgl go nie dodajemy
-		// 6. ale nas jako serwer tworzac SAM post nie obchodzi czy depozyt jest utowrzony czy nie
-		// 7. Jest to zgodne z zasadami SOLID - metody towrzące status tworzą status, metody tworzące depozyt tworzą depozyt
 
 		public PostsController(IPostsService postsService)
 		{
