@@ -16,11 +16,13 @@ namespace RentalApp.WebApi.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IUsersService _usersService;
+        private readonly IAddressesService _addressesService;
         private readonly ITokenService _tokenService;
 
-        public AccountsController(IUsersService usersService, ITokenService tokenService)
+        public AccountsController(IUsersService usersService, IAddressesService addressesService, ITokenService tokenService)
         {
             _usersService = usersService;
+            _addressesService = addressesService;
             _tokenService = tokenService;
         }
 
@@ -39,9 +41,25 @@ namespace RentalApp.WebApi.Controllers
         [Route("Register")]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Register an account in the app")]
-        public async Task<IActionResult> Register([FromBody] CreateUserDto newUserDto)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto newUserDto)
         {
-            var newUser = await _usersService.CreateUser(newUserDto);
+            if (newUserDto.RequestAddressDto == null)
+                return BadRequest("Address can not be empty");
+
+            var userAddress = await _addressesService.CreateAddress(newUserDto.RequestAddressDto);
+
+            var createUserDto = new CreateUserDto
+            {
+                NickName = newUserDto.NickName,
+                Name = newUserDto.Name,
+                Surname = newUserDto.Surname,
+                Email = newUserDto.Email,
+                Password = newUserDto.Password,
+                PhoneNumber = newUserDto.PhoneNumber,
+                AddressId = userAddress?.Id
+            };
+
+            var newUser = await _usersService.CreateUser(createUserDto);
 
             return Created($"api/users/{newUser.Id}", newUser);
         }
