@@ -21,7 +21,7 @@ namespace RentalApp.WebApi.Controllers
 			_depositsService = depositsService;
 		}
 
-		[HttpGet]
+		[HttpGet("{depositId}")]
 		public async Task<IActionResult> GetDeposit(int depositId)
 		{
 			var deposit = await _depositsService.GetDeposit(depositId);

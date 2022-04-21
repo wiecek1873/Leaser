@@ -21,7 +21,7 @@ namespace RentalApp.WebApi.Controllers
 			_depositStatusesService = depositStatusesService;
 		}
 
-		[HttpGet]
+		[HttpGet("{depositStatusId}")]
 		public async Task<IActionResult> GetDepositStatus(int depositStatusId)
 		{
 			var deposit = await _depositStatusesService.GetDepositStatus(depositStatusId);
@@ -37,10 +37,10 @@ namespace RentalApp.WebApi.Controllers
 			return Created($"api/users/{newDepositStatus.Id}", newDepositStatus);
 		}
 
-		[HttpPut("{depositId}")]
-		public async Task<IActionResult> UpdateDepositStatus([FromRoute] int depositId, RequestDepositStatusDto updatedDepositStatusDto)
+		[HttpPut("{depositStatusId}")]
+		public async Task<IActionResult> UpdateDepositStatus([FromRoute] int depositStatusId, RequestDepositStatusDto updatedDepositStatusDto)
 		{
-			await _depositStatusesService.UpdateDepositStatus(depositId, updatedDepositStatusDto);
+			await _depositStatusesService.UpdateDepositStatus(depositStatusId, updatedDepositStatusDto);
 
 			return NoContent();
 		}

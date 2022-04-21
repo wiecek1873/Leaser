@@ -21,7 +21,7 @@ namespace RentalApp.WebApi.Controllers
 			_categoriesService = categoriesService;
 		}
 
-		[HttpGet]
+		[HttpGet("{categoryId}")]
 		public async Task<IActionResult> GetCategory(int categoryId)
 		{
 			var category = await _categoriesService.GetCategory(categoryId);
@@ -37,7 +37,7 @@ namespace RentalApp.WebApi.Controllers
 			return Created($"api/users/{newCategory.Id}", newCategory);
 		}
 
-		[HttpPut("{depositId}")]
+		[HttpPut("{categoryId}")]
 		public async Task<IActionResult> UpdateDeposit([FromRoute] int categoryId, RequestCategoryDto updatedCategoryDto)
 		{
 			await _categoriesService.UpdateCategory(categoryId, updatedCategoryDto);
