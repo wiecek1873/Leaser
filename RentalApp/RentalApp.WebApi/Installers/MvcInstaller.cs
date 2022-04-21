@@ -9,22 +9,32 @@ using RentalApp.WebApi.Filters;
 
 namespace RentalApp.WebApi.Installers
 {
-    public class MvcInstaller : IInstaller
-    {
-        public void InstallServices(IServiceCollection services, IConfiguration Configuration)
-        {
-            services.AddTransient<IUsersService, UsersService>();
-            services.AddTransient<IUsersRepository, UsersRepository>();
-            services.AddTransient<ITokenService, TokenService>();
+	public class MvcInstaller : IInstaller
+	{
+		public void InstallServices(IServiceCollection services, IConfiguration Configuration)
+		{
+			services.AddTransient<IUsersService, UsersService>();
+			services.AddTransient<IUsersRepository, UsersRepository>();
+			services.AddTransient<ITokenService, TokenService>();
+			services.AddTransient<IPostsService, PostsService>();
+			services.AddTransient<IPostsRepository, PostsRepository>();
+			services.AddTransient<IAddressesService, AddressesService>();
+			services.AddTransient<IAddressesRepository, AddressesRepository>();
+			services.AddTransient<IDepositsService, DepositsService>();
+			services.AddTransient<IDepositsRepository, DepositsRepository>();
+			services.AddTransient<IDepositStatusesService, DepositStatusesService>();
+			services.AddTransient<IDepositStatusesRepository, DepositStatusesRepository>();
+			services.AddTransient<ICategoriesService, CategoriesService>();
+			services.AddTransient<ICategoriesRepository, CategoriesRepository>();
 
-            services.AddSingleton(AutoMapperConfig.Initialize());
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new GlobalExceptionFilter());
-            });
+			services.AddSingleton(AutoMapperConfig.Initialize());
+			services.AddMvc(options =>
+			{
+				options.Filters.Add(new GlobalExceptionFilter());
+			});
 
-            services.AddCors();
-            services.AddControllers();
-        }
-    }
+			services.AddCors();
+			services.AddControllers();
+		}
+	}
 }

@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
-using RentalApp.Application.Dto.Users;
 using RentalApp.Domain.Entities;
+using RentalApp.Application.Dto.Users;
+using RentalApp.Application.Dto.Posts;
+using RentalApp.Application.Dto.Addresses;
+using RentalApp.Application.Dto.Deposits;
+using RentalApp.Application.Dto.DepositStatuses;
+using RentalApp.Application.Dto.Categories;
 
 namespace RentalApp.Application.Mappings
 {
@@ -16,6 +21,26 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<CreateUserDto, User>()
                     .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                     .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+
+                cfg.CreateMap<Post, PostDto>();
+                cfg.CreateMap<PostDto, Post>();
+                cfg.CreateMap<CreatePostDto, Post>();
+
+                cfg.CreateMap<Address, AddressDto>();
+                cfg.CreateMap<AddressDto, Address>();
+                cfg.CreateMap<RequestAddressDto, Address>();
+
+                cfg.CreateMap<Deposit, DepositDto>();
+                cfg.CreateMap<DepositDto, Deposit>();
+                cfg.CreateMap<RequestDepositDto, Deposit>();
+
+                cfg.CreateMap<DepositStatus, DepositStatusDto>();
+                cfg.CreateMap<DepositStatusDto, DepositStatus>();
+                cfg.CreateMap<RequestDepositStatusDto, DepositStatus>();
+
+                cfg.CreateMap<Category, CategoryDto>();
+                cfg.CreateMap<CategoryDto, Category>();
+                cfg.CreateMap<RequestCategoryDto, Category>();
             })
             .CreateMapper();
     }
