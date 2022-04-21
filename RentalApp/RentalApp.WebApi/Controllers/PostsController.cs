@@ -34,7 +34,7 @@ namespace RentalApp.WebApi.Controllers
 
 		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
-		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] CreatePostDto newPostDto, [FromForm] CreatePostImageDto newPostImageDto)
+		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
 		{
 			var newPost = await _postsService.CreatePost(categoryId, User.GetId(), newPostDto, newPostImageDto);
 

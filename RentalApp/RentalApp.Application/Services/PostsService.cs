@@ -37,7 +37,7 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
-		public async Task<PostDto> CreatePost(int categoryId, string userId, CreatePostDto newPostDto, CreatePostImageDto newPostImageDto)
+		public async Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto)
 		{
 			byte[] postImage;
 
