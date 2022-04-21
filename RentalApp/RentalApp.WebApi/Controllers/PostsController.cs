@@ -40,5 +40,23 @@ namespace RentalApp.WebApi.Controllers
 
 			return Created($"api/posts/{newPost.Id}", newPost);
 		}
+
+		[HttpPut("{postId}")]
+		[SwaggerOperation(Summary = "Update a post")]
+		public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromForm] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
+		{
+			await _postsService.UpdatePost(postId, categoryId, User.GetId(), newPostDto, newPostImageDto);
+
+			return Ok();
+		}
+
+		[HttpDelete("{postId}")]
+		[SwaggerOperation(Summary = "Delte a post")]
+		public async Task<IActionResult> DeletePost(int postId)
+		{
+			await _postsService.DeletePost(postId);
+
+			return Ok();
+		}
 	}
 }
