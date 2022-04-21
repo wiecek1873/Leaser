@@ -29,7 +29,7 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<DepositStatusDto>(depositStatus);
 		}
 
-		public async Task<DepositStatusDto> CreateDepositStatus(CreateDepositStatusDto newDepositStatusDto)
+		public async Task<DepositStatusDto> CreateDepositStatus(RequestDepositStatusDto newDepositStatusDto)
 		{
 			var depositStatusToAdd = _mapper.Map<DepositStatus>(newDepositStatusDto);
 
@@ -38,7 +38,7 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<DepositStatusDto>(depositStatusToAdd);
 		}
 
-		public async Task UpdateDepositStatus(int depositStatusId, CreateDepositStatusDto updatedDepositStatusDto)
+		public async Task UpdateDepositStatus(int depositStatusId, RequestDepositStatusDto updatedDepositStatusDto)
 		{
 			var depositStatusToUpdate = await _depositStatusesRepository.GetDepositStatus(depositStatusId);
 

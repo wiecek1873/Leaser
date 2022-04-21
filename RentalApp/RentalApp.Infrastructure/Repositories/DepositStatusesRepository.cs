@@ -38,7 +38,6 @@ namespace RentalApp.Infrastructure.Repositories
 			{
 				depositStatusToUpdate.Status = updatedDepositStatus.Status;
 				depositStatusToUpdate.Description = updatedDepositStatus.Description;
-				depositStatusToUpdate.Deposits = updatedDepositStatus.Deposits;
 			}
 
 			await _rentalAppContext.SaveChangesAsync();

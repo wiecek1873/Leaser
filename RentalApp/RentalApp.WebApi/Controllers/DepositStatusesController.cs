@@ -30,7 +30,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddDepositStatus([FromBody]  CreateDepositStatusDto createDepositStatusDto)
+		public async Task<IActionResult> AddDepositStatus([FromBody]  RequestDepositStatusDto createDepositStatusDto)
 		{
 			var newDepositStatus = await _depositStatusesService.CreateDepositStatus(createDepositStatusDto);
 
@@ -38,7 +38,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{depositId}")]
-		public async Task<IActionResult> UpdateDepositStatus([FromRoute] int depositId, CreateDepositStatusDto updatedDepositStatusDto)
+		public async Task<IActionResult> UpdateDepositStatus([FromRoute] int depositId, RequestDepositStatusDto updatedDepositStatusDto)
 		{
 			await _depositStatusesService.UpdateDepositStatus(depositId, updatedDepositStatusDto);
 
