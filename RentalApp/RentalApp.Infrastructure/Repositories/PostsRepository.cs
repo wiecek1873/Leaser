@@ -32,5 +32,36 @@ namespace RentalApp.Infrastructure.Repositories
 
 			return newPost;
 		}
+
+		public async Task UpdatePost(int postId, Post updatedPost)
+		{
+			var postToUpdate = await _rentalAppContext.Posts.SingleOrDefaultAsync(p => p.Id == postId);
+
+			if(updatedPost != null)
+			{
+				postToUpdate.CategoryId = updatedPost.CategoryId;
+				postToUpdate.UserId = updatedPost.UserId;
+				postToUpdate.Title = updatedPost.Title;
+				postToUpdate.Description = updatedPost.Description;
+				postToUpdate.Image = updatedPost.Image;
+				postToUpdate.DepositId = updatedPost.DepositId;
+				postToUpdate.Price = updatedPost.Price;
+				postToUpdate.PricePerWeek = updatedPost.PricePerWeek;
+				postToUpdate.PricePerMonth = updatedPost.PricePerMonth;
+				postToUpdate.AvailableFrom = updatedPost.AvailableFrom;
+				postToUpdate.AvailableTo = updatedPost.AvailableTo;
+			}
+
+			await _rentalAppContext.SaveChangesAsync();
+		}
+
+		public async Task DeletePost(int postId)
+		{
+			var postToDelete = await _rentalAppContext.Posts.SingleOrDefaultAsync(p => p.Id == postId);
+
+			_rentalAppContext.Remove(postToDelete);
+
+			await _rentalAppContext.SaveChangesAsync();
+		}
 	}
 }
