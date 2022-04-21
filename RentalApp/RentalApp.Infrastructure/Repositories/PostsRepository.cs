@@ -33,7 +33,7 @@ namespace RentalApp.Infrastructure.Repositories
 			return newPost;
 		}
 
-		public async Task UpdatePost(int postId, Post updatedPost)
+		public async Task UpdatePost(int postId, Post updatedPost, byte[] updatedPostImage)
 		{
 			var postToUpdate = await _rentalAppContext.Posts.SingleOrDefaultAsync(p => p.Id == postId);
 
@@ -43,7 +43,7 @@ namespace RentalApp.Infrastructure.Repositories
 				postToUpdate.UserId = updatedPost.UserId;
 				postToUpdate.Title = updatedPost.Title;
 				postToUpdate.Description = updatedPost.Description;
-				postToUpdate.Image = updatedPost.Image;
+				postToUpdate.Image = updatedPostImage;
 				postToUpdate.DepositId = updatedPost.DepositId;
 				postToUpdate.Price = updatedPost.Price;
 				postToUpdate.PricePerWeek = updatedPost.PricePerWeek;
