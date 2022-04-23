@@ -88,6 +88,13 @@ namespace RentalApp.Application.Services
 			if (updatedPostDto.DepositId.HasValue && await _depositsRepository.GetDeposit(updatedPostDto.DepositId.Value) == null)
 				throw new BadRequestException("Deposit does not exist.");
 
+			/*/
+			 * 
+			 * tutaj sprawdzałbym jeszcze czy ten post nalezy do akutalnie zalogowanego usera inaczej 405
+			 * bo tak to kazdy user bd mogł edytować nie swoje posty
+			 * 
+			 */
+
 			var postToUpdate = await _postsRepository.GetPost(postId);
 
 			if (postToUpdate == null)
@@ -112,6 +119,13 @@ namespace RentalApp.Application.Services
 
 			if (postToUpdate == null)
 				throw new NotFoundException("Post with this id does not exist.");
+
+			/*/
+			 * 
+			 * tutaj sprawdzałbym jeszcze czy ten post nalezy do akutalnie zalogowanego usera inaczej 405
+			 * bo kazdy user bd mogl usuwać nie swoje posty
+			 * 
+			 */
 
 			await _postsRepository.DeletePost(postId);
 		}
