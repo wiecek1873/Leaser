@@ -93,9 +93,9 @@ namespace RentalApp.Application.Services
 			if (postToUpdate == null)
 				throw new NotFoundException("Post with this id does not exist.");
 
-			var newPost = _mapper.Map<Post>(updatedPostDto);
-			newPost.UserId = Guid.Parse(userId);
-			newPost.CategoryId = categoryId;
+			postToUpdate = _mapper.Map<Post>(updatedPostDto);
+			postToUpdate.UserId = Guid.Parse(userId);
+			postToUpdate.CategoryId = categoryId;
 
 			using (var memoryStream = new MemoryStream())
 			{
@@ -103,7 +103,7 @@ namespace RentalApp.Application.Services
 				postImage = memoryStream.ToArray();
 			}
 
-			await _postsRepository.UpdatePost(postId, newPost, postImage);
+			await _postsRepository.UpdatePost(postId, postToUpdate, postImage);
 		}
 
 		public async Task DeletePost(int postId)
