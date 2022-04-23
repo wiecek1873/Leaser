@@ -41,9 +41,9 @@ namespace RentalApp.WebApi.Controllers
 			return Created($"api/posts/{newPost.Id}", newPost);
 		}
 
-		[HttpPut("{postId}")]
+		[HttpPut("{postId}/{categoryId}")]
 		[SwaggerOperation(Summary = "Update a post")]
-		public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromForm] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
+		public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromRoute] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
 		{
 			await _postsService.UpdatePost(postId, categoryId, User.GetId(), newPostDto, newPostImageDto);
 
@@ -51,7 +51,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpDelete("{postId}")]
-		[SwaggerOperation(Summary = "Delte a post")]
+		[SwaggerOperation(Summary = "Delete a post")]
 		public async Task<IActionResult> DeletePost(int postId)
 		{
 			await _postsService.DeletePost(postId);

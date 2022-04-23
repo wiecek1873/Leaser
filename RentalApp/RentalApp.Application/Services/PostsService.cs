@@ -88,6 +88,11 @@ namespace RentalApp.Application.Services
 			if (updatedPostDto.DepositId.HasValue && await _depositsRepository.GetDeposit(updatedPostDto.DepositId.Value) == null)
 				throw new BadRequestException("Deposit does not exist.");
 
+			var postToUpdate = await _postsRepository.GetPost(postId);
+
+			if (postToUpdate == null)
+				throw new NotFoundException("Post with this id does not exist.");
+
 			var newPost = _mapper.Map<Post>(updatedPostDto);
 			newPost.UserId = Guid.Parse(userId);
 			newPost.CategoryId = categoryId;
@@ -98,11 +103,16 @@ namespace RentalApp.Application.Services
 				postImage = memoryStream.ToArray();
 			}
 
-			await _postsRepository.UpdatePost(postId,newPost, postImage);
+			await _postsRepository.UpdatePost(postId, newPost, postImage);
 		}
 
 		public async Task DeletePost(int postId)
 		{
+			var postToUpdate = await _postsRepository.GetPost(postId);
+
+			if (postToUpdate == null)
+				throw new NotFoundException("Post with this id does not exist.");
+
 			await _postsRepository.DeletePost(postId);
 		}
 	}
