@@ -25,7 +25,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet("{userRateId}")]
-		[SwaggerOperation(Summary = "Get User Rate by Id")]
+		[SwaggerOperation(Summary = "Get user rate by Id")]
 		public async Task<IActionResult> GetUserRate(int userRateId)
 		{
 			var userRate = await _userRatesService.GetUserRate(userRateId);
@@ -34,7 +34,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPost]
-		[SwaggerOperation(Summary = "Add User Rate")]
+		[SwaggerOperation(Summary = "Add user rate")]
 		public async Task<IActionResult> AddUserRate([FromBody] CreateUserRateDto requestUserRateDto)
 		{
 			var newUserRate = await _userRatesService.CreateUserRate(User.GetId(), requestUserRateDto);
