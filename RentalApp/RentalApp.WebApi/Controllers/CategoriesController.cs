@@ -34,11 +34,11 @@ namespace RentalApp.WebApi.Controllers
 		{
 			var newCategory = await _categoriesService.CreateCategory(requestCategoryDto);
 
-			return Created($"api/users/{newCategory.Id}", newCategory);
+			return Created($"api/categories/{newCategory.Id}", newCategory);
 		}
 
 		[HttpPut("{categoryId}")]
-		public async Task<IActionResult> UpdateDeposit([FromRoute] int categoryId, RequestCategoryDto updatedCategoryDto)
+		public async Task<IActionResult> UpdateCategory([FromRoute] int categoryId, [FromBody] RequestCategoryDto updatedCategoryDto)
 		{
 			await _categoriesService.UpdateCategory(categoryId, updatedCategoryDto);
 

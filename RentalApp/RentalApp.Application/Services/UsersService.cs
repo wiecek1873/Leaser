@@ -33,6 +33,19 @@ namespace RentalApp.Application.Services
             return _mapper.Map<UserDto>(user);
         }
 
+        public async Task<UserDto> GetUserByEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                throw new BadRequestException("Email can not be empty");
+
+            var user = await _usersRepository.GetUserByEmail(email);
+
+            if (user == null)
+                throw new NotFoundException("User does not exist.");
+
+            return _mapper.Map<UserDto>(user);
+        }
+
         public async Task<UserDto> CreateUser(CreateUserDto newUserDto)
         {
             var user = await _userManager.FindByEmailAsync(newUserDto.Email);

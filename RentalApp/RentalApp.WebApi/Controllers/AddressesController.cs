@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Swashbuckle.AspNetCore.Annotations;
 using RentalApp.WebApi.Filters;
 using RentalApp.WebApi.Extensions;
 using RentalApp.Application.Interfaces;
@@ -26,6 +27,7 @@ namespace RentalApp.WebApi.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Get user address")]
         public async Task<IActionResult> GetUserAddress()
         {
             var user = await _usersService.GetUser(User.GetId());
@@ -39,6 +41,7 @@ namespace RentalApp.WebApi.Controllers
         }
 
         [HttpPut("{addressId}")]
+        [SwaggerOperation(Summary = "Update User address by id")]
         public async Task<IActionResult> UpdateAddress([FromRoute] int addressId, RequestAddressDto updatedAddressDto)
         {
             await _addressesService.UpdateAddress(addressId, User.GetId(), updatedAddressDto);
