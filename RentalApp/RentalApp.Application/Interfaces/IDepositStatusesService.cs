@@ -7,7 +7,7 @@ namespace RentalApp.Application.Interfaces
 	{
 		Task<DepositStatusDto> GetDepositStatus(int depositStatusId);
 		Task<DepositStatusDto> CreateDepositStatus(RequestDepositStatusDto newDepositStatusDto);
-		public Task UpdateDepositStatus(int depositStatusId, RequestDepositStatusDto updatedDepositStatusDto);
+		Task UpdateDepositStatus(int depositStatusId, RequestDepositStatusDto updatedDepositStatusDto);
 		Task DeleteDepositStatus(int depositStatusId);
 	}
 }
