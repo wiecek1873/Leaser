@@ -25,6 +25,13 @@ namespace RentalApp.Infrastructure.Repositories
             return user;
         }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return user;
+        }
+
         public async Task<User> AddUser(User newUser)
         {
             var result = await _userManager.CreateAsync(newUser, newUser.PasswordHash);

@@ -37,6 +37,17 @@ namespace RentalApp.WebApi.Controllers
             return Ok(user);
         }
 
+        [HttpGet]
+        [Route("Email/{email}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [SwaggerOperation(Summary = "Get a user by email")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await _usersService.GetUserByEmail(email);
+
+            return Ok(user);
+        }
+
         [HttpPost]
         [Route("Register")]
         [AllowAnonymous]
