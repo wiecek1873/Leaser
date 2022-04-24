@@ -115,9 +115,9 @@ namespace RentalApp.Application.Services
 
 		public async Task DeletePost(int postId)
 		{
-			var postToUpdate = await _postsRepository.GetPost(postId);
+			var postToDelete = await _postsRepository.GetPost(postId);
 
-			if (postToUpdate == null)
+			if (postToDelete == null)
 				throw new NotFoundException("Post with this id does not exist.");
 
 			/*/
