@@ -43,11 +43,21 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{userRateId}")]
+		[SwaggerOperation(Summary = "Update a user rate")]
 		public async Task<IActionResult> UpdateUserRate([FromRoute] int userRateId, [FromBody] UpdateUserRateDto updatedUserRateDto)
 		{
 			await _userRatesService.UpdateUserRate(User.GetId(), userRateId, updatedUserRateDto);
 
 			return NoContent();
+		}
+
+		[HttpDelete("{userRateId}")]
+		[SwaggerOperation(Summary = "Delete a user rate")]
+		public async Task<IActionResult> DeleteUserRate(int userRateId)
+		{
+			await _userRatesService.DeleteUserRate(userRateId);
+
+			return Ok();
 		}
 	}
 }

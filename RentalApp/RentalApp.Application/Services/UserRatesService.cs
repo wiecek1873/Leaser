@@ -78,5 +78,15 @@ namespace RentalApp.Application.Services
 
             await _userRatesRepository.UpdateUserRate(userRateId, userRateToUpdate);
         }
+
+        public async Task DeleteUserRate(int userRateId)
+        {
+            var userRateToDelete = await _userRatesRepository.GetUserRate(userRateId);
+
+            if (userRateToDelete == null)
+                throw new NotFoundException("User Rate with this id does not exist.");
+
+            await _userRatesRepository.DeleteUserRate(userRateId);
+        }
     }
 }

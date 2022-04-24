@@ -13,5 +13,7 @@ namespace RentalApp.Domain.Interfaces
         Task<UserRate> AddUserRate(UserRate newUserRate);
 
         Task UpdateUserRate(int userRateId, UserRate updatedUserRate);
+
+        Task DeleteUserRate(int userRateId);
     }
 }
