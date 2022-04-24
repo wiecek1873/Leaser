@@ -41,7 +41,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{categoryId}")]
-		[SwaggerOperation(Summary = "Delete category")]
+		[SwaggerOperation(Summary = "Update category")]
 		public async Task<IActionResult> UpdateCategory([FromRoute] int categoryId, [FromBody] RequestCategoryDto updatedCategoryDto)
 		{
 			await _categoriesService.UpdateCategory(categoryId, updatedCategoryDto);
