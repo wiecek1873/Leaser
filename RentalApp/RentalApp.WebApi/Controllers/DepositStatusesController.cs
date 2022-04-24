@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.DepositStatuses;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -22,6 +23,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet("{depositStatusId}")]
+		[SwaggerOperation(Summary = "Get deposit status by Id")]
 		public async Task<IActionResult> GetDepositStatus(int depositStatusId)
 		{
 			var deposit = await _depositStatusesService.GetDepositStatus(depositStatusId);
@@ -30,6 +32,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPost]
+		[SwaggerOperation(Summary = "Add deposit status")]
 		public async Task<IActionResult> AddDepositStatus([FromBody]  RequestDepositStatusDto createDepositStatusDto)
 		{
 			var newDepositStatus = await _depositStatusesService.CreateDepositStatus(createDepositStatusDto);
@@ -38,6 +41,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{depositStatusId}")]
+		[SwaggerOperation(Summary = "Update deposit status")]
 		public async Task<IActionResult> UpdateDepositStatus([FromRoute] int depositStatusId, RequestDepositStatusDto updatedDepositStatusDto)
 		{
 			await _depositStatusesService.UpdateDepositStatus(depositStatusId, updatedDepositStatusDto);
