@@ -32,6 +32,15 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(post);
 		}
 
+		[HttpGet()] //todo <- Adam co tu powinno być?
+		[SwaggerOperation(Summary = "Get post image")]
+		public async Task<IActionResult> GetPostImage(int postId)
+		{
+			var postImage = await _postsService.GetPostImage(postId);
+
+			return Ok(postImage);
+		}
+
 		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
