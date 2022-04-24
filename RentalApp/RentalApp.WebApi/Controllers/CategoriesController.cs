@@ -38,7 +38,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{categoryId}")]
-		public async Task<IActionResult> UpdateDeposit([FromRoute] int categoryId, RequestCategoryDto updatedCategoryDto)
+		public async Task<IActionResult> UpdateCategory([FromRoute] int categoryId, [FromBody] RequestCategoryDto updatedCategoryDto)
 		{
 			await _categoriesService.UpdateCategory(categoryId, updatedCategoryDto);
 
