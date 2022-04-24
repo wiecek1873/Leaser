@@ -34,7 +34,7 @@ namespace RentalApp.WebApi.Controllers
 		{
 			var newDepositStatus = await _depositsService.CreateDeposit(requestDepositDto);
 
-			return Created($"api/users/{newDepositStatus.Id}", newDepositStatus);
+			return Created($"api/deposits/{newDepositStatus.Id}", newDepositStatus);
 		}
 
 		[HttpPut("{depositId}")]

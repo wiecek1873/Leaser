@@ -34,7 +34,7 @@ namespace RentalApp.WebApi.Controllers
 		{
 			var newCategory = await _categoriesService.CreateCategory(requestCategoryDto);
 
-			return Created($"api/users/{newCategory.Id}", newCategory);
+			return Created($"api/categories/{newCategory.Id}", newCategory);
 		}
 
 		[HttpPut("{categoryId}")]
