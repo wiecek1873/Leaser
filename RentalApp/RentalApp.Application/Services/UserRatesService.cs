@@ -72,19 +72,22 @@ namespace RentalApp.Application.Services
                 throw new BadRequestException("You can add rate from 1 to 5.");
 
             if (userRateToUpdate.RaterUserId != Guid.Parse(userId))
-                throw new BadRequestException("You can not update rates from diffrent users.");
+                throw new MethodNotAllowedException("You can not update rates from diffrent users.");
 
             userRateToUpdate = _mapper.Map<UserRate>(updatedUserRateDto);
 
             await _userRatesRepository.UpdateUserRate(userRateId, userRateToUpdate);
         }
 
-        public async Task DeleteUserRate(int userRateId)
+        public async Task DeleteUserRate(string userId, int userRateId)
         {
             var userRateToDelete = await _userRatesRepository.GetUserRate(userRateId);
 
             if (userRateToDelete == null)
                 throw new NotFoundException("User Rate with this id does not exist.");
+
+            if (userRateToDelete.RaterUserId != Guid.Parse(userId))
+                throw new MethodNotAllowedException("You can not delete rates from diffrent users.");
 
             await _userRatesRepository.DeleteUserRate(userRateId);
         }

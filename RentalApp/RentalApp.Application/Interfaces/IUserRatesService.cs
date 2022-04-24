@@ -11,6 +11,6 @@ namespace RentalApp.Application.Interfaces
 
         Task UpdateUserRate(string userId, int userRateId, UpdateUserRateDto updatedUserRateDto);
 
-        Task DeleteUserRate(int userRateId);
+        Task DeleteUserRate(string userId, int userRateId);
     }
 }

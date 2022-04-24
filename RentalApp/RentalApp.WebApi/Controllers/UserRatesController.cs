@@ -55,7 +55,7 @@ namespace RentalApp.WebApi.Controllers
 		[SwaggerOperation(Summary = "Delete a user rate")]
 		public async Task<IActionResult> DeleteUserRate(int userRateId)
 		{
-			await _userRatesService.DeleteUserRate(userRateId);
+			await _userRatesService.DeleteUserRate(User.GetId(), userRateId);
 
 			return Ok();
 		}
