@@ -116,7 +116,7 @@ namespace RentalApp.Application.Services
 			if (postToDelete == null)
 				throw new NotFoundException("Post with this id does not exist.");
 
-			if (postToUpdate.UserId != Guid.Parse(userId))
+			if (postToDelete.UserId != Guid.Parse(userId))
 				throw new MethodNotAllowedException("This user can't delete other user posts.");
 
 			await _postsRepository.DeletePost(postId);
