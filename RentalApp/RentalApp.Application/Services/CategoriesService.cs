@@ -50,5 +50,15 @@ namespace RentalApp.Application.Services
 
 			await _categoriesRepository.UpdateCategory(categoryId, categoryToUpdate);
 		}
+
+		public async Task DeleteCategory(int categoryId)
+		{
+			var categoryToDelete = await _categoriesRepository.GetCategory(categoryId);
+
+			if (categoryToDelete == null)
+				throw new NotFoundException("Category with this id does not exist.");
+
+			await _categoriesRepository.DeleteCategory(categoryId);
+		}
 	}
 }

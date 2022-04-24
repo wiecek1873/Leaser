@@ -48,5 +48,14 @@ namespace RentalApp.WebApi.Controllers
 
 			return NoContent();
 		}
+
+		[HttpDelete("categoryId")]
+		[SwaggerOperation(Summary = "Delete category")]
+		public async Task<IActionResult> DeleteCategory(int categoryId)
+		{
+			await _categoriesService.DeleteCategory(categoryId);
+
+			return Ok();
+		}
 	}
 }
