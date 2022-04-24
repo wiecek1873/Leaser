@@ -9,6 +9,7 @@ using RentalApp.Application.Dto.Posts;
 using RentalApp.Application.Exceptions;
 using System.IO;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace RentalApp.Application.Services
 {
@@ -35,6 +36,19 @@ namespace RentalApp.Application.Services
 				throw new NotFoundException("Post does not exist.");
 
 			return _mapper.Map<PostDto>(post);
+		}
+
+		public async Task<PostImageDto> GetPostImage(int postId)
+		{
+			var post = await _postsRepository.GetPost(postId);
+
+			if (post == null)
+				throw new NotFoundException("Post does not exist");
+
+			var stream = new MemoryStream(post.Image);
+			IFormFile image = new FormFile(stream, 0, stream.Length, "PostImage" + postId, "PostImage" + postId + ".png");
+
+			return new PostImageDto { PostImage = image };
 		}
 
 		public async Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto)
