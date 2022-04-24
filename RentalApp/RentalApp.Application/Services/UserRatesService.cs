@@ -47,6 +47,9 @@ namespace RentalApp.Application.Services
             if (userRated == null)
                 throw new NotFoundException("User Rated with this id does not exist!");
 
+            if (newUserRateDto.Rate < 1 || newUserRateDto.Rate > 5)
+                throw new BadRequestException("You can add rate from 1 to 5");
+
             var userRateToAdd = _mapper.Map<UserRate>(newUserRateDto);
             userRateToAdd.RaterUserId = userRater.Id;
 
