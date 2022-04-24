@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Categories;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -22,6 +23,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet("{categoryId}")]
+		[SwaggerOperation(Summary = "Get category by Id")]
 		public async Task<IActionResult> GetCategory(int categoryId)
 		{
 			var category = await _categoriesService.GetCategory(categoryId);
@@ -30,6 +32,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPost]
+		[SwaggerOperation(Summary = "Add category")]
 		public async Task<IActionResult> AddCategory([FromBody] RequestCategoryDto requestCategoryDto)
 		{
 			var newCategory = await _categoriesService.CreateCategory(requestCategoryDto);
@@ -38,6 +41,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{categoryId}")]
+		[SwaggerOperation(Summary = "Delete category")]
 		public async Task<IActionResult> UpdateCategory([FromRoute] int categoryId, [FromBody] RequestCategoryDto updatedCategoryDto)
 		{
 			await _categoriesService.UpdateCategory(categoryId, updatedCategoryDto);
