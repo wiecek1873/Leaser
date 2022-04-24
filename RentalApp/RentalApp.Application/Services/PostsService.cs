@@ -88,17 +88,13 @@ namespace RentalApp.Application.Services
 			if (updatedPostDto.DepositId.HasValue && await _depositsRepository.GetDeposit(updatedPostDto.DepositId.Value) == null)
 				throw new BadRequestException("Deposit does not exist.");
 
-			/*/
-			 * 
-			 * tutaj sprawdzałbym jeszcze czy ten post nalezy do akutalnie zalogowanego usera inaczej 405
-			 * bo tak to kazdy user bd mogł edytować nie swoje posty
-			 * 
-			 */
-
 			var postToUpdate = await _postsRepository.GetPost(postId);
 
 			if (postToUpdate == null)
 				throw new NotFoundException("Post with this id does not exist.");
+
+			if (postToUpdate.UserId != Guid.Parse(userId))
+				throw new MethodNotAllowedException("This user can't edit other user posts.");
 
 			postToUpdate = _mapper.Map<Post>(updatedPostDto);
 			postToUpdate.UserId = Guid.Parse(userId);
@@ -113,19 +109,15 @@ namespace RentalApp.Application.Services
 			await _postsRepository.UpdatePost(postId, postToUpdate, postImage);
 		}
 
-		public async Task DeletePost(int postId)
+		public async Task DeletePost(int postId, string userId)
 		{
 			var postToUpdate = await _postsRepository.GetPost(postId);
 
 			if (postToUpdate == null)
 				throw new NotFoundException("Post with this id does not exist.");
 
-			/*/
-			 * 
-			 * tutaj sprawdzałbym jeszcze czy ten post nalezy do akutalnie zalogowanego usera inaczej 405
-			 * bo kazdy user bd mogl usuwać nie swoje posty
-			 * 
-			 */
+			if (postToUpdate.UserId != Guid.Parse(userId))
+				throw new MethodNotAllowedException("This user can't delete other user posts.");
 
 			await _postsRepository.DeletePost(postId);
 		}

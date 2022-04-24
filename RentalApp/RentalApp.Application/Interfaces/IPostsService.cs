@@ -8,6 +8,6 @@ namespace RentalApp.Application.Interfaces
 		Task<PostDto> GetPost(int postId);
 		Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto);
 		Task UpdatePost(int postId, int categoryId, string userId, RequestPostDto updatedPostDto, RequestPostImageDto updatedPostImageDto);
-		Task DeletePost(int postId);
+		Task DeletePost(int postId, string userId);
 	}
 }

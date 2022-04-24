@@ -54,7 +54,7 @@ namespace RentalApp.WebApi.Controllers
 		[SwaggerOperation(Summary = "Delete a post")]
 		public async Task<IActionResult> DeletePost(int postId)
 		{
-			await _postsService.DeletePost(postId);
+			await _postsService.DeletePost(postId, User.GetId());
 
 			return Ok();
 		}
