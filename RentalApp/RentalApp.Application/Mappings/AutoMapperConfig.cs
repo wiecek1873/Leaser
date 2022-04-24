@@ -6,6 +6,7 @@ using RentalApp.Application.Dto.Addresses;
 using RentalApp.Application.Dto.Deposits;
 using RentalApp.Application.Dto.DepositStatuses;
 using RentalApp.Application.Dto.Categories;
+using RentalApp.Application.Dto.UserRates;
 
 namespace RentalApp.Application.Mappings
 {
@@ -41,6 +42,11 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<Category, CategoryDto>();
                 cfg.CreateMap<CategoryDto, Category>();
                 cfg.CreateMap<RequestCategoryDto, Category>();
+
+                cfg.CreateMap<UserRate, UserRateDto>();
+                cfg.CreateMap<UserRateDto, UserRate>();
+                cfg.CreateMap<CreateUserRateDto, UserRate>();
+                cfg.CreateMap<UpdateUserRateDto, UserRate>();
             })
             .CreateMapper();
     }
