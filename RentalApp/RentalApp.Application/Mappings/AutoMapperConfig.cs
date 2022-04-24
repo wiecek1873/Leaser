@@ -45,7 +45,8 @@ namespace RentalApp.Application.Mappings
 
                 cfg.CreateMap<UserRate, UserRateDto>();
                 cfg.CreateMap<UserRateDto, UserRate>();
-                cfg.CreateMap<RequestUserRateDto, UserRate>();
+                cfg.CreateMap<CreateUserRateDto, UserRate>();
+                cfg.CreateMap<UpdateUserRateDto, UserRate>();
             })
             .CreateMapper();
     }

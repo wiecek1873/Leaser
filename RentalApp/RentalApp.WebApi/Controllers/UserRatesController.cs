@@ -35,11 +35,19 @@ namespace RentalApp.WebApi.Controllers
 
 		[HttpPost]
 		[SwaggerOperation(Summary = "Add User Rate")]
-		public async Task<IActionResult> AddUserRate([FromBody] RequestUserRateDto requestUserRateDto)
+		public async Task<IActionResult> AddUserRate([FromBody] CreateUserRateDto requestUserRateDto)
 		{
 			var newUserRate = await _userRatesService.CreateUserRate(User.GetId(), requestUserRateDto);
 
 			return Created($"api/userRates/{newUserRate.Id}", newUserRate);
+		}
+
+		[HttpPut("{userRateId}")]
+		public async Task<IActionResult> UpdateUserRate([FromRoute] int userRateId, [FromBody] UpdateUserRateDto updatedUserRateDto)
+		{
+			await _userRatesService.UpdateUserRate(User.GetId(), userRateId, updatedUserRateDto);
+
+			return NoContent();
 		}
 	}
 }

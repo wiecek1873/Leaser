@@ -34,9 +34,8 @@ namespace RentalApp.Application.Services
             return _mapper.Map<UserRateDto>(userRate);
         }
 
-        public async Task<UserRateDto> CreateUserRate(string userRaterId, RequestUserRateDto newUserRateDto)
+        public async Task<UserRateDto> CreateUserRate(string userRaterId, CreateUserRateDto newUserRateDto)
         {
-            Console.WriteLine(userRaterId);
             var userRater =  await _usersRepository.GetUser(userRaterId);
 
             if (userRater == null)
@@ -60,6 +59,24 @@ namespace RentalApp.Application.Services
             await _userRatesRepository.AddUserRate(userRateToAdd);
 
             return _mapper.Map<UserRateDto>(userRateToAdd);
+        }
+
+        public async Task UpdateUserRate(string userId, int userRateId, UpdateUserRateDto updatedUserRateDto)
+        {
+            var userRateToUpdate = await _userRatesRepository.GetUserRate(userRateId);
+
+            if (userRateToUpdate == null)
+                throw new NotFoundException("User Rate with this id does not exist.");
+
+            if (updatedUserRateDto.Rate < 1 || updatedUserRateDto.Rate > 5)
+                throw new BadRequestException("You can add rate from 1 to 5.");
+
+            if (userRateToUpdate.RaterUserId != Guid.Parse(userId))
+                throw new BadRequestException("You can not update rates from diffrent users.");
+
+            userRateToUpdate = _mapper.Map<UserRate>(updatedUserRateDto);
+
+            await _userRatesRepository.UpdateUserRate(userRateId, userRateToUpdate);
         }
     }
 }

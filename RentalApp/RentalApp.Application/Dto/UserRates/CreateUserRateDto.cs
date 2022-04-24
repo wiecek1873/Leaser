@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RentalApp.Application.Dto.UserRates
 {
-    public class RequestUserRateDto
+    public class CreateUserRateDto
     {
         [Required(ErrorMessage = "Rated User id is required.")]
         public Guid RatedUserId { get; set; }

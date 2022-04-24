@@ -40,5 +40,18 @@ namespace RentalApp.Infrastructure.Repositories
 
             return newUserRate;
         }
+
+        public async Task UpdateUserRate(int userRateId, UserRate updatedUserRate)
+        {
+            var userRateToUpdate = await _rentalAppContext.UserRates.SingleOrDefaultAsync(u => u.Id == userRateId);
+
+            if (userRateToUpdate != null)
+            {
+                userRateToUpdate.Rate = updatedUserRate.Rate;
+                userRateToUpdate.Comment = updatedUserRate != null ? updatedUserRate.Comment : null;
+            }
+
+            await _rentalAppContext.SaveChangesAsync();
+        }
     }
 }

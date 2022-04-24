@@ -11,5 +11,7 @@ namespace RentalApp.Domain.Interfaces
         Task<UserRate> GetUserRateByUsersRelation(Guid userRaterId, Guid userRatedId);
 
         Task<UserRate> AddUserRate(UserRate newUserRate);
+
+        Task UpdateUserRate(int userRateId, UserRate updatedUserRate);
     }
 }
