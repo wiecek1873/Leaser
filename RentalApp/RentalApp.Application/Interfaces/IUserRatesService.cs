@@ -5,6 +5,7 @@ namespace RentalApp.Application.Interfaces
 {
     public interface IUserRatesService
     {
-        Task<UserRateDto> CreateUserRate(string userRatedId, RequestUserRateDto newUserRateDto);
+        Task<UserRateDto> GetUserRate(int userRateId);
+        Task<UserRateDto> CreateUserRate(string userRaterId, RequestUserRateDto newUserRateDto);
     }
 }

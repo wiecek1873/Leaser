@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RentalApp.Infrastructure.Data;
 using RentalApp.Domain.Entities;
 using RentalApp.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace RentalApp.Infrastructure.Repositories
 {
@@ -16,6 +17,13 @@ namespace RentalApp.Infrastructure.Repositories
         public UserRatesRepository(RentalAppContext rentalAppContext)
         {
             _rentalAppContext = rentalAppContext;
+        }
+
+        public async Task<UserRate> GetUserRate(int userRateId)
+        {
+            var userRate = await _rentalAppContext.UserRates.SingleOrDefaultAsync(u => u.Id == userRateId);
+
+            return userRate;
         }
 
         public async Task<UserRate> AddUserRate(UserRate newUserRate)

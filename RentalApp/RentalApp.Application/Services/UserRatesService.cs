@@ -20,12 +20,23 @@ namespace RentalApp.Application.Services
         public UserRatesService(IUserRatesRepository userRatesRepository, IUsersRepository usersRepository, IMapper mapper)
         {
             _userRatesRepository = userRatesRepository;
-            _userRatesRepository = userRatesRepository;
+            _usersRepository = usersRepository;
             _mapper = mapper;
+        }
+
+        public async Task<UserRateDto> GetUserRate(int userRateId)
+        {
+            var userRate = await _userRatesRepository.GetUserRate(userRateId);
+
+            if (userRate == null)
+                throw new NotFoundException("User Rate with this id does not exist.");
+
+            return _mapper.Map<UserRateDto>(userRate);
         }
 
         public async Task<UserRateDto> CreateUserRate(string userRaterId, RequestUserRateDto newUserRateDto)
         {
+            Console.WriteLine(userRaterId);
             var userRater =  await _usersRepository.GetUser(userRaterId);
 
             if (userRater == null)

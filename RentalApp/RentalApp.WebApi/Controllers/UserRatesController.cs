@@ -7,6 +7,7 @@ using RentalApp.Application.Dto.UserRates;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Extensions;
 using RentalApp.WebApi.Filters;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -23,7 +24,17 @@ namespace RentalApp.WebApi.Controllers
 			_userRatesService = userRatesService;
 		}
 
+		[HttpGet("{userRateId}")]
+		[SwaggerOperation(Summary = "Get User Rate by Id")]
+		public async Task<IActionResult> GetUserRate(int userRateId)
+		{
+			var userRate = await _userRatesService.GetUserRate(userRateId);
+
+			return Ok(userRate);
+		}
+
 		[HttpPost]
+		[SwaggerOperation(Summary = "Add User Rate")]
 		public async Task<IActionResult> AddUserRate([FromBody] RequestUserRateDto requestUserRateDto)
 		{
 			var newUserRate = await _userRatesService.CreateUserRate(User.GetId(), requestUserRateDto);
