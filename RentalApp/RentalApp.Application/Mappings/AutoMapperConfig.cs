@@ -24,7 +24,7 @@ namespace RentalApp.Application.Mappings
 
                 cfg.CreateMap<Post, PostDto>();
                 cfg.CreateMap<PostDto, Post>();
-                cfg.CreateMap<CreatePostDto, Post>();
+                cfg.CreateMap<RequestPostDto, Post>();
 
                 cfg.CreateMap<Address, AddressDto>();
                 cfg.CreateMap<AddressDto, Address>();

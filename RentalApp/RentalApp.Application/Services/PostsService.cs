@@ -37,7 +37,7 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
-		public async Task<PostDto> CreatePost(int categoryId, string userId, CreatePostDto newPostDto, CreatePostImageDto newPostImageDto)
+		public async Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto)
 		{
 			byte[] postImage;
 
@@ -68,6 +68,58 @@ namespace RentalApp.Application.Services
 			await _postsRepository.AddPost(newPost, postImage);
 
 			return _mapper.Map<PostDto>(newPost);
+		}
+
+		public async Task UpdatePost(int postId, int categoryId, string userId, RequestPostDto updatedPostDto, RequestPostImageDto updatedPostImageDto)
+		{
+			byte[] postImage;
+
+			if (updatedPostImageDto.PostImage == null || updatedPostImageDto.PostImage.Length == 0)
+				throw new BadRequestException("You do not upload photo.");
+
+			if (updatedPostImageDto.PostImage.ContentType.ToLower() != "image/jpeg" &&
+				updatedPostImageDto.PostImage.ContentType.ToLower() != "image/jpg" &&
+				updatedPostImageDto.PostImage.ContentType.ToLower() != "image/png")
+				throw new BadRequestException("You do not upload photo.");
+
+			if (await _categoriesRepository.GetCategory(categoryId) == null)
+				throw new BadRequestException("Category does not exist.");
+
+			if (updatedPostDto.DepositId.HasValue && await _depositsRepository.GetDeposit(updatedPostDto.DepositId.Value) == null)
+				throw new BadRequestException("Deposit does not exist.");
+
+			var postToUpdate = await _postsRepository.GetPost(postId);
+
+			if (postToUpdate == null)
+				throw new NotFoundException("Post with this id does not exist.");
+
+			if (postToUpdate.UserId != Guid.Parse(userId))
+				throw new MethodNotAllowedException("This user can't edit other user posts.");
+
+			postToUpdate = _mapper.Map<Post>(updatedPostDto);
+			postToUpdate.UserId = Guid.Parse(userId);
+			postToUpdate.CategoryId = categoryId;
+
+			using (var memoryStream = new MemoryStream())
+			{
+				await updatedPostImageDto.PostImage.CopyToAsync(memoryStream);
+				postImage = memoryStream.ToArray();
+			}
+
+			await _postsRepository.UpdatePost(postId, postToUpdate, postImage);
+		}
+
+		public async Task DeletePost(int postId, string userId)
+		{
+			var postToDelete = await _postsRepository.GetPost(postId);
+
+			if (postToDelete == null)
+				throw new NotFoundException("Post with this id does not exist.");
+
+			if (postToDelete.UserId != Guid.Parse(userId))
+				throw new MethodNotAllowedException("This user can't delete other user posts.");
+
+			await _postsRepository.DeletePost(postId);
 		}
 	}
 }

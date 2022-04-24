@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RentalApp.Application.Dto.Posts
 {
-	public class CreatePostDto
+	public class RequestPostDto
 	{
 		[Required(ErrorMessage = "Title is required.")]
 		public string Title { get; set; }

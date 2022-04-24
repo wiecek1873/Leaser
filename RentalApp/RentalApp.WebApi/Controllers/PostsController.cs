@@ -34,11 +34,29 @@ namespace RentalApp.WebApi.Controllers
 
 		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
-		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] CreatePostDto newPostDto, [FromForm] CreatePostImageDto newPostImageDto)
+		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
 		{
 			var newPost = await _postsService.CreatePost(categoryId, User.GetId(), newPostDto, newPostImageDto);
 
 			return Created($"api/posts/{newPost.Id}", newPost);
+		}
+
+		[HttpPut("{postId}/{categoryId}")]
+		[SwaggerOperation(Summary = "Update a post")]
+		public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromRoute] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
+		{
+			await _postsService.UpdatePost(postId, categoryId, User.GetId(), newPostDto, newPostImageDto);
+
+			return Ok();
+		}
+
+		[HttpDelete("{postId}")]
+		[SwaggerOperation(Summary = "Delete a post")]
+		public async Task<IActionResult> DeletePost(int postId)
+		{
+			await _postsService.DeletePost(postId, User.GetId());
+
+			return Ok();
 		}
 	}
 }
