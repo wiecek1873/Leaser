@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Deposits;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -22,6 +23,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet("{depositId}")]
+		[SwaggerOperation(Summary = "Get deposit by Id")]
 		public async Task<IActionResult> GetDeposit(int depositId)
 		{
 			var deposit = await _depositsService.GetDeposit(depositId);
@@ -30,6 +32,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPost]
+		[SwaggerOperation(Summary = "Add deposit")]
 		public async Task<IActionResult> AddDeposit([FromBody] RequestDepositDto requestDepositDto)
 		{
 			var newDepositStatus = await _depositsService.CreateDeposit(requestDepositDto);
@@ -38,11 +41,21 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{depositId}")]
+		[SwaggerOperation(Summary = "Update deposit")]
 		public async Task<IActionResult> UpdateDeposit([FromRoute] int depositId, RequestDepositDto updatedDepositDto)
 		{
 			await _depositsService.UpdateDeposit(depositId, updatedDepositDto);
 
 			return NoContent();
+		}
+
+		[HttpPut("{depositId}")]
+		[SwaggerOperation(Summary = "Delete deposit")]
+		public async Task<IActionResult> DeleteDeposit(int depositId)
+		{
+			await _depositsService.DeleteDeposit(depositId);
+
+			return Ok();
 		}
 	}
 }

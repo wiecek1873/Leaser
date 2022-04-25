@@ -49,5 +49,15 @@ namespace RentalApp.Application.Services
 
 			await _depositStatusesRepository.UpdateDepositStatus(depositStatusId, depositStatusToUpdate);
 		}
+
+		public async Task DeleteDepositStatus(int depositStatusId)
+		{
+			var depositStatusToDelete = await _depositStatusesRepository.GetDepositStatus(depositStatusId);
+
+			if (depositStatusToDelete == null)
+				throw new NotFoundException("Deposit status with this id does not exist.");
+
+			await _depositStatusesRepository.DeleteDepositStatus(depositStatusId);
+		}
 	}
 }

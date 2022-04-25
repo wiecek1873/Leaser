@@ -13,5 +13,7 @@ namespace RentalApp.Domain.Interfaces
 		Task<Category> AddCategory(Category newCategory);
 
 		Task UpdateCategory(int categoryId, Category updatedCategory);
+
+		Task DeleteCategory(int categoryId);
 	}
 }

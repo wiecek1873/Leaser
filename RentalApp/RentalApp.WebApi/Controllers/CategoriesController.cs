@@ -32,7 +32,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet("{categoryId}")]
-		[SwaggerOperation(Summary = "Get category by id")]
+		[SwaggerOperation(Summary = "Get category by Id")]
 		public async Task<IActionResult> GetCategory(int categoryId)
 		{
 			var category = await _categoriesService.GetCategory(categoryId);
@@ -56,6 +56,15 @@ namespace RentalApp.WebApi.Controllers
 			await _categoriesService.UpdateCategory(categoryId, updatedCategoryDto);
 
 			return NoContent();
+		}
+
+		[HttpDelete("categoryId")]
+		[SwaggerOperation(Summary = "Delete category")]
+		public async Task<IActionResult> DeleteCategory(int categoryId)
+		{
+			await _categoriesService.DeleteCategory(categoryId);
+
+			return Ok();
 		}
 	}
 }

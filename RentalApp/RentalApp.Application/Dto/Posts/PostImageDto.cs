@@ -2,8 +2,8 @@
 
 namespace RentalApp.Application.Dto.Posts
 {
-	class PostImageDto
+	public class PostImageDto
 	{
-		public IFormFile PostImage { get; set; }
+		public byte[] PostImage { get; set; }
 	}
 }

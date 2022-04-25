@@ -42,12 +42,22 @@ namespace RentalApp.Infrastructure.Repositories
 		{
 			var categoryToUpdate = await _rentalAppContext.Categories.SingleOrDefaultAsync(c => c.Id == categoryId);
 
-			if(categoryToUpdate != null)
+			if (categoryToUpdate != null)
 			{
 				categoryToUpdate.CategoryName = updatedCategory.CategoryName;
 			}
 
 			await _rentalAppContext.SaveChangesAsync();
 		}
-    }
+
+		public async Task DeleteCategory(int categoryId)
+		{
+			var categoryToDelete = await _rentalAppContext.Categories.SingleOrDefaultAsync(c => c.Id == categoryId);
+
+			if (categoryToDelete != null)
+				_rentalAppContext.Categories.Remove(categoryToDelete);
+
+			await _rentalAppContext.SaveChangesAsync();
+		}
+	}
 }
