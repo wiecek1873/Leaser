@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using RentalApp.Application.Exceptions;
 using RentalApp.Application.Dto.Categories;
 using RentalApp.Application.Interfaces;
 using RentalApp.Domain.Interfaces;
 using RentalApp.Domain.Entities;
-
 
 namespace RentalApp.Application.Services
 {
@@ -18,6 +18,13 @@ namespace RentalApp.Application.Services
 		{
 			_categoriesRepository= categoriesRepository;
 			_mapper = mapper;
+		}
+
+		public async Task<List<CategoryDto>> GetCategories()
+		{
+			var categories = await _categoriesRepository.GetCategories();
+
+			return _mapper.Map<List<CategoryDto>>(categories);
 		}
 
 		public async Task<CategoryDto> GetCategory(int categoryId)
@@ -50,5 +57,5 @@ namespace RentalApp.Application.Services
 
 			await _categoriesRepository.UpdateCategory(categoryId, categoryToUpdate);
 		}
-	}
+    }
 }
