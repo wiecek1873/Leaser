@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using RentalApp.Domain.Entities;
 using RentalApp.Domain.Interfaces;
 using RentalApp.Infrastructure.Data;
-using System.Threading.Tasks;
 
 namespace RentalApp.Infrastructure.Repositories
 {
@@ -14,6 +15,13 @@ namespace RentalApp.Infrastructure.Repositories
         {
             _rentalAppContext = rentalAppContext;
         }
+
+		public async Task<List<Category>> GetCategories()
+		{
+			var categories = await _rentalAppContext.Categories.ToListAsync();
+
+			return categories;
+		}
 
 		public async Task<Category> GetCategory(int categoryId)
 		{
@@ -34,7 +42,7 @@ namespace RentalApp.Infrastructure.Repositories
 		{
 			var categoryToUpdate = await _rentalAppContext.Categories.SingleOrDefaultAsync(c => c.Id == categoryId);
 
-			if(categoryToUpdate != null)
+			if (categoryToUpdate != null)
 			{
 				categoryToUpdate.CategoryName = updatedCategory.CategoryName;
 			}

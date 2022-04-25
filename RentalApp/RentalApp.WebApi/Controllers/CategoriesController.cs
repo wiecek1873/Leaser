@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Swashbuckle.AspNetCore.Annotations;
 using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Categories;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -22,6 +22,15 @@ namespace RentalApp.WebApi.Controllers
 			_categoriesService = categoriesService;
 		}
 
+		[HttpGet]
+		[SwaggerOperation(Summary = "Get all categories")]
+		public async Task<IActionResult> GetCategories()
+		{
+			var categories = await _categoriesService.GetCategories();
+
+			return Ok(categories);
+		}
+
 		[HttpGet("{categoryId}")]
 		[SwaggerOperation(Summary = "Get category by Id")]
 		public async Task<IActionResult> GetCategory(int categoryId)
@@ -32,7 +41,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPost]
-		[SwaggerOperation(Summary = "Add category")]
+		[SwaggerOperation(Summary = "Add a new category")]
 		public async Task<IActionResult> AddCategory([FromBody] RequestCategoryDto requestCategoryDto)
 		{
 			var newCategory = await _categoriesService.CreateCategory(requestCategoryDto);
@@ -41,7 +50,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{categoryId}")]
-		[SwaggerOperation(Summary = "Update category")]
+		[SwaggerOperation(Summary = "Update a selected category by id")]
 		public async Task<IActionResult> UpdateCategory([FromRoute] int categoryId, [FromBody] RequestCategoryDto updatedCategoryDto)
 		{
 			await _categoriesService.UpdateCategory(categoryId, updatedCategoryDto);
