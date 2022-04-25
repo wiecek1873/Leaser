@@ -49,7 +49,7 @@ namespace RentalApp.WebApi.Controllers
 			return NoContent();
 		}
 
-		[HttpPut("{depositId}")]
+		[HttpDelete("{depositId}")]
 		[SwaggerOperation(Summary = "Delete deposit")]
 		public async Task<IActionResult> DeleteDeposit(int depositId)
 		{
