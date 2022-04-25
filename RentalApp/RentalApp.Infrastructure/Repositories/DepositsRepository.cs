@@ -17,7 +17,7 @@ namespace RentalApp.Infrastructure.Repositories
 
 		public async Task<Deposit> GetDeposit(int depositId)
 		{
-			var deposit = await _rentalAppContext.Deposits.SingleOrDefaultAsync(a => a.Id == depositId);
+			var deposit = await _rentalAppContext.Deposits.SingleOrDefaultAsync(d => d.Id == depositId);
 
 			return deposit;
 		}
@@ -32,13 +32,23 @@ namespace RentalApp.Infrastructure.Repositories
 
 		public async Task UpdateDeposit(int depositId, Deposit updatedDeposit)
 		{
-			var depositToUpdate = await _rentalAppContext.Deposits.SingleOrDefaultAsync(a => a.Id == depositId);
+			var depositToUpdate = await _rentalAppContext.Deposits.SingleOrDefaultAsync(d => d.Id == depositId);
 
 			if (depositToUpdate != null)
 			{
 				depositToUpdate.Value = updatedDeposit.Value;
 				depositToUpdate.StatusId = updatedDeposit.StatusId;
 			}
+
+			await _rentalAppContext.SaveChangesAsync();
+		}
+
+		public async Task DeleteDeposit(int depositId)
+		{
+			var depositToDelete = await _rentalAppContext.Deposits.SingleOrDefaultAsync(d => d.Id == depositId);
+
+			if (depositToDelete != null)
+				_rentalAppContext.Deposits.Remove(depositToDelete);
 
 			await _rentalAppContext.SaveChangesAsync();
 		}
