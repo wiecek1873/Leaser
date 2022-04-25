@@ -45,10 +45,7 @@ namespace RentalApp.Application.Services
 			if (post == null)
 				throw new NotFoundException("Post does not exist");
 
-			var stream = new MemoryStream(post.Image);
-			IFormFile image = new FormFile(stream, 0, stream.Length, "PostImage" + postId, "PostImage" + postId + ".png");
-
-			return new PostImageDto { PostImage = image };
+			return new PostImageDto { PostImage = post.Image };
 		}
 
 		public async Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto)
