@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using RentalApp.Application.Exceptions;
 using RentalApp.Application.Dto.Categories;
 using RentalApp.Application.Interfaces;
 using RentalApp.Domain.Interfaces;
 using RentalApp.Domain.Entities;
-using System.Collections.Generic;
 
 namespace RentalApp.Application.Services
 {

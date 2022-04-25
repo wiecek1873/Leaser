@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using RentalApp.Domain.Entities;
 using RentalApp.Domain.Interfaces;
 using RentalApp.Infrastructure.Data;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RentalApp.Infrastructure.Repositories
 {
