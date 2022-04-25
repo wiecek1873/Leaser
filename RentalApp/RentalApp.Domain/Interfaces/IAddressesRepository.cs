@@ -6,7 +6,9 @@ namespace RentalApp.Domain.Interfaces
     public interface IAddressesRepository
     {
         Task<Address> GetUserAddress(int addressId);
+
         Task<Address> AddAddress(Address newAddress);
+
         Task UpdateAddress(int addressId, Address updatedAddress);
     }
 }
