@@ -17,5 +17,7 @@ namespace RentalApp.Application.Dto.Users
         public string PhoneNumber { get; set; }
 
         public int? AddressId { get; set; }
+
+        public double Rating { get; set; }
     }
 }

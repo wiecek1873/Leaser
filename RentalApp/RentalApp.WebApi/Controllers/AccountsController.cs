@@ -29,10 +29,24 @@ namespace RentalApp.WebApi.Controllers
         [HttpGet]
         [Route("User")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [SwaggerOperation(Summary = "Get a user")]
+        [SwaggerOperation(Summary = "Get a logged user")]
         public async Task<IActionResult> GetUser()
         {
             var user = await _usersService.GetUser(User.GetId());
+
+            return Ok(user);
+        }
+
+        [HttpGet]
+        [Route("User/{userId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [SwaggerOperation(Summary = "Get a user by user id")]
+        public async Task<IActionResult> GetUser([FromRoute] string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest("User id can not be empty");
+
+            var user = await _usersService.GetUser(userId);
 
             return Ok(user);
         }
