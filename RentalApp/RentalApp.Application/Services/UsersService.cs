@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -7,19 +9,20 @@ using RentalApp.Domain.Interfaces;
 using RentalApp.Domain.Entities;
 using RentalApp.Application.Dto.Users;
 using RentalApp.Application.Exceptions;
-using System;
 
 namespace RentalApp.Application.Services
 {
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly IUserRatesRepository _userRatesRepository;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
-        public UsersService(IUsersRepository usersRepository, UserManager<User> userManager, IMapper mapper)
+        public UsersService(IUsersRepository usersRepository, IUserRatesRepository userRatesRepository, UserManager<User> userManager, IMapper mapper)
         {
             _usersRepository = usersRepository;
+            _userRatesRepository = userRatesRepository;
             _userManager = userManager;
             _mapper = mapper;
         }
@@ -34,7 +37,16 @@ namespace RentalApp.Application.Services
             if (user == null)
                 throw new NotFoundException("User does not exist.");
 
-            return _mapper.Map<UserDto>(user);
+            var userRates = await _userRatesRepository.GetUserRatesByUserId(userGuid);
+            var rates = new List<int>();
+
+            foreach (var rate in userRates)
+                rates.Add(rate.Rate);
+
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Rating = CalculateAverageUserRate(rates.ToArray());
+
+            return userDto;
         }
 
         public async Task<UserDto> GetUserByEmail(string email)
@@ -47,7 +59,17 @@ namespace RentalApp.Application.Services
             if (user == null)
                 throw new NotFoundException("User does not exist.");
 
-            return _mapper.Map<UserDto>(user);
+            var userRates = await _userRatesRepository.GetUserRatesByUserId(user.Id);
+            var rates = new List<int>();
+
+            foreach (var rate in userRates)
+                rates.Add(rate.Rate);
+
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Rating = CalculateAverageUserRate(rates.ToArray());
+
+
+            return userDto;
         }
 
         public async Task<UserDto> CreateUser(CreateUserDto newUserDto)
@@ -68,6 +90,17 @@ namespace RentalApp.Application.Services
                 throw new ConflictException("Credentials are wrong. Check if password has eight letters, upper letter and special sign.");
 
             return _mapper.Map<UserDto>(newUser);
+        }
+
+
+        private double CalculateAverageUserRate(int[] rates)
+        {
+            if (rates.Length == 0)
+                return 0;
+
+            var averageRate = Queryable.Average(rates.AsQueryable());
+
+            return averageRate;
         }
     }
 }

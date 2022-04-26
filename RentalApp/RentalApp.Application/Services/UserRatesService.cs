@@ -49,7 +49,10 @@ namespace RentalApp.Application.Services
             if (newUserRateDto.Rate < 1 || newUserRateDto.Rate > 5)
                 throw new BadRequestException("You can add rate from 1 to 5.");
 
-            var checkUserRate = _userRatesRepository.GetUserRateByUsersRelation(Guid.Parse(userRaterId), newUserRateDto.RatedUserId);
+            if (Guid.Parse(userRaterId) == newUserRateDto.RatedUserId)
+                throw new ConflictException("You can not rate yourself!");
+
+            var checkUserRate = await _userRatesRepository.GetUserRateByUsersRelation(Guid.Parse(userRaterId), newUserRateDto.RatedUserId);
             if (checkUserRate != null)
                 throw new MethodNotAllowedException("You can not rate the same user again.");
 
