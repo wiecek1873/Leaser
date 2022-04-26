@@ -7,6 +7,7 @@ using RentalApp.Domain.Interfaces;
 using RentalApp.Domain.Entities;
 using RentalApp.Application.Dto.Users;
 using RentalApp.Application.Exceptions;
+using System;
 
 namespace RentalApp.Application.Services
 {
@@ -25,6 +26,9 @@ namespace RentalApp.Application.Services
 
         public async Task<UserDto> GetUser(string userId)
         {
+            if (!Guid.TryParse(userId, out var userGuid))
+                throw new BadRequestException("User id should contain 32 digits with 4 dashes (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).");
+
             var user = await _usersRepository.GetUser(userId);
 
             if (user == null)
