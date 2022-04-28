@@ -2,7 +2,7 @@
 
 namespace RentalApp.Application.Dto.Payments
 {
-	class PaymentDto
+	public class PaymentDto
 	{
 		public int Id { get; set; }
 
