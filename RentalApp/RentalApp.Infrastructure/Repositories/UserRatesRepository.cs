@@ -33,6 +33,13 @@ namespace RentalApp.Infrastructure.Repositories
             return userRate;
         }
 
+        public async Task<List<UserRate>> GetUserRatesByUserId(Guid ratedUserId)
+        {
+            var userRates = await _rentalAppContext.UserRates.Where(x => x.RatedUserId == ratedUserId).ToListAsync();
+
+            return userRates;
+        }
+
         public async Task<UserRate> AddUserRate(UserRate newUserRate)
         {
             _rentalAppContext.UserRates.Add(newUserRate);
