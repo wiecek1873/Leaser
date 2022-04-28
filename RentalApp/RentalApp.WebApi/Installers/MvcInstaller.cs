@@ -28,6 +28,8 @@ namespace RentalApp.WebApi.Installers
 			services.AddTransient<ICategoriesRepository, CategoriesRepository>();
 			services.AddTransient<IUserRatesService, UserRatesService>();
 			services.AddTransient<IUserRatesRepository, UserRatesRepository>();
+			services.AddTransient<IPaymentsService, PaymentsService>();
+			services.AddTransient<IPaymentsRepository, PaymentsRepository>();
 
 			services.AddSingleton(AutoMapperConfig.Initialize());
 			services.AddMvc(options =>
