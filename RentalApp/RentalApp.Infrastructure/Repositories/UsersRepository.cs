@@ -41,5 +41,22 @@ namespace RentalApp.Infrastructure.Repositories
 
             return newUser;
         }
+
+        public async Task UpdateUser(string userId, User updatedUser)
+		{
+            var userToUpdate = await _userManager.FindByIdAsync(userId);
+
+            if(userToUpdate != null)
+			{
+                userToUpdate.Email = updatedUser.Email;
+                userToUpdate.PasswordHash = updatedUser.PasswordHash;
+                userToUpdate.PhoneNumber = updatedUser.PhoneNumber;
+                userToUpdate.NickName = updatedUser.NickName;
+                userToUpdate.Name = updatedUser.Name;
+                userToUpdate.Surname = updatedUser.Surname;
+			}
+
+            await _userManager.UpdateAsync(userToUpdate);
+		}
     }
 }
