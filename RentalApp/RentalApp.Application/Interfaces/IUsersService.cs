@@ -10,5 +10,7 @@ namespace RentalApp.Application.Interfaces
         Task<UserDto> GetUserByEmail(string email);
 
         Task<UserDto> CreateUser(RequestUserDto newUserDto);
+
+        Task UpdateUser(string userId, RequestUserDto updatedUserDto);
     }
 }
