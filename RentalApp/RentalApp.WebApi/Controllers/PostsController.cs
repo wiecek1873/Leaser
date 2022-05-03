@@ -41,6 +41,16 @@ namespace RentalApp.WebApi.Controllers
 			return File(postImage.PostImage, "image/jpeg");
 		}
 
+		//todo Adam sprawdź czy dobrze zrobiłem routing
+		[HttpGet("{userId}/GetUserPosts")]
+		[SwaggerOperation(Summary ="Get user posts")]
+		public async Task<IActionResult> GetPosts(string userId)
+		{
+			var posts = await _postsService.GetPosts(userId);
+
+			return Ok(posts);
+		}
+
 		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)
