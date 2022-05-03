@@ -48,9 +48,16 @@ namespace RentalApp.Application.Services
 			return new PostImageDto { PostImage = post.Image };
 		}
 
-		public async Task<List<PostDto>> GetPosts(string userId)
+		public async Task<List<PostDto>> GetPosts(string userId, int fromIndex, int count)
 		{
 			var posts = await _postsRepository.GetPosts(Guid.Parse(userId));
+
+			if (posts.Count > fromIndex)
+				posts.RemoveRange(0, fromIndex);
+
+			if (posts.Count > count)
+				posts.RemoveRange(count, posts.Count - count);
+
 			var postDtos = new List<PostDto>();
 
 			posts.ForEach(p =>
