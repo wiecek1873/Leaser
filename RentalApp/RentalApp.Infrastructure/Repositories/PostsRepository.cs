@@ -3,7 +3,9 @@ using RentalApp.Domain.Entities;
 using System.Threading.Tasks;
 using RentalApp.Infrastructure.Data;
 using System.Linq;
+using System;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace RentalApp.Infrastructure.Repositories
 {
@@ -21,6 +23,13 @@ namespace RentalApp.Infrastructure.Repositories
 			var post = await _rentalAppContext.Posts.SingleOrDefaultAsync(p => p.Id == postId);
 
 			return post;
+		}
+
+		public async Task<List<Post>> GetPosts(Guid userId)
+		{
+			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.UserId == userId).ToListAsync();
+
+			return posts;
 		}
 
 		public async Task<Post> AddPost(Post newPost, byte[] postImage)
