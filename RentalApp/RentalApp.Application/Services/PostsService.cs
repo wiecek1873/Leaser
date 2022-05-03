@@ -48,6 +48,19 @@ namespace RentalApp.Application.Services
 			return new PostImageDto { PostImage = post.Image };
 		}
 
+		public async Task<List<PostDto>> GetPosts(string userId)
+		{
+			var posts = await _postsRepository.GetPosts(Guid.Parse(userId));
+			var postDtos = new List<PostDto>();
+
+			posts.ForEach(p =>
+			{
+				postDtos.Add(_mapper.Map<PostDto>(p));
+			});
+
+			return postDtos;
+		}
+
 		public async Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto)
 		{
 			byte[] postImage;
