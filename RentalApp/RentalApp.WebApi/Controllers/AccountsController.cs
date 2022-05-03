@@ -10,107 +10,106 @@ using RentalApp.WebApi.Extensions;
 
 namespace RentalApp.WebApi.Controllers
 {
-    [ApiController]
-    [GlobalExceptionFilter]
-    [Route("api/[controller]")]
-    public class AccountsController : ControllerBase
-    {
-        private readonly IUsersService _usersService;
-        private readonly IAddressesService _addressesService;
-        private readonly ITokenService _tokenService;
+	[ApiController]
+	[GlobalExceptionFilter]
+	[Route("api/[controller]")]
+	public class AccountsController : ControllerBase
+	{
+		private readonly IUsersService _usersService;
+		private readonly IAddressesService _addressesService;
+		private readonly ITokenService _tokenService;
 
-        public AccountsController(IUsersService usersService, IAddressesService addressesService, ITokenService tokenService)
-        {
-            _usersService = usersService;
-            _addressesService = addressesService;
-            _tokenService = tokenService;
-        }
+		public AccountsController(IUsersService usersService, IAddressesService addressesService, ITokenService tokenService)
+		{
+			_usersService = usersService;
+			_addressesService = addressesService;
+			_tokenService = tokenService;
+		}
 
-        [HttpGet]
-        [Route("User")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [SwaggerOperation(Summary = "Get a logged user")]
-        public async Task<IActionResult> GetUser()
-        {
-            var user = await _usersService.GetUser(User.GetId());
+		[HttpGet]
+		[Route("User")]
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		[SwaggerOperation(Summary = "Get a logged user")]
+		public async Task<IActionResult> GetUser()
+		{
+			var user = await _usersService.GetUser(User.GetId());
 
-            return Ok(user);
-        }
+			return Ok(user);
+		}
 
-        [HttpGet]
-        [Route("User/{userId}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [SwaggerOperation(Summary = "Get a user by user id")]
-        public async Task<IActionResult> GetUser([FromRoute] string userId)
-        {
-            if (string.IsNullOrEmpty(userId))
-                return BadRequest("User id can not be empty");
+		[HttpGet]
+		[Route("User/{userId}")]
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		[SwaggerOperation(Summary = "Get a user by user id")]
+		public async Task<IActionResult> GetUser([FromRoute] string userId)
+		{
+			if (string.IsNullOrEmpty(userId))
+				return BadRequest("User id can not be empty");
 
-            var user = await _usersService.GetUser(userId);
+			var user = await _usersService.GetUser(userId);
 
-            return Ok(user);
-        }
+			return Ok(user);
+		}
 
-        [HttpGet]
-        [Route("Email/{email}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [SwaggerOperation(Summary = "Get a user by email")]
-        public async Task<IActionResult> GetUserByEmail(string email)
-        {
-            var user = await _usersService.GetUserByEmail(email);
+		[HttpGet]
+		[Route("Email/{email}")]
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		[SwaggerOperation(Summary = "Get a user by email")]
+		public async Task<IActionResult> GetUserByEmail(string email)
+		{
+			var user = await _usersService.GetUserByEmail(email);
 
-            return Ok(user);
-        }
+			return Ok(user);
+		}
 
-        [HttpPost]
-        [Route("Register")]
-        [AllowAnonymous]
-        [SwaggerOperation(Summary = "Register an account in the app")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserDto newUserDto)
-        {
-            if (newUserDto.RequestAddressDto == null)
-                return BadRequest("Address can not be empty");
+		[HttpPost]
+		[Route("Register")]
+		[AllowAnonymous]
+		[SwaggerOperation(Summary = "Register an account in the app")]
+		public async Task<IActionResult> Register([FromBody] RegisterUserDto newUserDto)
+		{
+			if (newUserDto.RequestAddressDto == null)
+				return BadRequest("Address can not be empty");
 
-            var userAddress = await _addressesService.CreateAddress(newUserDto.RequestAddressDto);
+			var userAddress = await _addressesService.CreateAddress(newUserDto.RequestAddressDto);
 
-            var createUserDto = new RequestUserDto
-            {
-                NickName = newUserDto.NickName,
-                Name = newUserDto.Name,
-                Surname = newUserDto.Surname,
-                Email = newUserDto.Email,
-                Password = newUserDto.Password,
-                PhoneNumber = newUserDto.PhoneNumber,
-                AddressId = userAddress?.Id
-            };
+			var createUserDto = new RequestUserDto
+			{
+				NickName = newUserDto.NickName,
+				Name = newUserDto.Name,
+				Surname = newUserDto.Surname,
+				Email = newUserDto.Email,
+				Password = newUserDto.Password,
+				PhoneNumber = newUserDto.PhoneNumber,
+				AddressId = userAddress?.Id
+			};
 
-            var newUser = await _usersService.CreateUser(createUserDto);
+			var newUser = await _usersService.CreateUser(createUserDto);
 
-            return Created($"api/users/{newUser.Id}", newUser);
-        }
+			return Created($"api/users/{newUser.Id}", newUser);
+		}
 
-        [HttpPost]
-        [Route("Authenticate")]
-        [AllowAnonymous]
-        [SwaggerOperation(Summary = "Log in to the app")]
-        public async Task<IActionResult> GetToken(LoginUserDto loginUserDto)
-        {
-            var token = await _tokenService.GetToken(loginUserDto);
+		[HttpPost]
+		[Route("Authenticate")]
+		[AllowAnonymous]
+		[SwaggerOperation(Summary = "Log in to the app")]
+		public async Task<IActionResult> GetToken(LoginUserDto loginUserDto)
+		{
+			var token = await _tokenService.GetToken(loginUserDto);
 
-            if (token == null)
-                return BadRequest();
+			if (token == null)
+				return BadRequest();
 
-            return Ok(token);
-        }
+			return Ok(token);
+		}
 
+		[HttpPut("{userId}")]
+		[SwaggerOperation(Summary = "Update user by id")]
+		public async Task<IActionResult> UpdateUser([FromRoute] string userId, RequestUserDto updatedUserDto)
+		{
+			await _usersService.UpdateUser(userId, updatedUserDto);
 
-        [HttpPut("{userId}")]
-        [SwaggerOperation(Summary = "Update user by id")]
-        public async Task<IActionResult> UpdateUser([FromRoute] string userId, RequestUserDto updatedUserDto)
-        {
-            await _usersService.UpdateUser(userId, updatedUserDto);
-
-            return NoContent();
-        }
-    }
+			return NoContent();
+		}
+	}
 }
