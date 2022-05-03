@@ -100,6 +100,8 @@ namespace RentalApp.Application.Services
                 throw new NotFoundException("User with this id does not exist.");
 
             userToUpdate = _mapper.Map<User>(updatedUserDto);
+            userToUpdate.PasswordHash = _userManager.PasswordHasher.HashPassword(userToUpdate, updatedUserDto.Password);
+            userToUpdate.NormalizedEmail = _userManager.NormalizeEmail(updatedUserDto.Email);
 
             await _usersRepository.UpdateUser(userId, userToUpdate);
 		}
