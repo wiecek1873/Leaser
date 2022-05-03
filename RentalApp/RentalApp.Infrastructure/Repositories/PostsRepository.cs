@@ -25,6 +25,16 @@ namespace RentalApp.Infrastructure.Repositories
 			return post;
 		}
 
+		public async Task<List<Post>> GetPosts(int categoryId)
+		{
+			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.CategoryId == categoryId).ToListAsync();
+
+			//todo Nie wiem czy .Where zwróci je zawsze w tej samej kolejności dlatego dodałem sortowanie po id
+			posts = posts.OrderByDescending(p => p.Id).ToList();
+
+			return posts;
+		}
+
 		public async Task<List<Post>> GetPosts(Guid userId)
 		{
 			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.UserId == userId).ToListAsync();

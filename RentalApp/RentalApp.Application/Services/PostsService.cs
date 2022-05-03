@@ -48,8 +48,34 @@ namespace RentalApp.Application.Services
 			return new PostImageDto { PostImage = post.Image };
 		}
 
+		public async Task<List<PostDto>> GetPosts(int categoryId, int fromIndex, int count)
+		{
+			//todo Ta walidacja jest potrzebna?
+			if (_categoriesRepository.GetCategory(categoryId) == null)
+				throw new BadRequestException("Category with this id does not exist.");
+
+			var posts = await _postsRepository.GetPosts(categoryId);
+
+			if (posts.Count > fromIndex)
+				posts.RemoveRange(0, fromIndex);
+
+			if (posts.Count > count)
+				posts.RemoveRange(count, posts.Count - count);
+
+			var postDtos = new List<PostDto>();
+
+			posts.ForEach(p =>
+			{
+				postDtos.Add(_mapper.Map<PostDto>(p));
+			});
+
+			return postDtos;
+		}
+
 		public async Task<List<PostDto>> GetPosts(string userId, int fromIndex, int count)
 		{
+			//todo Dodac tu walidacje czy uzytkownik istnieje?
+
 			var posts = await _postsRepository.GetPosts(Guid.Parse(userId));
 
 			if (posts.Count > fromIndex)
