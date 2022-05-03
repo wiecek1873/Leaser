@@ -92,6 +92,18 @@ namespace RentalApp.Application.Services
             return _mapper.Map<UserDto>(newUser);
         }
 
+        public async Task UpdateUser(string userId, RequestUserDto updatedUserDto)
+		{
+            var userToUpdate = await _usersRepository.GetUser(userId);
+
+            if (userToUpdate == null)
+                throw new NotFoundException("User with this id does not exist.");
+
+            userToUpdate = _mapper.Map<User>(updatedUserDto);
+
+            await _usersRepository.UpdateUser(userId, userToUpdate);
+		}
+
 
         private double CalculateAverageUserRate(int[] rates)
         {
