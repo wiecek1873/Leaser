@@ -72,7 +72,7 @@ namespace RentalApp.Application.Services
             return userDto;
         }
 
-        public async Task<UserDto> CreateUser(CreateUserDto newUserDto)
+        public async Task<UserDto> CreateUser(RequestUserDto newUserDto)
         {
             var user = await _userManager.FindByEmailAsync(newUserDto.Email);
 

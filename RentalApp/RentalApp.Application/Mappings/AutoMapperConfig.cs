@@ -19,7 +19,7 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<UserDto, User>();
                 cfg.CreateMap<LoginUserDto, User>()
                     .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
-                cfg.CreateMap<CreateUserDto, User>()
+                cfg.CreateMap<RequestUserDto, User>()
                     .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                     .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
 

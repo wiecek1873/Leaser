@@ -73,7 +73,7 @@ namespace RentalApp.WebApi.Controllers
 
             var userAddress = await _addressesService.CreateAddress(newUserDto.RequestAddressDto);
 
-            var createUserDto = new CreateUserDto
+            var createUserDto = new RequestUserDto
             {
                 NickName = newUserDto.NickName,
                 Name = newUserDto.Name,
