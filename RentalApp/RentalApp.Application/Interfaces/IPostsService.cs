@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using RentalApp.Application.Dto.Posts;
 
 namespace RentalApp.Application.Interfaces
@@ -8,6 +9,8 @@ namespace RentalApp.Application.Interfaces
 		Task<PostDto> GetPost(int postId);
 
 		Task<PostImageDto> GetPostImage(int postId);
+
+		Task<List<PostDto>> GetPosts(string userId);
 
 		Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto);
 
