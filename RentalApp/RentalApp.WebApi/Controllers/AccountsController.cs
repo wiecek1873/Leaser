@@ -102,5 +102,15 @@ namespace RentalApp.WebApi.Controllers
 
             return Ok(token);
         }
+
+
+        [HttpPut("{userId}")]
+        [SwaggerOperation(Summary = "Update user by id")]
+        public async Task<IActionResult> UpdateUser([FromRoute] string userId, RequestUserDto updatedUserDto)
+        {
+            await _usersService.UpdateUser(userId, updatedUserDto);
+
+            return NoContent();
+        }
     }
 }
