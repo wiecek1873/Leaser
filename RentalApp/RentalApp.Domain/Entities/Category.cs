@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RentalApp.Domain.Entities
 {
-    public class Category
-    {
-        [Key]
-        public int Id { get; set; }
+	public class Category
+	{
+		[Key]
+		public int Id { get; set; }
 
-        public string CategoryName { get; set; }
+		public string CategoryName { get; set; }
 
-        public virtual ICollection<Post> Posts { get; set; }
-    }
+		public string ImageURL { get; set; }
+
+		public virtual ICollection<Post> Posts { get; set; }
+	}
 }
