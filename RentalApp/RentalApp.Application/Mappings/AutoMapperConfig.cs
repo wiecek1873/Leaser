@@ -23,6 +23,9 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<CreateUserDto, User>()
                     .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                     .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+                cfg.CreateMap<UpdateUserDto, User>()
+                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+                    .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.NewPassword));
 
                 cfg.CreateMap<Post, PostDto>();
                 cfg.CreateMap<PostDto, Post>();

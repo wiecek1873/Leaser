@@ -41,5 +41,31 @@ namespace RentalApp.Infrastructure.Repositories
 
             return newUser;
         }
+
+        public async Task<bool> UpdateUser(string userId, User updatedUser, string oldPassword)
+		{
+            var userToUpdate = await _userManager.FindByIdAsync(userId);
+
+            if (userToUpdate != null)
+			{
+                userToUpdate.SecurityStamp = Guid.NewGuid().ToString("D");
+                userToUpdate.Email = updatedUser.Email;
+                userToUpdate.PhoneNumber = updatedUser.PhoneNumber;
+                userToUpdate.NickName = updatedUser.NickName;
+                userToUpdate.Name = updatedUser.Name;
+                userToUpdate.Surname = updatedUser.Surname;
+                userToUpdate.UserName = updatedUser.UserName;
+                userToUpdate.NormalizedEmail = updatedUser.Email.ToUpper();
+                userToUpdate.NormalizedUserName = updatedUser.UserName.ToUpper();
+                var result = await _userManager.ChangePasswordAsync(userToUpdate, oldPassword, updatedUser.PasswordHash);
+
+                if (!result.Succeeded)
+                    return false;
+            }
+
+            await _userManager.UpdateAsync(userToUpdate);
+
+            return true;
+		}
     }
 }
