@@ -1,6 +1,6 @@
 ﻿namespace RentalApp.Application.Dto.Users
 {
-    public class RequestUserDto
+    public class CreateUserDto
     {
         public string NickName { get; set; }
 

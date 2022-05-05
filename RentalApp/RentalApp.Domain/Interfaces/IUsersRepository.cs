@@ -11,6 +11,6 @@ namespace RentalApp.Domain.Interfaces
 
         Task<User> AddUser(User newUser);
 
-        Task UpdateUser(string userId, User updatedUser);
+        Task<bool> UpdateUser(string userId, User updatedUser, string oldPassword);
     }
 }

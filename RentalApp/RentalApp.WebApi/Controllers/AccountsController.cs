@@ -73,7 +73,7 @@ namespace RentalApp.WebApi.Controllers
 
 			var userAddress = await _addressesService.CreateAddress(newUserDto.RequestAddressDto);
 
-			var createUserDto = new RequestUserDto
+			var createUserDto = new CreateUserDto
 			{
 				NickName = newUserDto.NickName,
 				Name = newUserDto.Name,
@@ -93,7 +93,7 @@ namespace RentalApp.WebApi.Controllers
 		[Route("Authenticate")]
 		[AllowAnonymous]
 		[SwaggerOperation(Summary = "Log in to the app")]
-		public async Task<IActionResult> GetToken(LoginUserDto loginUserDto)
+		public async Task<IActionResult> GetToken([FromBody] LoginUserDto loginUserDto)
 		{
 			var token = await _tokenService.GetToken(loginUserDto);
 
@@ -104,8 +104,9 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpPut("{userId}")]
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[SwaggerOperation(Summary = "Update user by id")]
-		public async Task<IActionResult> UpdateUser([FromRoute] string userId, RequestUserDto updatedUserDto)
+		public async Task<IActionResult> UpdateUser([FromRoute] string userId, [FromBody] UpdateUserDto updatedUserDto)
 		{
 			await _usersService.UpdateUser(userId, updatedUserDto);
 
