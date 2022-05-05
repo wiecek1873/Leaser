@@ -107,7 +107,7 @@ namespace RentalApp.Application.Services
             var result = await _usersRepository.UpdateUser(userId, userToUpdate, updatedUserDto.OldPassword);
 
             if (!result)
-                throw new ConflictException("Update failed. Check if password has eight letters, upper letter and special sign.");
+                throw new ConflictException("Update failed. Check if password has eight letters, upper letter and special sign or old password is correct.");
 		}
 
 
