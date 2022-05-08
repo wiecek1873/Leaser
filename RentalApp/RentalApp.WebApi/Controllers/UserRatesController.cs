@@ -24,6 +24,15 @@ namespace RentalApp.WebApi.Controllers
 			_userRatesService = userRatesService;
 		}
 
+		[HttpGet("UserRated/{userRatedId}")]
+		[SwaggerOperation(Summary = "Get all user rates by user rated Id")]
+		public async Task<IActionResult> GetUserRate(string userRatedId)
+		{
+			var userRates = await _userRatesService.GetUserRates(userRatedId);
+
+			return Ok(userRates);
+		}
+
 		[HttpGet("{userRateId}")]
 		[SwaggerOperation(Summary = "Get user rate by Id")]
 		public async Task<IActionResult> GetUserRate(int userRateId)
