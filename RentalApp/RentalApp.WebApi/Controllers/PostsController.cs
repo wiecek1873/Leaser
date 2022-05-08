@@ -51,12 +51,11 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(posts);
 		}
 
-		//todo Adam sprawdź czy dobrze zrobiłem routing
-		[HttpGet("{userId}/GetUserPosts")]
+		[HttpGet("{userId}/User")]
 		[SwaggerOperation(Summary ="Get user posts")]
-		public async Task<IActionResult> GetPosts(string userId, int fromIndex = 0, int count = 50)
+		public async Task<IActionResult> GetPosts([FromRoute] string userId)
 		{
-			var posts = await _postsService.GetPosts(userId, fromIndex, count);
+			var posts = await _postsService.GetPostsByUserId(userId);
 
 			return Ok(posts);
 		}

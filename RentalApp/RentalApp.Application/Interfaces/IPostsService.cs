@@ -12,7 +12,7 @@ namespace RentalApp.Application.Interfaces
 
 		Task<List<PostDto>> GetPosts(int categoryId, int fromIndex, int count);
 
-		Task<List<PostDto>> GetPosts(string userId, int fromIndex, int count);
+		Task<List<PostDto>> GetPostsByUserId(string userId);
 
 		Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto);
 

@@ -18,13 +18,15 @@ namespace RentalApp.Application.Services
 		private readonly IPostsRepository _postsRepository;
 		private readonly ICategoriesRepository _categoriesRepository;
 		private readonly IDepositsRepository _depositsRepository;
+		private readonly IUsersRepository _usersRepository;
 		private readonly IMapper _mapper;
 
-		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IDepositsRepository depositsRepository, IMapper mapper)
+		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IDepositsRepository depositsRepository, IUsersRepository usersRepository, IMapper mapper)
 		{
 			_postsRepository = postsRepository;
 			_categoriesRepository = categoriesRepository;
 			_depositsRepository = depositsRepository;
+			_usersRepository = usersRepository;
 			_mapper = mapper;
 		}
 
@@ -72,26 +74,19 @@ namespace RentalApp.Application.Services
 			return postDtos;
 		}
 
-		public async Task<List<PostDto>> GetPosts(string userId, int fromIndex, int count)
+		public async Task<List<PostDto>> GetPostsByUserId(string userId)
 		{
-			//todo Dodac tu walidacje czy uzytkownik istnieje?
+			var user = _usersRepository.GetUser(userId);
 
-			var posts = await _postsRepository.GetPosts(Guid.Parse(userId));
+			if (user == null)
+				throw new NotFoundException("User with this id does not exist");
 
-			if (posts.Count > fromIndex)
-				posts.RemoveRange(0, fromIndex);
+			if (!Guid.TryParse(userId, out var userGuid))
+				throw new BadRequestException("User id should contain 32 digits with 4 dashes (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).");
 
-			if (posts.Count > count)
-				posts.RemoveRange(count, posts.Count - count);
+			var posts = await _postsRepository.GetPostsByUserId(userGuid);
 
-			var postDtos = new List<PostDto>();
-
-			posts.ForEach(p =>
-			{
-				postDtos.Add(_mapper.Map<PostDto>(p));
-			});
-
-			return postDtos;
+			return _mapper.Map<List<PostDto>>(posts);
 		}
 
 		public async Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto)
