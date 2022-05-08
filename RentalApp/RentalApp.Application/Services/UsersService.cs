@@ -97,7 +97,12 @@ namespace RentalApp.Application.Services
             if (!Guid.TryParse(userId, out var userGuid))
                 throw new BadRequestException("User id should contain 32 digits with 4 dashes (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).");
 
-            var userToUpdate = await _usersRepository.GetUser(userId);
+            var userToUpdate = await _usersRepository.GetUserByEmail(updatedUserDto.Email);
+
+            if (userToUpdate != null)
+                throw new ConflictException("User with the same email already exists");
+
+            userToUpdate = await _usersRepository.GetUser(userId);
 
             if (userToUpdate == null)
                 throw new NotFoundException("User with this id does not exist.");
