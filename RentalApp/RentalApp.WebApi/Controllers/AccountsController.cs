@@ -38,7 +38,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet]
-		[Route("User/{userId}")]
+		[Route("{userId}/User")]
 		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[SwaggerOperation(Summary = "Get a user by user id")]
 		public async Task<IActionResult> GetUser([FromRoute] string userId)
@@ -52,7 +52,7 @@ namespace RentalApp.WebApi.Controllers
 		}
 
 		[HttpGet]
-		[Route("Email/{email}")]
+		[Route("{email}/Email")]
 		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[SwaggerOperation(Summary = "Get a user by email")]
 		public async Task<IActionResult> GetUserByEmail(string email)
