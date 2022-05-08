@@ -41,6 +41,24 @@ namespace RentalApp.WebApi.Controllers
 			return File(postImage.PostImage, "image/jpeg");
 		}
 
+		[HttpGet("{categoryId}/Category")]
+		[SwaggerOperation(Summary = "Get posts from category")]
+		public async Task<IActionResult> GetPostsByCategory([FromRoute] int categoryId)
+		{
+			var posts = await _postsService.GetPostsByCategory(categoryId);
+
+			return Ok(posts);
+		}
+
+		[HttpGet("{userId}/User")]
+		[SwaggerOperation(Summary ="Get user posts")]
+		public async Task<IActionResult> GetPostsByUserId([FromRoute] string userId)
+		{
+			var posts = await _postsService.GetPostsByUserId(userId);
+
+			return Ok(posts);
+		}
+
 		[HttpPost("{categoryId}")]
 		[SwaggerOperation(Summary = "Add new post in the app")]
 		public async Task<IActionResult> AddPost([FromRoute] int categoryId, [FromForm] RequestPostDto newPostDto, [FromForm] RequestPostImageDto newPostImageDto)

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using RentalApp.Domain.Entities;
 
 namespace RentalApp.Domain.Interfaces
@@ -6,6 +8,10 @@ namespace RentalApp.Domain.Interfaces
 	public interface IPostsRepository
 	{
 		Task<Post> GetPost(int postId);
+
+		Task<List<Post>> GetPostsByCategory(int categoryId);
+
+		Task<List<Post>> GetPostsByUserId(Guid userId);
 
 		Task<Post> AddPost(Post newPost, byte[] postImage);
 
