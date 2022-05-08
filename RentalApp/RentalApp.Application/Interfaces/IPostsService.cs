@@ -10,7 +10,7 @@ namespace RentalApp.Application.Interfaces
 
 		Task<PostImageDto> GetPostImage(int postId);
 
-		Task<List<PostDto>> GetPosts(int categoryId, int fromIndex, int count);
+		Task<List<PostDto>> GetPostsByCategory(int categoryId);
 
 		Task<List<PostDto>> GetPostsByUserId(string userId);
 

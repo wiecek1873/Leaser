@@ -41,12 +41,11 @@ namespace RentalApp.WebApi.Controllers
 			return File(postImage.PostImage, "image/jpeg");
 		}
 
-		//todo Adam sprawdź czy dobrze zrobiłem routing
-		[HttpGet("{categoryId}/GetCategoryPosts")]
+		[HttpGet("{categoryId}/Category")]
 		[SwaggerOperation(Summary = "Get posts from category")]
-		public async Task<IActionResult> GetPosts(int categoryId, int fromIndex = 0, int count = 50)
+		public async Task<IActionResult> GetPostsByCategory([FromRoute] int categoryId)
 		{
-			var posts = await _postsService.GetPosts(categoryId, fromIndex, count);
+			var posts = await _postsService.GetPostsByCategory(categoryId);
 
 			return Ok(posts);
 		}

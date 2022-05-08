@@ -50,28 +50,16 @@ namespace RentalApp.Application.Services
 			return new PostImageDto { PostImage = post.Image };
 		}
 
-		public async Task<List<PostDto>> GetPosts(int categoryId, int fromIndex, int count)
+		public async Task<List<PostDto>> GetPostsByCategory(int categoryId)
 		{
-			//todo Ta walidacja jest potrzebna?
-			if (_categoriesRepository.GetCategory(categoryId) == null)
+			var category = await _categoriesRepository.GetCategory(categoryId);
+
+			if (category == null)
 				throw new BadRequestException("Category with this id does not exist.");
 
-			var posts = await _postsRepository.GetPosts(categoryId);
+			var posts = await _postsRepository.GetPostsByCategory(categoryId);
 
-			if (posts.Count > fromIndex)
-				posts.RemoveRange(0, fromIndex);
-
-			if (posts.Count > count)
-				posts.RemoveRange(count, posts.Count - count);
-
-			var postDtos = new List<PostDto>();
-
-			posts.ForEach(p =>
-			{
-				postDtos.Add(_mapper.Map<PostDto>(p));
-			});
-
-			return postDtos;
+			return _mapper.Map<List<PostDto>>(posts);
 		}
 
 		public async Task<List<PostDto>> GetPostsByUserId(string userId)
