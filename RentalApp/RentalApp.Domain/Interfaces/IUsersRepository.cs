@@ -10,5 +10,7 @@ namespace RentalApp.Domain.Interfaces
         Task<User> GetUserByEmail(string email);
 
         Task<User> AddUser(User newUser);
+
+        Task<bool> UpdateUser(string userId, User updatedUser, string oldPassword);
     }
 }

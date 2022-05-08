@@ -24,6 +24,16 @@ namespace RentalApp.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<List<UserRateDto>> GetUserRates(string userRatedId)
+        {
+            if (!Guid.TryParse(userRatedId, out var userRatedGuid))
+                throw new BadRequestException("User id should contain 32 digits with 4 dashes (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).");
+
+            var userRates = await _userRatesRepository.GetUserRates(userRatedGuid);
+
+            return _mapper.Map<List<UserRateDto>>(userRates);
+        }
+
         public async Task<UserRateDto> GetUserRate(int userRateId)
         {
             var userRate = await _userRatesRepository.GetUserRate(userRateId);

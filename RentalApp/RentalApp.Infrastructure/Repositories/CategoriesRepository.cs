@@ -45,6 +45,7 @@ namespace RentalApp.Infrastructure.Repositories
 			if (categoryToUpdate != null)
 			{
 				categoryToUpdate.CategoryName = updatedCategory.CategoryName;
+				categoryToUpdate.ImageURL = updatedCategory.ImageURL;
 			}
 
 			await _rentalAppContext.SaveChangesAsync();

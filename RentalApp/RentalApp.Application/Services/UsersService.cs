@@ -92,6 +92,29 @@ namespace RentalApp.Application.Services
             return _mapper.Map<UserDto>(newUser);
         }
 
+        public async Task UpdateUser(string userId, UpdateUserDto updatedUserDto)
+		{
+            if (!Guid.TryParse(userId, out var userGuid))
+                throw new BadRequestException("User id should contain 32 digits with 4 dashes (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).");
+
+            var userToUpdate = await _usersRepository.GetUserByEmail(updatedUserDto.Email);
+
+            if (userToUpdate != null)
+                throw new ConflictException("User with the same email already exists");
+
+            userToUpdate = await _usersRepository.GetUser(userId);
+
+            if (userToUpdate == null)
+                throw new NotFoundException("User with this id does not exist.");
+
+            userToUpdate = _mapper.Map<User>(updatedUserDto);
+
+            var result = await _usersRepository.UpdateUser(userId, userToUpdate, updatedUserDto.OldPassword);
+
+            if (!result)
+                throw new ConflictException("Update failed. Check if password has eight letters, upper letter and special sign or old password is correct.");
+		}
+
 
         private double CalculateAverageUserRate(int[] rates)
         {

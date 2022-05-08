@@ -18,13 +18,15 @@ namespace RentalApp.Application.Services
 		private readonly IPostsRepository _postsRepository;
 		private readonly ICategoriesRepository _categoriesRepository;
 		private readonly IDepositsRepository _depositsRepository;
+		private readonly IUsersRepository _usersRepository;
 		private readonly IMapper _mapper;
 
-		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IDepositsRepository depositsRepository, IMapper mapper)
+		public PostsService(IPostsRepository postsRepository, ICategoriesRepository categoriesRepository, IDepositsRepository depositsRepository, IUsersRepository usersRepository, IMapper mapper)
 		{
 			_postsRepository = postsRepository;
 			_categoriesRepository = categoriesRepository;
 			_depositsRepository = depositsRepository;
+			_usersRepository = usersRepository;
 			_mapper = mapper;
 		}
 
@@ -46,6 +48,33 @@ namespace RentalApp.Application.Services
 				throw new NotFoundException("Post does not exist");
 
 			return new PostImageDto { PostImage = post.Image };
+		}
+
+		public async Task<List<PostDto>> GetPostsByCategory(int categoryId)
+		{
+			var category = await _categoriesRepository.GetCategory(categoryId);
+
+			if (category == null)
+				throw new BadRequestException("Category with this id does not exist.");
+
+			var posts = await _postsRepository.GetPostsByCategory(categoryId);
+
+			return _mapper.Map<List<PostDto>>(posts);
+		}
+
+		public async Task<List<PostDto>> GetPostsByUserId(string userId)
+		{
+			var user = _usersRepository.GetUser(userId);
+
+			if (user == null)
+				throw new NotFoundException("User with this id does not exist");
+
+			if (!Guid.TryParse(userId, out var userGuid))
+				throw new BadRequestException("User id should contain 32 digits with 4 dashes (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).");
+
+			var posts = await _postsRepository.GetPostsByUserId(userGuid);
+
+			return _mapper.Map<List<PostDto>>(posts);
 		}
 
 		public async Task<PostDto> CreatePost(int categoryId, string userId, RequestPostDto newPostDto, RequestPostImageDto newPostImageDto)

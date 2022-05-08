@@ -7,6 +7,7 @@ using RentalApp.Application.Dto.Deposits;
 using RentalApp.Application.Dto.DepositStatuses;
 using RentalApp.Application.Dto.Categories;
 using RentalApp.Application.Dto.UserRates;
+using RentalApp.Application.Dto.Payments;
 
 namespace RentalApp.Application.Mappings
 {
@@ -22,6 +23,9 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<CreateUserDto, User>()
                     .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
                     .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+                cfg.CreateMap<UpdateUserDto, User>()
+                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+                    .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.NewPassword));
 
                 cfg.CreateMap<Post, PostDto>();
                 cfg.CreateMap<PostDto, Post>();
@@ -47,6 +51,10 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<UserRateDto, UserRate>();
                 cfg.CreateMap<CreateUserRateDto, UserRate>();
                 cfg.CreateMap<UpdateUserRateDto, UserRate>();
+
+                cfg.CreateMap<Payment, PaymentDto>();
+                cfg.CreateMap<PaymentDto, Payment>();
+                cfg.CreateMap<RequestPaymentDto, Payment>();
             })
             .CreateMapper();
     }
