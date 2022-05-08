@@ -53,7 +53,7 @@ namespace RentalApp.WebApi.Controllers
 
 		[HttpGet("{userId}/User")]
 		[SwaggerOperation(Summary ="Get user posts")]
-		public async Task<IActionResult> GetPosts([FromRoute] string userId)
+		public async Task<IActionResult> GetPostsByUserId([FromRoute] string userId)
 		{
 			var posts = await _postsService.GetPostsByUserId(userId);
 
