@@ -19,6 +19,13 @@ namespace RentalApp.Infrastructure.Repositories
             _rentalAppContext = rentalAppContext;
         }
 
+        public async Task<List<UserRate>> GetUserRates(Guid ratedUserId)
+        {
+            var userRated = await _rentalAppContext.UserRates.Where(u => u.RatedUserId == ratedUserId).ToListAsync();
+
+            return userRated;
+        }
+
         public async Task<UserRate> GetUserRate(int userRateId)
         {
             var userRate = await _rentalAppContext.UserRates.SingleOrDefaultAsync(u => u.Id == userRateId);

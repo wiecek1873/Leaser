@@ -7,6 +7,8 @@ namespace RentalApp.Domain.Interfaces
 {
     public interface IUserRatesRepository
     {
+        Task<List<UserRate>> GetUserRates(Guid ratedUserId);
+
         Task<UserRate> GetUserRate(int userRateId);
 
         Task<UserRate> GetUserRateByUsersRelation(Guid userRaterId, Guid userRatedId);
