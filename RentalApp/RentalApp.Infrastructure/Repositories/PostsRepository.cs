@@ -27,16 +27,16 @@ namespace RentalApp.Infrastructure.Repositories
 
 		public async Task<List<Post>> GetPostsByCategory(int categoryId)
 		{
-			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.CategoryId == categoryId).ToListAsync();
-			posts = posts.OrderByDescending(p => p.Id).ToList();
+			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.CategoryId == categoryId)
+				.OrderByDescending(p => p.Id).ToListAsync();
 
 			return posts;
 		}
 
 		public async Task<List<Post>> GetPostsByUserId(Guid userId)
 		{
-			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.UserId == userId).ToListAsync();
-			posts = posts.OrderByDescending(p => p.Id).ToList();
+			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.UserId == userId)
+				.OrderByDescending(p => p.Id).ToListAsync();
 
 			return posts;
 		}
