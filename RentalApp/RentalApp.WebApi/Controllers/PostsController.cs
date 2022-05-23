@@ -176,5 +176,14 @@ namespace RentalApp.WebApi.Controllers
 
 			return Ok();
 		}
+
+		[HttpGet("{categoryId}/Category/PriceAscending")]
+		[SwaggerOperation(Summary = "Get posts from category by Price Ascending")]
+		public async Task<IActionResult> GetPostsByPriceAscending([FromRoute] int categoryId)
+		{
+			var posts = await _postsService.GetPostsByPriceAscending(categoryId);
+
+			return Ok(posts);
+		}
 	}
 }
