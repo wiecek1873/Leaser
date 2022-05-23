@@ -2,7 +2,7 @@
 
 namespace RentalApp.Application.Dto.Posts
 {
-	public class UserPostDto
+	public class DetailPostDto
 	{
 		public int Id { get; set; }
 		public int CategoryId { get; set; }
