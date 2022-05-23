@@ -1,0 +1,1 @@
+UPDATE AspNetUsers SET Points=100;
