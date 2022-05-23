@@ -18,5 +18,9 @@ namespace RentalApp.Domain.Interfaces
 		Task UpdatePost(int postId, Post updatedPost, byte[] updatedPostImage);
 
 		Task DeletePost(int postId);
+
+		Task<List<Post>> GetPostsByPriceAscending(int categoryId);
+
+		Task<List<Post>> GetPostsByPriceDescending(int categoryId);
 	}
 }

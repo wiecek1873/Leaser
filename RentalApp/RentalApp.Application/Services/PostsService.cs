@@ -64,7 +64,7 @@ namespace RentalApp.Application.Services
 
 		public async Task<List<PostDto>> GetPostsByUserId(string userId)
 		{
-			var user = _usersRepository.GetUser(userId);
+			var user = await _usersRepository.GetUser(userId);
 
 			if (user == null)
 				throw new NotFoundException("User with this id does not exist");
@@ -89,11 +89,17 @@ namespace RentalApp.Application.Services
 				newPostImageDto.PostImage.ContentType.ToLower() != "image/png")
 				throw new BadRequestException("You do not upload photo.");
 
-			if (_categoriesRepository.GetCategory(categoryId) == null)
+			var category = await _categoriesRepository.GetCategory(categoryId);
+			if (category == null)
 				throw new BadRequestException("Category does not exist.");
 
-			if (newPostDto.DepositId.HasValue && _depositsRepository.GetDeposit(newPostDto.DepositId.Value) == null)
-				throw new BadRequestException("Deposit does not exist.");
+			if (newPostDto.DepositId.HasValue)
+			{
+				var deposit = await _depositsRepository.GetDeposit(newPostDto.DepositId.Value);
+
+				if (deposit == null)
+					throw new BadRequestException("Deposit does not exist.");
+			}
 
 			var newPost = _mapper.Map<Post>(newPostDto);
 			newPost.UserId = Guid.Parse(userId);
@@ -160,6 +166,30 @@ namespace RentalApp.Application.Services
 				throw new MethodNotAllowedException("This user can't delete other user posts.");
 
 			await _postsRepository.DeletePost(postId);
+		}
+
+		public async Task<List<PostDto>> GetPostsByPriceAscending(int categoryId)
+		{
+			var category = await _categoriesRepository.GetCategory(categoryId);
+
+			if (category == null)
+				throw new BadRequestException("Category with this id does not exist.");
+
+			var posts = await _postsRepository.GetPostsByPriceAscending(categoryId);
+
+			return _mapper.Map<List<PostDto>>(posts);
+		}
+
+		public async Task<List<PostDto>> GetPostsByPriceDescending(int categoryId)
+		{
+			var category = await _categoriesRepository.GetCategory(categoryId);
+
+			if (category == null)
+				throw new BadRequestException("Category with this id does not exist.");
+
+			var posts = await _postsRepository.GetPostsByPriceDescending(categoryId);
+
+			return _mapper.Map<List<PostDto>>(posts);
 		}
 	}
 }
