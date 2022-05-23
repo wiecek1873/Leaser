@@ -88,5 +88,12 @@ namespace RentalApp.Infrastructure.Repositories
 
 			return posts;
 		}
-    }
+
+		public async Task<List<Post>> GetPostsByPriceDescending(int categoryId)
+		{
+			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.CategoryId == categoryId).OrderByDescending(p => p.Price).ToListAsync();
+
+			return posts;
+		}
+	}
 }

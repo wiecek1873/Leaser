@@ -20,5 +20,7 @@ namespace RentalApp.Domain.Interfaces
 		Task DeletePost(int postId);
 
 		Task<List<Post>> GetPostsByPriceAscending(int categoryId);
+
+		Task<List<Post>> GetPostsByPriceDescending(int categoryId);
 	}
 }
