@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalApp.Infrastructure.Data;
 
 namespace RentalApp.Infrastructure.Migrations
 {
     [DbContext(typeof(RentalAppContext))]
-    partial class RentalAppContextModelSnapshot : ModelSnapshot
+    [Migration("20220523153122_CreateTransactionTable")]
+    partial class CreateTransactionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,9 +333,6 @@ namespace RentalApp.Infrastructure.Migrations
 
                     b.Property<DateTime>("DateTo")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("PayerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
