@@ -44,5 +44,7 @@ namespace RentalApp.Domain.Entities
         public DateTime AvailableFrom { get; set; }
 
         public DateTime? AvailableTo { get; set; }
+
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

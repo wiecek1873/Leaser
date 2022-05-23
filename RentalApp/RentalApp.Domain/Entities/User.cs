@@ -13,6 +13,8 @@ namespace RentalApp.Domain.Entities
 
         public string Surname { get; set; }
 
+        public double Points { get; set; }
+
         public int? AddressId { get; set; }
 
         [ForeignKey("AddressId")]
