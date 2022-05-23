@@ -7,6 +7,7 @@ using RentalApp.Application.Interfaces;
 using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.WebApi.Extensions;
+using System.Collections.Generic;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -17,10 +18,12 @@ namespace RentalApp.WebApi.Controllers
 	public class PostsController : ControllerBase
 	{
 		private readonly IPostsService _postsService;
+		private readonly IUsersService _usersService;
 
-		public PostsController(IPostsService postsService)
+		public PostsController(IPostsService postsService, IUsersService usersService)
 		{
 			_postsService = postsService;
+			_usersService = usersService;
 		}
 
 		[HttpGet("{postId}")]
@@ -48,6 +51,38 @@ namespace RentalApp.WebApi.Controllers
 			var posts = await _postsService.GetPostsByCategory(categoryId);
 
 			return Ok(posts);
+		}
+
+		[HttpGet("{categoryId}/Category/User")]
+		[SwaggerOperation(Summary = "Get posts from category with user information")]
+		public async Task<IActionResult> GetUserPostsByCategory([FromRoute] int categoryId)
+		{
+			var userPosts = new List<UserPostDto>();
+			var posts = await _postsService.GetPostsByCategory(categoryId);
+
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				var userPost = new UserPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+				};
+				userPosts.Add(userPost);
+			}
+
+			return Ok(userPosts);
 		}
 
 		[HttpGet("{userId}/User")]
