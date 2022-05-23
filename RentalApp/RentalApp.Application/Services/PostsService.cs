@@ -167,5 +167,17 @@ namespace RentalApp.Application.Services
 
 			await _postsRepository.DeletePost(postId);
 		}
+
+		public async Task<List<PostDto>> GetPostsByPriceAscending(int categoryId)
+		{
+			var category = await _categoriesRepository.GetCategory(categoryId);
+
+			if (category == null)
+				throw new BadRequestException("Category with this id does not exist.");
+
+			var posts = await _postsRepository.GetPostsByCategory(categoryId);
+
+			return _mapper.Map<List<PostDto>>(posts);
+		}
 	}
 }
