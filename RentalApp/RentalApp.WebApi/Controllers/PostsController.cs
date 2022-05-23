@@ -8,6 +8,7 @@ using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.WebApi.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -59,7 +60,7 @@ namespace RentalApp.WebApi.Controllers
 		[SwaggerOperation(Summary = "Get posts from category with user  and address information")]
 		public async Task<IActionResult> GetDetailPostsByCategory([FromRoute] int categoryId)
 		{
-			var datailPosts = new List<DetailPostDto>();
+			var detailPosts = new List<DetailPostDto>();
 			var posts = await _postsService.GetPostsByCategory(categoryId);
 
 			foreach (var post in posts)
@@ -70,7 +71,7 @@ namespace RentalApp.WebApi.Controllers
 				if (user.AddressId.HasValue)
 					address = await _addressesService.GetUserAddress(user.AddressId.Value);
 
-				var datailPost = new DetailPostDto
+				var detailPost = new DetailPostDto
 				{
 					Id = post.Id,
 					CategoryId = post.CategoryId,
@@ -92,10 +93,10 @@ namespace RentalApp.WebApi.Controllers
 					ApartmentNo = address?.ApartmentNo,
 					PostalCode = address?.PostalCode,
 				};
-				datailPosts.Add(datailPost);
+				detailPosts.Add(detailPost);
 			}
 
-			return Ok(datailPosts);
+			return Ok(detailPosts);
 		}
 
 		[HttpGet("{userId}/User")]
@@ -111,7 +112,7 @@ namespace RentalApp.WebApi.Controllers
 		[SwaggerOperation(Summary = "Get user posts with user and address information")]
 		public async Task<IActionResult> GetUserPostsByUserId([FromRoute] string userId)
 		{
-			var datailPosts = new List<DetailPostDto>();
+			var detailPosts = new List<DetailPostDto>();
 			var posts = await _postsService.GetPostsByUserId(userId);
 
 			foreach (var post in posts)
@@ -122,7 +123,7 @@ namespace RentalApp.WebApi.Controllers
 				if (user.AddressId.HasValue)
 					address = await _addressesService.GetUserAddress(user.AddressId.Value);
 
-				var datailPost = new DetailPostDto
+				var detailPost = new DetailPostDto
 				{
 					Id = post.Id,
 					CategoryId = post.CategoryId,
@@ -144,10 +145,10 @@ namespace RentalApp.WebApi.Controllers
 					ApartmentNo = address?.ApartmentNo,
 					PostalCode =  address?.PostalCode,
 				};
-				datailPosts.Add(datailPost);
+				detailPosts.Add(detailPost);
 			}
 
-			return Ok(datailPosts);
+			return Ok(detailPosts);
 		}
 
 		[HttpPost("{categoryId}")]
@@ -177,13 +178,176 @@ namespace RentalApp.WebApi.Controllers
 			return Ok();
 		}
 
-		[HttpGet("{categoryId}/Category/PriceAscending")]
+		[HttpGet("{categoryId}/Category/Detail/PriceAscending")]
 		[SwaggerOperation(Summary = "Get posts from category by Price Ascending")]
 		public async Task<IActionResult> GetPostsByPriceAscending([FromRoute] int categoryId)
 		{
+			var detailPosts = new List<DetailPostDto>();
 			var posts = await _postsService.GetPostsByPriceAscending(categoryId);
 
-			return Ok(posts);
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var detailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
+				};
+				detailPosts.Add(detailPost);
+			}
+
+			return Ok(detailPosts);
+		}
+
+		[HttpGet("{categoryId}/Category/Detail/PriceDescending")]
+		[SwaggerOperation(Summary = "Get posts from category by Price Ascending")]
+		public async Task<IActionResult> GetPostsByPriceDescending([FromRoute] int categoryId)
+		{
+			var detailPosts = new List<DetailPostDto>();
+			var posts = await _postsService.GetPostsByPriceDescending(categoryId);
+
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var detailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
+				};
+				detailPosts.Add(detailPost);
+			}
+
+			return Ok(detailPosts);
+		}
+
+		[HttpGet("{categoryId}/Category/Detail/RateAscending")]
+		[SwaggerOperation(Summary = "Get posts from category by Rate Ascending")]
+		public async Task<IActionResult> GetPostsByRateAscending([FromRoute] int categoryId)
+		{
+			var detailPosts = new List<DetailPostDto>();
+			var posts = await _postsService.GetPostsByCategory(categoryId);
+
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var detailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
+				};
+				detailPosts.Add(detailPost);
+			}
+
+			return Ok(detailPosts.AsEnumerable().OrderBy(p => p.Rating));
+		}
+
+		[HttpGet("{categoryId}/Category/Detail/RateDescending")]
+		[SwaggerOperation(Summary = "Get posts from category by Rate Descending")]
+		public async Task<IActionResult> GetPostsByRateDescending([FromRoute] int categoryId)
+		{
+			var detailPosts = new List<DetailPostDto>();
+			var posts = await _postsService.GetPostsByCategory(categoryId);
+
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var detailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
+				};
+				detailPosts.Add(detailPost);
+			}
+
+			return Ok(detailPosts.AsEnumerable().OrderByDescending(p => p.Rating));
 		}
 	}
 }

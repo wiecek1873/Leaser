@@ -175,7 +175,19 @@ namespace RentalApp.Application.Services
 			if (category == null)
 				throw new BadRequestException("Category with this id does not exist.");
 
-			var posts = await _postsRepository.GetPostsByCategory(categoryId);
+			var posts = await _postsRepository.GetPostsByPriceAscending(categoryId);
+
+			return _mapper.Map<List<PostDto>>(posts);
+		}
+
+		public async Task<List<PostDto>> GetPostsByPriceDescending(int categoryId)
+		{
+			var category = await _categoriesRepository.GetCategory(categoryId);
+
+			if (category == null)
+				throw new BadRequestException("Category with this id does not exist.");
+
+			var posts = await _postsRepository.GetPostsByPriceDescending(categoryId);
 
 			return _mapper.Map<List<PostDto>>(posts);
 		}
