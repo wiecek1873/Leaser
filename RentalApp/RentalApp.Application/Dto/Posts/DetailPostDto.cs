@@ -17,5 +17,11 @@ namespace RentalApp.Application.Dto.Posts
 		public double? PricePerMonth { get; set; }
 		public DateTime AvailableFrom { get; set; }
 		public DateTime? AvailableTo { get; set; }
+		public string Country { get; set; }
+		public string City { get; set; }
+		public string Street { get; set; }
+		public string BuildingNo { get; set; }
+		public string ApartmentNo { get; set; }
+		public string PostalCode { get; set; }
 	}
 }

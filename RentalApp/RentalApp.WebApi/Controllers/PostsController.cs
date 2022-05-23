@@ -19,11 +19,13 @@ namespace RentalApp.WebApi.Controllers
 	{
 		private readonly IPostsService _postsService;
 		private readonly IUsersService _usersService;
+		private readonly IAddressesService _addressesService;
 
-		public PostsController(IPostsService postsService, IUsersService usersService)
+		public PostsController(IPostsService postsService, IUsersService usersService, IAddressesService addressesService)
 		{
 			_postsService = postsService;
 			_usersService = usersService;
+			_addressesService = addressesService;
 		}
 
 		[HttpGet("{postId}")]
@@ -53,17 +55,22 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(posts);
 		}
 
-		[HttpGet("{categoryId}/Category/User")]
-		[SwaggerOperation(Summary = "Get posts from category with user information")]
-		public async Task<IActionResult> GetUserPostsByCategory([FromRoute] int categoryId)
+		[HttpGet("{categoryId}/Category/Detail")]
+		[SwaggerOperation(Summary = "Get posts from category with user  and address information")]
+		public async Task<IActionResult> GetDetailPostsByCategory([FromRoute] int categoryId)
 		{
-			var userPosts = new List<UserPostDto>();
+			var datailPosts = new List<DetailPostDto>();
 			var posts = await _postsService.GetPostsByCategory(categoryId);
 
 			foreach (var post in posts)
 			{
 				var user = await _usersService.GetUser(post.UserId.ToString());
-				var userPost = new UserPostDto
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var datailPost = new DetailPostDto
 				{
 					Id = post.Id,
 					CategoryId = post.CategoryId,
@@ -78,20 +85,69 @@ namespace RentalApp.WebApi.Controllers
 					PricePerMonth = post.PricePerWeek,
 					AvailableFrom = post.AvailableFrom,
 					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
 				};
-				userPosts.Add(userPost);
+				datailPosts.Add(datailPost);
 			}
 
-			return Ok(userPosts);
+			return Ok(datailPosts);
 		}
 
 		[HttpGet("{userId}/User")]
-		[SwaggerOperation(Summary ="Get user posts")]
+		[SwaggerOperation(Summary = "Get user posts")]
 		public async Task<IActionResult> GetPostsByUserId([FromRoute] string userId)
 		{
 			var posts = await _postsService.GetPostsByUserId(userId);
 
 			return Ok(posts);
+		}
+
+		[HttpGet("{userId}/User/Detail")]
+		[SwaggerOperation(Summary = "Get user posts with user and address information")]
+		public async Task<IActionResult> GetUserPostsByUserId([FromRoute] string userId)
+		{
+			var datailPosts = new List<DetailPostDto>();
+			var posts = await _postsService.GetPostsByUserId(userId);
+
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var datailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City =  address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode =  address?.PostalCode,
+				};
+				datailPosts.Add(datailPost);
+			}
+
+			return Ok(datailPosts);
 		}
 
 		[HttpPost("{categoryId}")]
