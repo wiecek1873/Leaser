@@ -177,22 +177,90 @@ namespace RentalApp.WebApi.Controllers
 			return Ok();
 		}
 
-		[HttpGet("{categoryId}/Category/PriceAscending")]
+		[HttpGet("{categoryId}/Category/Detail/PriceAscending")]
 		[SwaggerOperation(Summary = "Get posts from category by Price Ascending")]
 		public async Task<IActionResult> GetPostsByPriceAscending([FromRoute] int categoryId)
 		{
+			var datailPosts = new List<DetailPostDto>();
 			var posts = await _postsService.GetPostsByPriceAscending(categoryId);
 
-			return Ok(posts);
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var datailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
+				};
+				datailPosts.Add(datailPost);
+			}
+
+			return Ok(datailPosts);
 		}
 
-		[HttpGet("{categoryId}/Category/PriceDescending")]
+		[HttpGet("{categoryId}/Category/Detail/PriceDescending")]
 		[SwaggerOperation(Summary = "Get posts from category by Price Ascending")]
 		public async Task<IActionResult> GetPostsByPriceDescending([FromRoute] int categoryId)
 		{
+			var datailPosts = new List<DetailPostDto>();
 			var posts = await _postsService.GetPostsByPriceDescending(categoryId);
 
-			return Ok(posts);
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var datailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					DepositId = post.DepositId,
+					Price = post.Price,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerWeek,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
+				};
+				datailPosts.Add(datailPost);
+			}
+
+			return Ok(datailPosts);
 		}
 	}
 }
