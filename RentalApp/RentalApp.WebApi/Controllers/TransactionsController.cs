@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RentalApp.WebApi.Extensions;
+using RentalApp.WebApi.Filters;
 using RentalApp.Application.Dto.Transactions;
 using RentalApp.Application.Interfaces;
-using RentalApp.WebApi.Filters;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Threading.Tasks;
 
 namespace RentalApp.WebApi.Controllers
 {
@@ -37,7 +38,7 @@ namespace RentalApp.WebApi.Controllers
         [SwaggerOperation(Summary = "Add transaction")]
         public async Task<IActionResult> AddTransaction([FromBody] RequestTransactionDto requestTransactionDto)
         {
-            var newTransaction = await _transactionsService.CreateTransaction(requestTransactionDto);
+            var newTransaction = await _transactionsService.CreateTransaction(User.GetId(), requestTransactionDto);
 
             return Created($"api/transactions/{newTransaction.Id}", newTransaction);
         }

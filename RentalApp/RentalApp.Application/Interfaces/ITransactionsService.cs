@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using RentalApp.Application.Dto.Transactions;
 
 
@@ -9,6 +8,6 @@ namespace RentalApp.Application.Interfaces
     {
         Task<TransactionDto> GetTransaction(int transactionId);
 
-        Task<TransactionDto> CreateTransaction(RequestTransactionDto newTransactionDto);
+        Task<TransactionDto> CreateTransaction(string userId, RequestTransactionDto newTransactionDto);
     }
 }
