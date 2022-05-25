@@ -68,5 +68,15 @@ namespace RentalApp.Infrastructure.Repositories
 
             return true;
 		}
+
+        public async Task PayForTransaction(string userId, double points)
+        {
+            var userToUpdate = await _userManager.FindByIdAsync(userId);
+
+            if (userToUpdate != null)
+                userToUpdate.Points = userToUpdate.Points - points;
+
+            await _userManager.UpdateAsync(userToUpdate);
+        }
     }
 }

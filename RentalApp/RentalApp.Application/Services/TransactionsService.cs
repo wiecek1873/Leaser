@@ -66,6 +66,9 @@ namespace RentalApp.Application.Services
             if (payer == null)
                 throw new NotFoundException("Payer with this id does not exist!");
 
+            if (payer.Points < newTransactionDto.Price)
+                throw new MethodNotAllowedException("You do not have enough points!");
+
             if (newTransactionDto.PayerId.ToString() == userId)
                 throw new ConflictException("You can not create transaction with yourself!");
 
@@ -92,6 +95,8 @@ namespace RentalApp.Application.Services
             }
 
             var transactionToAdd = _mapper.Map<Transaction>(newTransactionDto);
+
+            await _usersRepository.PayForTransaction(payer.Id.ToString(), newTransactionDto.Price);
 
             await _transactionsRepository.AddTransaction(transactionToAdd);
 

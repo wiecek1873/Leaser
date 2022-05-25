@@ -26,7 +26,7 @@ namespace RentalApp.WebApi.Controllers
         }
 
 
-        [HttpGet("Transaction/{transactionId}")]
+        [HttpGet("{transactionId}")]
         [SwaggerOperation(Summary = "Get transaction by id")]
         public async Task<IActionResult> GetTransaction([FromRoute] int transactionId)
         {
@@ -35,7 +35,7 @@ namespace RentalApp.WebApi.Controllers
             return Ok(transaction);
         }
 
-        [HttpGet("Post/{postId}")]
+        [HttpGet("{postId}/Post")]
         [SwaggerOperation(Summary = "Get transactions by post id")]
         public async Task<IActionResult> GetTransactionsByPostId([FromRoute] int postId)
         {
@@ -44,7 +44,7 @@ namespace RentalApp.WebApi.Controllers
             return Ok(transactions);
         }
 
-        [HttpGet("Payer/{payerId}")]
+        [HttpGet("{payerId}/Payer")]
         [SwaggerOperation(Summary = "Get transactions by payer id")]
         public async Task<IActionResult> GetTransactionsByPostId([FromRoute] Guid payerId)
         {
