@@ -81,8 +81,14 @@ namespace RentalApp.Application.Services
 
             foreach (var transaction in postTransactions)
             {
-                System.Console.WriteLine(transaction.DateFrom);
-                System.Console.WriteLine(transaction.DateTo);
+                if (transaction.DateFrom > newTransactionDto.DateFrom && transaction.DateFrom < newTransactionDto.DateTo && transaction.DateTo > newTransactionDto.DateTo)
+                    throw new MethodNotAllowedException("You can not add transaction in this time span!");
+
+                if (transaction.DateFrom < newTransactionDto.DateFrom && transaction.DateTo > newTransactionDto.DateTo)
+                    throw new MethodNotAllowedException("You can not add transaction in this time span!");
+
+                if (transaction.DateFrom < newTransactionDto.DateFrom && newTransactionDto.DateFrom < transaction.DateTo && transaction.DateTo < newTransactionDto.DateTo)
+                    throw new MethodNotAllowedException("You can not add transaction in this time span!");
             }
 
             var transactionToAdd = _mapper.Map<Transaction>(newTransactionDto);
