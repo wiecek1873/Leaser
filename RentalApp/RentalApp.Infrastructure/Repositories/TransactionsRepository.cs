@@ -24,6 +24,7 @@ namespace RentalApp.Infrastructure.Repositories
 
         public async Task<Transaction> AddTransaction(Transaction newTransaction)
         {
+            newTransaction.Status = TransactionStatus.Borrowed;
             _rentalAppContext.Transactions.Add(newTransaction);
             await _rentalAppContext.SaveChangesAsync();
 
