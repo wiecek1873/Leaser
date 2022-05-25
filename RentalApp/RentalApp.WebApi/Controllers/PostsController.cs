@@ -38,6 +38,15 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(post);
 		}
 
+		[HttpGet]
+		[SwaggerOperation(Summary = "Get posts")]
+		public async Task<IActionResult> GetPosts()
+		{
+			var posts = await _postsService.GetPosts();
+
+			return Ok(posts);
+		}
+
 		[HttpGet("{postId}/Image")] 
 		[SwaggerOperation(Summary = "Get post image")]
 		public async Task<IActionResult> GetPostImage(int postId)
@@ -81,6 +90,7 @@ namespace RentalApp.WebApi.Controllers
 					Title = post.Title,
 					Description = post.Description,
 					Price = post.Price,
+					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
 					PricePerMonth = post.PricePerWeek,
 					AvailableFrom = post.AvailableFrom,
@@ -132,6 +142,7 @@ namespace RentalApp.WebApi.Controllers
 					Title = post.Title,
 					Description = post.Description,
 					Price = post.Price,
+					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
 					PricePerMonth = post.PricePerWeek,
 					AvailableFrom = post.AvailableFrom,
@@ -201,6 +212,7 @@ namespace RentalApp.WebApi.Controllers
 					Title = post.Title,
 					Description = post.Description,
 					Price = post.Price,
+					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
 					PricePerMonth = post.PricePerWeek,
 					AvailableFrom = post.AvailableFrom,
@@ -243,6 +255,7 @@ namespace RentalApp.WebApi.Controllers
 					Title = post.Title,
 					Description = post.Description,
 					Price = post.Price,
+					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
 					PricePerMonth = post.PricePerWeek,
 					AvailableFrom = post.AvailableFrom,
@@ -285,6 +298,7 @@ namespace RentalApp.WebApi.Controllers
 					Title = post.Title,
 					Description = post.Description,
 					Price = post.Price,
+					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
 					PricePerMonth = post.PricePerWeek,
 					AvailableFrom = post.AvailableFrom,
@@ -327,6 +341,7 @@ namespace RentalApp.WebApi.Controllers
 					Title = post.Title,
 					Description = post.Description,
 					Price = post.Price,
+					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
 					PricePerMonth = post.PricePerWeek,
 					AvailableFrom = post.AvailableFrom,

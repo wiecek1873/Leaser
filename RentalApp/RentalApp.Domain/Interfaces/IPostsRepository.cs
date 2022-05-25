@@ -9,6 +9,8 @@ namespace RentalApp.Domain.Interfaces
 	{
 		Task<Post> GetPost(int postId);
 
+		Task<List<Post>> GetPosts();
+
 		Task<List<Post>> GetPostsByCategory(int categoryId);
 
 		Task<List<Post>> GetPostsByUserId(Guid userId);

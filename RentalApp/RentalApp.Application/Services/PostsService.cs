@@ -38,6 +38,13 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<PostDto>(post);
 		}
 
+		public async Task<List<PostDto>> GetPosts()
+        {
+			var posts = await _postsRepository.GetPosts();
+
+			return _mapper.Map<List<PostDto>>(posts);
+		}
+
 		public async Task<PostImageDto> GetPostImage(int postId)
 		{
 			var post = await _postsRepository.GetPost(postId);
