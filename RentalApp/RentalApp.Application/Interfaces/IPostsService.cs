@@ -8,6 +8,8 @@ namespace RentalApp.Application.Interfaces
 	{
 		Task<PostDto> GetPost(int postId);
 
+		Task<List<PostDto>> GetPosts();
+
 		Task<PostImageDto> GetPostImage(int postId);
 
 		Task<List<PostDto>> GetPostsByCategory(int categoryId);

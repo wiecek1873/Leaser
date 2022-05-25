@@ -3,11 +3,10 @@ using RentalApp.Domain.Entities;
 using RentalApp.Application.Dto.Users;
 using RentalApp.Application.Dto.Posts;
 using RentalApp.Application.Dto.Addresses;
-using RentalApp.Application.Dto.Deposits;
-using RentalApp.Application.Dto.DepositStatuses;
 using RentalApp.Application.Dto.Categories;
 using RentalApp.Application.Dto.UserRates;
 using RentalApp.Application.Dto.Payments;
+using RentalApp.Application.Dto.Transactions;
 
 namespace RentalApp.Application.Mappings
 {
@@ -35,14 +34,6 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<AddressDto, Address>();
                 cfg.CreateMap<RequestAddressDto, Address>();
 
-                cfg.CreateMap<Deposit, DepositDto>();
-                cfg.CreateMap<DepositDto, Deposit>();
-                cfg.CreateMap<RequestDepositDto, Deposit>();
-
-                cfg.CreateMap<DepositStatus, DepositStatusDto>();
-                cfg.CreateMap<DepositStatusDto, DepositStatus>();
-                cfg.CreateMap<RequestDepositStatusDto, DepositStatus>();
-
                 cfg.CreateMap<Category, CategoryDto>();
                 cfg.CreateMap<CategoryDto, Category>();
                 cfg.CreateMap<RequestCategoryDto, Category>();
@@ -55,6 +46,10 @@ namespace RentalApp.Application.Mappings
                 cfg.CreateMap<Payment, PaymentDto>();
                 cfg.CreateMap<PaymentDto, Payment>();
                 cfg.CreateMap<RequestPaymentDto, Payment>();
+
+                cfg.CreateMap<Transaction, TransactionDto>();
+                cfg.CreateMap<TransactionDto, Transaction>();
+                cfg.CreateMap<RequestTransactionDto, Transaction>();
             })
             .CreateMapper();
     }

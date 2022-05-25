@@ -34,6 +34,7 @@ namespace RentalApp.Infrastructure.Repositories
 
         public async Task<User> AddUser(User newUser)
         {
+            newUser.Points = 100;
             var result = await _userManager.CreateAsync(newUser, newUser.PasswordHash);
 
             if (!result.Succeeded)
