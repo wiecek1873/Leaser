@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RentalApp.Domain.Entities;
+using System;
 
 
 namespace RentalApp.Application.Dto.Transactions
@@ -12,6 +13,8 @@ namespace RentalApp.Application.Dto.Transactions
         public Guid PayerId { get; set; }
 
         public double Price { get; set; }
+
+        public string Status { get; set; }
 
         public DateTime DateFrom { get; set; }
 
