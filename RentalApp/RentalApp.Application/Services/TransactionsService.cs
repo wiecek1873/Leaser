@@ -96,6 +96,8 @@ namespace RentalApp.Application.Services
 
             var transactionToAdd = _mapper.Map<Transaction>(newTransactionDto);
 
+            await _usersRepository.PayForTransaction(payer.Id.ToString(), newTransactionDto.Price);
+
             await _transactionsRepository.AddTransaction(transactionToAdd);
 
             return _mapper.Map<TransactionDto>(transactionToAdd);
