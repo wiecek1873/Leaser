@@ -20,8 +20,6 @@ namespace RentalApp.Domain.Entities
         [ForeignKey("AddressId")]
         public virtual Address Address { get; set; }
 
-        public virtual ICollection<Deposit> Deposits { get; set; }
-
         public virtual ICollection<Payment> Payments { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }

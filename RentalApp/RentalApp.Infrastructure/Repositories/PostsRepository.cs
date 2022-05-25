@@ -62,7 +62,6 @@ namespace RentalApp.Infrastructure.Repositories
 				postToUpdate.Title = updatedPost.Title;
 				postToUpdate.Description = updatedPost.Description;
 				postToUpdate.Image = updatedPostImage;
-				postToUpdate.DepositId = updatedPost.DepositId;
 				postToUpdate.Price = updatedPost.Price;
 				postToUpdate.PricePerWeek = updatedPost.PricePerWeek;
 				postToUpdate.PricePerMonth = updatedPost.PricePerMonth;

@@ -20,16 +20,14 @@ namespace RentalApp.WebApi.Installers
 			services.AddTransient<IPostsRepository, PostsRepository>();
 			services.AddTransient<IAddressesService, AddressesService>();
 			services.AddTransient<IAddressesRepository, AddressesRepository>();
-			services.AddTransient<IDepositsService, DepositsService>();
-			services.AddTransient<IDepositsRepository, DepositsRepository>();
-			services.AddTransient<IDepositStatusesService, DepositStatusesService>();
-			services.AddTransient<IDepositStatusesRepository, DepositStatusesRepository>();
 			services.AddTransient<ICategoriesService, CategoriesService>();
 			services.AddTransient<ICategoriesRepository, CategoriesRepository>();
 			services.AddTransient<IUserRatesService, UserRatesService>();
 			services.AddTransient<IUserRatesRepository, UserRatesRepository>();
 			services.AddTransient<IPaymentsService, PaymentsService>();
 			services.AddTransient<IPaymentsRepository, PaymentsRepository>();
+			services.AddTransient<ITransactionsRepository, TransactionsRepository>();
+			services.AddTransient<ITransactionsService, TransactionsService>();
 
 			services.AddSingleton(AutoMapperConfig.Initialize());
 			services.AddMvc(options =>

@@ -30,12 +30,9 @@ namespace RentalApp.Domain.Entities
 
         public byte[] Image { get; set; }
 
-        public int? DepositId { get; set; }
-
-        [ForeignKey("DepositId")]
-        public virtual Deposit Deposit { get; set; }
-
         public double Price { get; set; }
+
+        public double DepositValue { get; set; }
 
         public double? PricePerWeek { get; set; }
 

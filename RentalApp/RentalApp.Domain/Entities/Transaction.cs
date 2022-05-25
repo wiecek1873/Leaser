@@ -15,12 +15,23 @@ namespace RentalApp.Domain.Entities
         [ForeignKey("PostId")]
         public virtual Post Post { get; set; }
 
+        [Required]
         public Guid PayerId { get; set; }
 
         public double Price { get; set; }
 
+        public TransactionStatus Status { get; set; }
+
         public DateTime DateFrom { get; set; }
 
         public DateTime DateTo { get; set; }
+    }
+
+
+
+    public enum TransactionStatus
+    {
+        Borrowed,
+        Delivered
     }
 }

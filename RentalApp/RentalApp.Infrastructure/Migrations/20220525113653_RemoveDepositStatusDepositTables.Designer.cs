@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalApp.Infrastructure.Data;
 
 namespace RentalApp.Infrastructure.Migrations
 {
     [DbContext(typeof(RentalAppContext))]
-    partial class RentalAppContextModelSnapshot : ModelSnapshot
+    [Migration("20220525113653_RemoveDepositStatusDepositTables")]
+    partial class RemoveDepositStatusDepositTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -299,9 +301,14 @@ namespace RentalApp.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
                 });
@@ -504,6 +511,10 @@ namespace RentalApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RentalApp.Domain.Entities.User", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Post");
                 });
 
@@ -547,6 +558,8 @@ namespace RentalApp.Infrastructure.Migrations
                     b.Navigation("Payments");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Transactions");
 
                     b.Navigation("UserRates");
                 });
