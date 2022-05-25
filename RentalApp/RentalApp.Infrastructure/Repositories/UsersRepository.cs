@@ -50,8 +50,6 @@ namespace RentalApp.Infrastructure.Repositories
             if (userToUpdate != null)
 			{
                 userToUpdate.SecurityStamp = Guid.NewGuid().ToString("D");
-                userToUpdate.Email = updatedUser.Email;
-                userToUpdate.PhoneNumber = updatedUser.PhoneNumber;
                 userToUpdate.NickName = updatedUser.NickName;
                 userToUpdate.Name = updatedUser.Name;
                 userToUpdate.Surname = updatedUser.Surname;
