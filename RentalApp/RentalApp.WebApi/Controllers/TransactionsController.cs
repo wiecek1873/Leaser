@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -34,11 +35,20 @@ namespace RentalApp.WebApi.Controllers
             return Ok(transaction);
         }
 
-        [HttpGet("{postId}")]
+        [HttpGet("Post/{postId}")]
         [SwaggerOperation(Summary = "Get transactions by post id")]
         public async Task<IActionResult> GetTransactionsByPostId([FromRoute] int postId)
         {
             var transactions = await _transactionsService.GetTransactionsByPostId(postId);
+
+            return Ok(transactions);
+        }
+
+        [HttpGet("Payer/{payerId}")]
+        [SwaggerOperation(Summary = "Get transactions by post id")]
+        public async Task<IActionResult> GetTransactionsByPostId([FromRoute] Guid payerId)
+        {
+            var transactions = await _transactionsService.GetTransactionsByPayerId(payerId);
 
             return Ok(transactions);
         }

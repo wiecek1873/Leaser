@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,13 @@ namespace RentalApp.Infrastructure.Repositories
         public async Task<List<Transaction>> GetTransactionsByPostId(int postId)
         {
             var transactions = await _rentalAppContext.Transactions.Where(t => t.PostId == postId).ToListAsync();
+
+            return transactions;
+        }
+
+        public async Task<List<Transaction>> GetTransactionsByPayerId(Guid payerId)
+        {
+            var transactions = await _rentalAppContext.Transactions.Where(t => t.PayerId == payerId).ToListAsync();
 
             return transactions;
         }

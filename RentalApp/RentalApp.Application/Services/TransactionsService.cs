@@ -6,6 +6,7 @@ using RentalApp.Application.Interfaces;
 using RentalApp.Domain.Entities;
 using RentalApp.Domain.Interfaces;
 using System.Collections.Generic;
+using System;
 
 namespace RentalApp.Application.Services
 {
@@ -46,6 +47,18 @@ namespace RentalApp.Application.Services
             return _mapper.Map<List<TransactionDto>>(transactions);
         }
 
+        public async Task<List<TransactionDto>> GetTransactionsByPayerId(Guid payerId)
+        {
+            var payer = await _usersRepository.GetUser(payerId.ToString());
+
+            if (payer == null)
+                throw new NotFoundException("Payer with this id does not exist!");
+
+            var transactions = await _transactionsRepository.GetTransactionsByPayerId(payerId);
+
+            return _mapper.Map<List<TransactionDto>>(transactions);
+        }
+
         public async Task<TransactionDto> CreateTransaction(string userId, RequestTransactionDto newTransactionDto)
         {
             var payer = await _usersRepository.GetUser(newTransactionDto.PayerId.ToString());
@@ -63,6 +76,14 @@ namespace RentalApp.Application.Services
 
             if (newTransactionDto.DateFrom > newTransactionDto.DateTo)
                 throw new MethodNotAllowedException("Date from can not be later than date to deadline!");
+
+            var postTransactions = await _transactionsRepository.GetTransactionsByPostId(newTransactionDto.PostId);
+
+            foreach (var transaction in postTransactions)
+            {
+                System.Console.WriteLine(transaction.DateFrom);
+                System.Console.WriteLine(transaction.DateTo);
+            }
 
             var transactionToAdd = _mapper.Map<Transaction>(newTransactionDto);
 
