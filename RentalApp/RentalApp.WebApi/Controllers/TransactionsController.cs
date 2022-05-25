@@ -45,7 +45,7 @@ namespace RentalApp.WebApi.Controllers
         }
 
         [HttpGet("Payer/{payerId}")]
-        [SwaggerOperation(Summary = "Get transactions by post id")]
+        [SwaggerOperation(Summary = "Get transactions by payer id")]
         public async Task<IActionResult> GetTransactionsByPostId([FromRoute] Guid payerId)
         {
             var transactions = await _transactionsService.GetTransactionsByPayerId(payerId);
