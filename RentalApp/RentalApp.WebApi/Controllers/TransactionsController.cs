@@ -25,13 +25,22 @@ namespace RentalApp.WebApi.Controllers
         }
 
 
-        [HttpGet("{transactionId}")]
+        [HttpGet("Transaction/{transactionId}")]
         [SwaggerOperation(Summary = "Get transaction by id")]
-        public async Task<IActionResult> GetTransaction(int transactionId)
+        public async Task<IActionResult> GetTransaction([FromRoute] int transactionId)
         {
             var transaction = await _transactionsService.GetTransaction(transactionId);
 
             return Ok(transaction);
+        }
+
+        [HttpGet("{postId}")]
+        [SwaggerOperation(Summary = "Get transactions by post id")]
+        public async Task<IActionResult> GetTransactionsByPostId([FromRoute] int postId)
+        {
+            var transactions = await _transactionsService.GetTransactionsByPostId(postId);
+
+            return Ok(transactions);
         }
 
         [HttpPost]

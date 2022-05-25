@@ -5,6 +5,7 @@ using RentalApp.Application.Exceptions;
 using RentalApp.Application.Interfaces;
 using RentalApp.Domain.Entities;
 using RentalApp.Domain.Interfaces;
+using System.Collections.Generic;
 
 namespace RentalApp.Application.Services
 {
@@ -31,6 +32,18 @@ namespace RentalApp.Application.Services
                 throw new NotFoundException("Transaction does not exist.");
 
             return _mapper.Map<TransactionDto>(transaction);
+        }
+
+        public async Task<List<TransactionDto>> GetTransactionsByPostId(int postId)
+        {
+            var post = await _postsRepository.GetPost(postId);
+
+            if (post == null)
+                throw new NotFoundException("Post with this id does not exist!");
+
+            var transactions = await _transactionsRepository.GetTransactionsByPostId(postId);
+
+            return _mapper.Map<List<TransactionDto>>(transactions);
         }
 
         public async Task<TransactionDto> CreateTransaction(string userId, RequestTransactionDto newTransactionDto)

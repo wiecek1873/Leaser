@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RentalApp.Domain.Entities;
 using RentalApp.Domain.Interfaces;
@@ -20,6 +22,13 @@ namespace RentalApp.Infrastructure.Repositories
             var transaction = await _rentalAppContext.Transactions.SingleOrDefaultAsync(t => t.Id == transactionId);
 
             return transaction;
+        }
+
+        public async Task<List<Transaction>> GetTransactionsByPostId(int postId)
+        {
+            var transactions = await _rentalAppContext.Transactions.Where(t => t.PostId == postId).ToListAsync();
+
+            return transactions;
         }
 
         public async Task<Transaction> AddTransaction(Transaction newTransaction)
