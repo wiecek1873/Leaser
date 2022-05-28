@@ -13,6 +13,8 @@ namespace RentalApp.Domain.Interfaces
 
         Task<bool> UpdateUser(string userId, User updatedUser, string oldPassword);
 
+        Task<User> AddPoints(string userId, double points);
+
         Task PayForTransaction(string userId, double points);
     }
 }
