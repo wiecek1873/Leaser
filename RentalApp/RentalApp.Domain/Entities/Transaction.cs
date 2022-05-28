@@ -32,6 +32,6 @@ namespace RentalApp.Domain.Entities
     public enum TransactionStatus
     {
         Borrowed,
-        Delivered
+        Returned
     }
 }
