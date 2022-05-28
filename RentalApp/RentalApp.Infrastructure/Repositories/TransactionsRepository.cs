@@ -9,43 +9,52 @@ using RentalApp.Infrastructure.Data;
 
 namespace RentalApp.Infrastructure.Repositories
 {
-    public class TransactionsRepository : ITransactionsRepository
-    {
-        private readonly RentalAppContext _rentalAppContext;
+	public class TransactionsRepository : ITransactionsRepository
+	{
+		private readonly RentalAppContext _rentalAppContext;
 
-        public TransactionsRepository(RentalAppContext rentalAppContext)
-        {
-            _rentalAppContext = rentalAppContext;
-        }
+		public TransactionsRepository(RentalAppContext rentalAppContext)
+		{
+			_rentalAppContext = rentalAppContext;
+		}
 
-        public async Task<Transaction> GetTransaction(int transactionId)
-        {
-            var transaction = await _rentalAppContext.Transactions.SingleOrDefaultAsync(t => t.Id == transactionId);
+		public async Task<Transaction> GetTransaction(int transactionId)
+		{
+			var transaction = await _rentalAppContext.Transactions.SingleOrDefaultAsync(t => t.Id == transactionId);
 
-            return transaction;
-        }
+			return transaction;
+		}
 
-        public async Task<List<Transaction>> GetTransactionsByPostId(int postId)
-        {
-            var transactions = await _rentalAppContext.Transactions.Where(t => t.PostId == postId).ToListAsync();
+		public async Task<List<Transaction>> GetTransactionsByPostId(int postId)
+		{
+			var transactions = await _rentalAppContext.Transactions.Where(t => t.PostId == postId).ToListAsync();
 
-            return transactions;
-        }
+			return transactions;
+		}
 
-        public async Task<List<Transaction>> GetTransactionsByPayerId(Guid payerId)
-        {
-            var transactions = await _rentalAppContext.Transactions.Where(t => t.PayerId == payerId).ToListAsync();
+		public async Task<List<Transaction>> GetTransactionsByPayerId(Guid payerId)
+		{
+			var transactions = await _rentalAppContext.Transactions.Where(t => t.PayerId == payerId).ToListAsync();
 
-            return transactions;
-        }
+			return transactions;
+		}
 
-        public async Task<Transaction> AddTransaction(Transaction newTransaction)
-        {
-            newTransaction.Status = TransactionStatus.Borrowed;
-            _rentalAppContext.Transactions.Add(newTransaction);
-            await _rentalAppContext.SaveChangesAsync();
+		public async Task<Transaction> AddTransaction(Transaction newTransaction)
+		{
+			newTransaction.Status = TransactionStatus.Borrowed;
+			_rentalAppContext.Transactions.Add(newTransaction);
+			await _rentalAppContext.SaveChangesAsync();
 
-            return newTransaction;
-        }
-    }
+			return newTransaction;
+		}
+
+		public async Task<Transaction> ReturnItem(int transactionId)
+		{
+			var transaction = await _rentalAppContext.Transactions.SingleOrDefaultAsync(t => t.Id == transactionId);
+			transaction.Status = TransactionStatus.Returned;
+			await _rentalAppContext.SaveChangesAsync();
+
+			return transaction;
+		}
+	}
 }
