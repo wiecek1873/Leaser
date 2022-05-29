@@ -80,12 +80,12 @@ namespace RentalApp.Application.Services
             if (newTransactionDto.DateFrom > newTransactionDto.DateTo)
                 throw new MethodNotAllowedException("Date from can not be later than date to deadline!");
 
-            if (post.AvailableFrom > newTransactionDto.DateFrom)
-                throw new MethodNotAllowedException("Date from transaction can not be earlier than available date!");
+            if (post.AvailableFrom >= newTransactionDto.DateFrom)
+                throw new MethodNotAllowedException("Date from transaction can not be earlier than available post date from!");
 
             if (post.AvailableTo.HasValue)
-                if (post.AvailableTo < newTransactionDto.DateTo)
-                    throw new MethodNotAllowedException("Date from transaction can not be earlier than available date!");
+                if (post.AvailableTo <= newTransactionDto.DateTo)
+                    throw new MethodNotAllowedException("Date to transaction can not be later than available post date to!");
 
             var postTransactions = await _transactionsRepository.GetTransactionsByPostId(newTransactionDto.PostId);
 
