@@ -25,5 +25,7 @@ namespace RentalApp.Application.Interfaces
 		Task<List<PostDto>> GetPostsByPriceAscending(int categoryId);
 
 		Task<List<PostDto>> GetPostsByPriceDescending(int categoryId);
+
+		Task<List<PostDto>> GetPostsByPhrase(string phrase);
 	}
 }

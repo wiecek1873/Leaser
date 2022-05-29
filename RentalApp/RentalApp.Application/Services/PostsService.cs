@@ -39,7 +39,7 @@ namespace RentalApp.Application.Services
 		}
 
 		public async Task<List<PostDto>> GetPosts()
-        {
+		{
 			var posts = await _postsRepository.GetPosts();
 
 			return _mapper.Map<List<PostDto>>(posts);
@@ -183,6 +183,16 @@ namespace RentalApp.Application.Services
 				throw new BadRequestException("Category with this id does not exist.");
 
 			var posts = await _postsRepository.GetPostsByPriceDescending(categoryId);
+
+			return _mapper.Map<List<PostDto>>(posts);
+		}
+
+		public async Task<List<PostDto>> GetPostsByPhrase(string phrase)
+		{
+			if (phrase.Length == 0)
+				throw new BadRequestException("Phrase can't be empty");
+
+			var posts = await _postsRepository.GetPostsByPhrase(phrase);
 
 			return _mapper.Map<List<PostDto>>(posts);
 		}

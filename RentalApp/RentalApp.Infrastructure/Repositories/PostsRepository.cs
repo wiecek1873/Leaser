@@ -102,5 +102,14 @@ namespace RentalApp.Infrastructure.Repositories
 
 			return posts;
 		}
+
+		public async Task<List<Post>> GetPostsByPhrase(string phrase)
+		{
+			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.Title.Contains(phrase) || p.Description.Contains(phrase))
+				.OrderByDescending(p => p.Price)
+				.ToListAsync();
+
+			return posts;
+		}
 	}
 }
