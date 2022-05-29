@@ -74,6 +74,9 @@ namespace RentalApp.Application.Services
             if (post == null)
                 throw new NotFoundException("Post with this id does not exist!");
 
+            if (newTransactionDto.PayerId == post.UserId)
+                throw new ConflictException("You can not create transaction with yourself!");
+
             if (newTransactionDto.DateFrom > newTransactionDto.DateTo)
                 throw new MethodNotAllowedException("Date from can not be later than date to deadline!");
 
