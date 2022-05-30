@@ -53,8 +53,6 @@ namespace RentalApp.Infrastructure.Repositories
 				userToUpdate.NickName = updatedUser.NickName;
 				userToUpdate.Name = updatedUser.Name;
 				userToUpdate.Surname = updatedUser.Surname;
-				userToUpdate.UserName = updatedUser.UserName;
-				userToUpdate.NormalizedUserName = updatedUser.UserName.ToUpper();
 				var result = await _userManager.ChangePasswordAsync(userToUpdate, oldPassword, updatedUser.PasswordHash);
 
 				if (!result.Succeeded)
