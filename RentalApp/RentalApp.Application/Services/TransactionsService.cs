@@ -146,7 +146,13 @@ namespace RentalApp.Application.Services
 			if (post.UserId.ToString() != userId)
 				throw new MethodNotAllowedException("You can not accept an item from not your post!");
 
+			var payer = await _usersRepository.GetUser(transaction.PayerId.ToString());
+
+			if (payer == null)
+				throw new NotFoundException("Payer with this id does not exist!");
+
 			transaction = await _transactionsRepository.AcceptItem(transactionId);
+			await _usersRepository.AddPoints(payer.Id.ToString(), post.DepositValue);
 
 			return _mapper.Map<TransactionDto>(transaction);
 		}
