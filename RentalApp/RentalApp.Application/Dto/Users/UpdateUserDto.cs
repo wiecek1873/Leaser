@@ -13,18 +13,10 @@ namespace RentalApp.Application.Dto.Users
         [Required(ErrorMessage = "Surname of the user is required.")]
         public string Surname { get; set; }
 
-        [EmailAddress]
-        [Required(ErrorMessage = "Email of the user is required.")]
-        public string Email { get; set; }
-
         [Required(ErrorMessage = "Old Password of the user is required.")]
         public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "New Password of the user is required.")]
         public string NewPassword { get; set; }
-
-        [PhoneNumberValidation(ErrorMessage = "Wrong Phone Number.")]
-        [Required(ErrorMessage = "PhoneNumber of the user is required.")]
-        public string PhoneNumber { get; set; }
     }
 }

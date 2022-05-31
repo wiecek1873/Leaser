@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalApp.Infrastructure.Data;
 
 namespace RentalApp.Infrastructure.Migrations
 {
     [DbContext(typeof(RentalAppContext))]
-    partial class RentalAppContextModelSnapshot : ModelSnapshot
+    [Migration("20220523153122_CreateTransactionTable")]
+    partial class CreateTransactionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,6 +198,49 @@ namespace RentalApp.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("RentalApp.Domain.Entities.Deposit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid?>("PayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PayerId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Deposits");
+                });
+
+            modelBuilder.Entity("RentalApp.Domain.Entities.DepositStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DepositStatuses");
+                });
+
             modelBuilder.Entity("RentalApp.Domain.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -241,8 +286,8 @@ namespace RentalApp.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<double>("DepositValue")
-                        .HasColumnType("float");
+                    b.Property<int?>("DepositId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -269,6 +314,8 @@ namespace RentalApp.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("DepositId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
@@ -287,17 +334,11 @@ namespace RentalApp.Infrastructure.Migrations
                     b.Property<DateTime>("DateTo")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PayerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -466,6 +507,23 @@ namespace RentalApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RentalApp.Domain.Entities.Deposit", b =>
+                {
+                    b.HasOne("RentalApp.Domain.Entities.User", "User")
+                        .WithMany("Deposits")
+                        .HasForeignKey("PayerId");
+
+                    b.HasOne("RentalApp.Domain.Entities.DepositStatus", "DepositStatus")
+                        .WithMany("Deposits")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DepositStatus");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("RentalApp.Domain.Entities.Payment", b =>
                 {
                     b.HasOne("RentalApp.Domain.Entities.User", "User")
@@ -485,6 +543,10 @@ namespace RentalApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RentalApp.Domain.Entities.Deposit", "Deposit")
+                        .WithMany("Posts")
+                        .HasForeignKey("DepositId");
+
                     b.HasOne("RentalApp.Domain.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
@@ -492,6 +554,8 @@ namespace RentalApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Deposit");
 
                     b.Navigation("User");
                 });
@@ -537,6 +601,16 @@ namespace RentalApp.Infrastructure.Migrations
                     b.Navigation("Posts");
                 });
 
+            modelBuilder.Entity("RentalApp.Domain.Entities.Deposit", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("RentalApp.Domain.Entities.DepositStatus", b =>
+                {
+                    b.Navigation("Deposits");
+                });
+
             modelBuilder.Entity("RentalApp.Domain.Entities.Post", b =>
                 {
                     b.Navigation("Transactions");
@@ -544,6 +618,8 @@ namespace RentalApp.Infrastructure.Migrations
 
             modelBuilder.Entity("RentalApp.Domain.Entities.User", b =>
                 {
+                    b.Navigation("Deposits");
+
                     b.Navigation("Payments");
 
                     b.Navigation("Posts");

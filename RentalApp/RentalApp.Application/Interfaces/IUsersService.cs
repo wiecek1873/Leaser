@@ -12,5 +12,7 @@ namespace RentalApp.Application.Interfaces
         Task<UserDto> CreateUser(CreateUserDto newUserDto);
 
         Task UpdateUser(string userId, UpdateUserDto updatedUserDto);
+
+        Task<UserDto> AddPoints(string userId, double points);
     }
 }

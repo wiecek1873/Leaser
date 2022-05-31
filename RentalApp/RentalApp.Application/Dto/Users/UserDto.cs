@@ -19,5 +19,7 @@ namespace RentalApp.Application.Dto.Users
         public int? AddressId { get; set; }
 
         public double Rating { get; set; }
+
+        public double Points { get; set; }
     }
 }

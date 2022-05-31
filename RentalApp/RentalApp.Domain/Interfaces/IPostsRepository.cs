@@ -9,6 +9,8 @@ namespace RentalApp.Domain.Interfaces
 	{
 		Task<Post> GetPost(int postId);
 
+		Task<List<Post>> GetPosts();
+
 		Task<List<Post>> GetPostsByCategory(int categoryId);
 
 		Task<List<Post>> GetPostsByUserId(Guid userId);
@@ -22,5 +24,7 @@ namespace RentalApp.Domain.Interfaces
 		Task<List<Post>> GetPostsByPriceAscending(int categoryId);
 
 		Task<List<Post>> GetPostsByPriceDescending(int categoryId);
+
+		Task<List<Post>> GetPostsByPhrase(string phrase);
 	}
 }

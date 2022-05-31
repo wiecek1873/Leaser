@@ -25,6 +25,13 @@ namespace RentalApp.Infrastructure.Repositories
 			return post;
 		}
 
+		public async Task<List<Post>> GetPosts()
+        {
+			var posts = await _rentalAppContext.Posts.ToListAsync();
+
+			return posts;
+		}
+
 		public async Task<List<Post>> GetPostsByCategory(int categoryId)
 		{
 			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.CategoryId == categoryId)
@@ -62,8 +69,8 @@ namespace RentalApp.Infrastructure.Repositories
 				postToUpdate.Title = updatedPost.Title;
 				postToUpdate.Description = updatedPost.Description;
 				postToUpdate.Image = updatedPostImage;
-				postToUpdate.DepositId = updatedPost.DepositId;
 				postToUpdate.Price = updatedPost.Price;
+				postToUpdate.DepositValue = updatedPost.DepositValue;
 				postToUpdate.PricePerWeek = updatedPost.PricePerWeek;
 				postToUpdate.PricePerMonth = updatedPost.PricePerMonth;
 				postToUpdate.AvailableFrom = updatedPost.AvailableFrom;
@@ -92,6 +99,15 @@ namespace RentalApp.Infrastructure.Repositories
 		public async Task<List<Post>> GetPostsByPriceDescending(int categoryId)
 		{
 			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.CategoryId == categoryId).OrderByDescending(p => p.Price).ToListAsync();
+
+			return posts;
+		}
+
+		public async Task<List<Post>> GetPostsByPhrase(string phrase)
+		{
+			List<Post> posts = await _rentalAppContext.Posts.Where(p => p.Title.Contains(phrase) || p.Description.Contains(phrase))
+				.OrderByDescending(p => p.Price)
+				.ToListAsync();
 
 			return posts;
 		}

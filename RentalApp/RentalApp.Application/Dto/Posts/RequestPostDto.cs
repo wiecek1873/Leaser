@@ -11,10 +11,11 @@ namespace RentalApp.Application.Dto.Posts
 		[Required(ErrorMessage = "Description is required.")]
 		public string Description { get; set; }
 
-		public int? DepositId { get; set; }
-
 		[Required(ErrorMessage = "Price is required.")]
 		public double Price { get; set; }
+
+		[Required(ErrorMessage = "Deposit Value is required.")]
+		public double DepositValue { get; set; }
 
 		public double? PricePerWeek { get; set; }
 

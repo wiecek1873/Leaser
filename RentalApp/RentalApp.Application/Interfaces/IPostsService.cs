@@ -8,6 +8,8 @@ namespace RentalApp.Application.Interfaces
 	{
 		Task<PostDto> GetPost(int postId);
 
+		Task<List<PostDto>> GetPosts();
+
 		Task<PostImageDto> GetPostImage(int postId);
 
 		Task<List<PostDto>> GetPostsByCategory(int categoryId);
@@ -23,5 +25,7 @@ namespace RentalApp.Application.Interfaces
 		Task<List<PostDto>> GetPostsByPriceAscending(int categoryId);
 
 		Task<List<PostDto>> GetPostsByPriceDescending(int categoryId);
+
+		Task<List<PostDto>> GetPostsByPhrase(string phrase);
 	}
 }
