@@ -69,16 +69,23 @@ namespace RentalApp.Application.Services
 			if (payer.Points < newTransactionDto.Price)
 				throw new MethodNotAllowedException("You do not have enough points!");
 
-			if (newTransactionDto.PayerId.ToString() == userId)
-				throw new ConflictException("You can not create transaction with yourself!");
-
 			var post = await _postsRepository.GetPost(newTransactionDto.PostId);
 
 			if (post == null)
 				throw new NotFoundException("Post with this id does not exist!");
 
+			if (newTransactionDto.PayerId == post.UserId)
+				throw new ConflictException("You can not create transaction with yourself!");
+
 			if (newTransactionDto.DateFrom > newTransactionDto.DateTo)
 				throw new MethodNotAllowedException("Date from can not be later than date to deadline!");
+
+			if (post.AvailableFrom >= newTransactionDto.DateFrom)
+				throw new MethodNotAllowedException("Date from transaction can not be earlier than available post date from!");
+
+			if (post.AvailableTo.HasValue)
+				if (post.AvailableTo <= newTransactionDto.DateTo)
+					throw new MethodNotAllowedException("Date to transaction can not be later than available post date to!");
 
 			var postTransactions = await _transactionsRepository.GetTransactionsByPostId(newTransactionDto.PostId);
 
