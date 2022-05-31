@@ -103,12 +103,18 @@ namespace RentalApp.Application.Services
 			return _mapper.Map<TransactionDto>(transactionToAdd);
 		}
 
-		public async Task<TransactionDto> ReturnItem(int transactionId)
+		public async Task<TransactionDto> ReturnItem(int transactionId, string payerId)
 		{
 			var transaction = await _transactionsRepository.GetTransaction(transactionId);
 
 			if (transaction == null)
 				throw new NotFoundException("Transaction with this id does not exist!");
+
+			if (transaction.Status != TransactionStatus.Borrowed)
+				throw new MethodNotAllowedException("You can not return not borrowed item!");
+
+			if (transaction.PayerId.ToString() != payerId)
+				throw new MethodNotAllowedException("You can not return an item from not your transaction!");
 
 			transaction = await _transactionsRepository.ReturnItem(transactionId);
 

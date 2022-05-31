@@ -62,11 +62,11 @@ namespace RentalApp.WebApi.Controllers
 			return Created($"api/transactions/{newTransaction.Id}", newTransaction);
 		}
 
-		[HttpPut("{transactionId}")]
+		[HttpPost("{transactionId}/Borrowed")]
 		[SwaggerOperation(Summary = "Return item. Set transaction status to returned")]
 		public async Task<IActionResult> ReturnItem([FromRoute] int transactionId)
 		{
-			var transaction = await _transactionsService.ReturnItem(transactionId);
+			var transaction = await _transactionsService.ReturnItem(transactionId, User.GetId());
 
 			return Ok(transaction);
 		}
