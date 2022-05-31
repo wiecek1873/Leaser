@@ -65,5 +65,14 @@ namespace RentalApp.Infrastructure.Repositories
 
 			return transaction;
 		}
+
+		public async Task<Transaction> NonAcceptItem(int transactionId)
+		{
+			var transaction = await _rentalAppContext.Transactions.SingleOrDefaultAsync(t => t.Id == transactionId);
+			transaction.Status = TransactionStatus.NonAccepted;
+			await _rentalAppContext.SaveChangesAsync();
+
+			return transaction;
+		}
 	}
 }

@@ -62,7 +62,7 @@ namespace RentalApp.WebApi.Controllers
 			return Created($"api/transactions/{newTransaction.Id}", newTransaction);
 		}
 
-		[HttpPost("{transactionId}/Borrowed")]
+		[HttpPost("{transactionId}/Return")]
 		[SwaggerOperation(Summary = "Return item. Set transaction status to returned")]
 		public async Task<IActionResult> ReturnItem([FromRoute] int transactionId)
 		{
@@ -71,11 +71,20 @@ namespace RentalApp.WebApi.Controllers
 			return Ok(transaction);
 		}
 
-		[HttpPost("{transactionId}/Accepted")]
+		[HttpPost("{transactionId}/Accept")]
 		[SwaggerOperation(Summary = "Accept item. Set transaction status to accepted")]
 		public async Task<IActionResult> AcceptItem([FromRoute] int transactionId)
 		{
 			var transaction = await _transactionsService.AcceptItem(transactionId, User.GetId());
+
+			return Ok(transaction);
+		}
+
+		[HttpPost("{transactionId}/NonAccept")]
+		[SwaggerOperation(Summary = "Non Accept item. Set transaction status to non accepted")]
+		public async Task<IActionResult> NonAcceptItem([FromRoute] int transactionId)
+		{
+			var transaction = await _transactionsService.NonAcceptItem(transactionId, User.GetId());
 
 			return Ok(transaction);
 		}
