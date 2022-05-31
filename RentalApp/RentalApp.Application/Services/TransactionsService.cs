@@ -127,5 +127,57 @@ namespace RentalApp.Application.Services
 
 			return _mapper.Map<TransactionDto>(transaction);
 		}
+
+		public async Task<TransactionDto> AcceptItem(int transactionId, string userId)
+		{
+			var transaction = await _transactionsRepository.GetTransaction(transactionId);
+
+			if (transaction == null)
+				throw new NotFoundException("Transaction with this id does not exist!");
+
+			if (transaction.Status != TransactionStatus.Returned)
+				throw new MethodNotAllowedException("This method is not allowed. This post is not returned!");
+
+			var post = await _postsRepository.GetPost(transaction.PostId);
+
+			if (post == null)
+				throw new NotFoundException("Post with this id does not exist!");
+
+			if (post.UserId.ToString() != userId)
+				throw new MethodNotAllowedException("You can not accept an item from not your post!");
+
+			var payer = await _usersRepository.GetUser(transaction.PayerId.ToString());
+
+			if (payer == null)
+				throw new NotFoundException("Payer with this id does not exist!");
+
+			transaction = await _transactionsRepository.AcceptItem(transactionId);
+			await _usersRepository.AddPoints(payer.Id.ToString(), post.DepositValue);
+
+			return _mapper.Map<TransactionDto>(transaction);
+		}
+
+		public async Task<TransactionDto> NonAcceptItem(int transactionId, string userId)
+		{
+			var transaction = await _transactionsRepository.GetTransaction(transactionId);
+
+			if (transaction == null)
+				throw new NotFoundException("Transaction with this id does not exist!");
+
+			if (transaction.Status != TransactionStatus.Returned)
+				throw new MethodNotAllowedException("This method is not allowed. This post is not returned!");
+
+			var post = await _postsRepository.GetPost(transaction.PostId);
+
+			if (post == null)
+				throw new NotFoundException("Post with this id does not exist!");
+
+			if (post.UserId.ToString() != userId)
+				throw new MethodNotAllowedException("This method is not allowed. The post is not yours!");
+
+			transaction = await _transactionsRepository.NonAcceptItem(transactionId);
+
+			return _mapper.Map<TransactionDto>(transaction);
+		}
 	}
 }
