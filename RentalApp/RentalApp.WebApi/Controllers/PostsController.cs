@@ -53,7 +53,7 @@ namespace RentalApp.WebApi.Controllers
 				Price = post.Price,
 				DepositValue = post.DepositValue,
 				PricePerWeek = post.PricePerWeek,
-				PricePerMonth = post.PricePerWeek,
+				PricePerMonth = post.PricePerMonth,
 				AvailableFrom = post.AvailableFrom,
 				AvailableTo = post.AvailableTo,
 				Country = address?.Country,
@@ -121,7 +121,7 @@ namespace RentalApp.WebApi.Controllers
 					Price = post.Price,
 					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
-					PricePerMonth = post.PricePerWeek,
+					PricePerMonth = post.PricePerMonth,
 					AvailableFrom = post.AvailableFrom,
 					AvailableTo = post.AvailableTo,
 					Country = address?.Country,
@@ -173,7 +173,7 @@ namespace RentalApp.WebApi.Controllers
 					Price = post.Price,
 					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
-					PricePerMonth = post.PricePerWeek,
+					PricePerMonth = post.PricePerMonth,
 					AvailableFrom = post.AvailableFrom,
 					AvailableTo = post.AvailableTo,
 					Country = address?.Country,
@@ -243,7 +243,7 @@ namespace RentalApp.WebApi.Controllers
 					Price = post.Price,
 					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
-					PricePerMonth = post.PricePerWeek,
+					PricePerMonth = post.PricePerMonth,
 					AvailableFrom = post.AvailableFrom,
 					AvailableTo = post.AvailableTo,
 					Country = address?.Country,
@@ -286,7 +286,7 @@ namespace RentalApp.WebApi.Controllers
 					Price = post.Price,
 					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
-					PricePerMonth = post.PricePerWeek,
+					PricePerMonth = post.PricePerMonth,
 					AvailableFrom = post.AvailableFrom,
 					AvailableTo = post.AvailableTo,
 					Country = address?.Country,
@@ -329,7 +329,7 @@ namespace RentalApp.WebApi.Controllers
 					Price = post.Price,
 					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
-					PricePerMonth = post.PricePerWeek,
+					PricePerMonth = post.PricePerMonth,
 					AvailableFrom = post.AvailableFrom,
 					AvailableTo = post.AvailableTo,
 					Country = address?.Country,
@@ -372,7 +372,7 @@ namespace RentalApp.WebApi.Controllers
 					Price = post.Price,
 					DepositValue = post.DepositValue,
 					PricePerWeek = post.PricePerWeek,
-					PricePerMonth = post.PricePerWeek,
+					PricePerMonth = post.PricePerMonth,
 					AvailableFrom = post.AvailableFrom,
 					AvailableTo = post.AvailableTo,
 					Country = address?.Country,
@@ -386,6 +386,50 @@ namespace RentalApp.WebApi.Controllers
 			}
 
 			return Ok(detailPosts.AsEnumerable().OrderByDescending(p => p.Rating));
+		}
+
+		[HttpGet("{phrase}/Detail")]
+		[SwaggerOperation(Summary = "Get posts by phrase")]
+		public async Task<IActionResult> GetPostsByPhrase([FromRoute] string phrase)
+		{
+			var detailPosts = new List<DetailPostDto>();
+			var posts = await _postsService.GetPostsByPhrase(phrase);
+
+			foreach (var post in posts)
+			{
+				var user = await _usersService.GetUser(post.UserId.ToString());
+				Application.Dto.Addresses.AddressDto address = new Application.Dto.Addresses.AddressDto();
+
+				if (user.AddressId.HasValue)
+					address = await _addressesService.GetUserAddress(user.AddressId.Value);
+
+				var detailPost = new DetailPostDto
+				{
+					Id = post.Id,
+					CategoryId = post.CategoryId,
+					UserId = post.UserId,
+					UserNickName = user.NickName,
+					Rating = user.Rating,
+					Title = post.Title,
+					Description = post.Description,
+					Price = post.Price,
+					DepositValue = post.DepositValue,
+					PricePerWeek = post.PricePerWeek,
+					PricePerMonth = post.PricePerMonth,
+					AvailableFrom = post.AvailableFrom,
+					AvailableTo = post.AvailableTo,
+					Country = address?.Country,
+					City = address?.City,
+					Street = address?.Street,
+					BuildingNo = address?.BuildingNo,
+					ApartmentNo = address?.ApartmentNo,
+					PostalCode = address?.PostalCode,
+				};
+				detailPosts.Add(detailPost);
+			}
+
+			return Ok(detailPosts.AsEnumerable().OrderByDescending(p => p.Rating));
+
 		}
 	}
 }

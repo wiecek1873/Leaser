@@ -112,5 +112,14 @@ namespace RentalApp.WebApi.Controllers
 
 			return NoContent();
 		}
+
+		[HttpPut("{userId}/AddPoints")]
+		[SwaggerOperation(Summary = "Add points to the user")]
+		public async Task<IActionResult> AddPoints([FromRoute] string userId, [FromBody] double points)
+		{
+			var updatedUser = await _usersService.AddPoints(userId, points);
+
+			return Ok(updatedUser);
+		}
 	}
 }
