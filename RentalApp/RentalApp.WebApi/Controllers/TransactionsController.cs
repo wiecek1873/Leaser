@@ -70,5 +70,14 @@ namespace RentalApp.WebApi.Controllers
 
 			return Ok(transaction);
 		}
+
+		[HttpPost("{transactionId}/Accepted")]
+		[SwaggerOperation(Summary = "Accept item. Set transaction status to accepted")]
+		public async Task<IActionResult> AcceptItem([FromRoute] int transactionId)
+		{
+			var transaction = await _transactionsService.AcceptItem(transactionId, User.GetId());
+
+			return Ok(transaction);
+		}
 	}
 }

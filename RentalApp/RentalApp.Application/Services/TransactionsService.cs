@@ -127,5 +127,28 @@ namespace RentalApp.Application.Services
 
 			return _mapper.Map<TransactionDto>(transaction);
 		}
+
+		public async Task<TransactionDto> AcceptItem(int transactionId, string userId)
+		{
+			var transaction = await _transactionsRepository.GetTransaction(transactionId);
+
+			if (transaction == null)
+				throw new NotFoundException("Transaction with this id does not exist!");
+
+			if (transaction.Status != TransactionStatus.Returned)
+				throw new MethodNotAllowedException("You can not accept not returned item!");
+
+			var post = await _postsRepository.GetPost(transaction.PostId);
+
+			if (post == null)
+				throw new NotFoundException("Post with this id does not exist!");
+
+			if (post.UserId.ToString() != userId)
+				throw new MethodNotAllowedException("You can not accept an item from not your post!");
+
+			transaction = await _transactionsRepository.AcceptItem(transactionId);
+
+			return _mapper.Map<TransactionDto>(transaction);
+		}
 	}
 }

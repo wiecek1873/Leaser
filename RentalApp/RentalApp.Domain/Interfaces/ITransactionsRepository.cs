@@ -16,5 +16,7 @@ namespace RentalApp.Domain.Interfaces
         Task<Transaction> AddTransaction(Transaction newTransaction);
 
         Task<Transaction> ReturnItem(int transactionId);
+
+        Task<Transaction> AcceptItem(int transactionId);
     }
 }

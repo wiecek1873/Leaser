@@ -17,5 +17,7 @@ namespace RentalApp.Application.Interfaces
         Task<TransactionDto> CreateTransaction(string userId, RequestTransactionDto newTransactionDto);
 
         Task<TransactionDto> ReturnItem(int transactionId, string payerId);
+
+        Task<TransactionDto> AcceptItem(int transactionId, string userId);
     }
 }
