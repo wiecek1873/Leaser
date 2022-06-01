@@ -40,7 +40,7 @@ namespace RentalApp.Infrastructure.Repositories
                 addressToUpdate.City = updatedAddress.City;
                 addressToUpdate.Street = updatedAddress.Street;
                 addressToUpdate.BuildingNo = updatedAddress.BuildingNo;
-                addressToUpdate.ApartmentNo = string.IsNullOrEmpty(updatedAddress.ApartmentNo) ? updatedAddress.ApartmentNo : null;
+                addressToUpdate.ApartmentNo = !string.IsNullOrEmpty(updatedAddress.ApartmentNo) ? updatedAddress.ApartmentNo : string.Empty;
                 addressToUpdate.PostalCode = updatedAddress.PostalCode;
             }
 
