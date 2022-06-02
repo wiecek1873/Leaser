@@ -13,6 +13,8 @@ namespace RentalApp.Domain.Interfaces
 
         Task<List<Transaction>> GetTransactionsByPayerId(Guid payerId);
 
+        Task<List<Transaction>> GetTransactionByUserId(Guid userId);
+
         Task<Transaction> AddTransaction(Transaction newTransaction);
 
         Task<Transaction> ReturnItem(int transactionId);
