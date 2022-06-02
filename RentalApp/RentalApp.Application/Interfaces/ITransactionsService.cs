@@ -14,6 +14,8 @@ namespace RentalApp.Application.Interfaces
 
         Task<List<TransactionDto>> GetTransactionsByPayerId(Guid payerId);
 
+        Task<List<TransactionDto>> GetTransactionsByUserId(Guid userId);
+
         Task<TransactionDto> CreateTransaction(string userId, RequestTransactionDto newTransactionDto);
 
         Task<TransactionDto> ReturnItem(int transactionId, string payerId);
