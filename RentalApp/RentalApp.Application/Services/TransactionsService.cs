@@ -117,6 +117,8 @@ namespace RentalApp.Application.Services
 
             await _usersRepository.PayForTransaction(payer.Id.ToString(), newTransactionDto.Price);
 
+            await _usersRepository.AddPoints(post.UserId.ToString(), newTransactionDto.Price - post.DepositValue);
+
             await _transactionsRepository.AddTransaction(transactionToAdd);
 
             return _mapper.Map<TransactionDto>(transactionToAdd);

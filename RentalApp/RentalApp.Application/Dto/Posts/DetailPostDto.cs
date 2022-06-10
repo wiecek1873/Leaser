@@ -12,6 +12,8 @@ namespace RentalApp.Application.Dto.Posts
 
 		public string UserNickName {get; set;}
 
+		public string PhoneNumber { get; set; }
+
 		public double Rating { get; set; }
 
 		public string Title { get; set; }
